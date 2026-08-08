@@ -1,0 +1,15 @@
+{
+  "regions": ["bom1"],
+  "headers": [
+    {
+      "source": "/api/payments/webhook",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "POST" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/s/:slug*", "destination": "https://sites.wishelier.in/:slug*" }
+  ]
+}

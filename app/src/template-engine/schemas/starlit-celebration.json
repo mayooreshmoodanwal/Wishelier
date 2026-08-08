@@ -1,0 +1,98 @@
+{
+  "fields": [
+    {
+      "key": "birthdayPerson",
+      "type": "text",
+      "required": true,
+      "maxLength": 40,
+      "label": "Birthday Person's Name",
+      "placeholder": "e.g. Sarah"
+    },
+    {
+      "key": "heroPhoto",
+      "type": "image",
+      "required": true,
+      "aspectRatio": "1:1",
+      "label": "Hero Photo (circular)",
+      "maxSizeBytes": 5242880
+    },
+    {
+      "key": "specialMessage",
+      "type": "long_text",
+      "required": true,
+      "maxLength": 500,
+      "label": "Special Message / Letter",
+      "placeholder": "Dear Sarah, on this beautiful day..."
+    },
+    {
+      "key": "senderSignature",
+      "type": "text",
+      "required": false,
+      "maxLength": 60,
+      "label": "Signature (e.g. 'With all my love')",
+      "default": "With all my love"
+    },
+    {
+      "key": "gallery",
+      "type": "images",
+      "min": 2,
+      "max": 6,
+      "aspectRatio": "1:1",
+      "label": "Cherished Moments (2-6 photos)",
+      "maxSizeBytes": 5242880
+    },
+    {
+      "key": "galleryCaptions",
+      "type": "text_array",
+      "min": 2,
+      "max": 6,
+      "maxLength": 40,
+      "label": "Photo Captions",
+      "placeholders": [
+        "Beautiful Smile",
+        "Golden Hour",
+        "Pure Joy",
+        "Best Day Ever",
+        "Always Shining",
+        "Forever Young"
+      ]
+    },
+    {
+      "key": "wishes",
+      "type": "text_array",
+      "min": 2,
+      "max": 6,
+      "maxLength": 120,
+      "label": "Birthday Wishes (2-6 messages)"
+    },
+    {
+      "key": "celebrationGifs",
+      "type": "images",
+      "min": 0,
+      "max": 3,
+      "required": false,
+      "label": "Celebration GIFs/Images (optional)"
+    },
+    {
+      "key": "musicChoice",
+      "type": "music_select",
+      "required": false,
+      "label": "Background Music",
+      "options": [
+        "royalty_free_1",
+        "royalty_free_2",
+        "royalty_free_3",
+        "custom_upload"
+      ],
+      "note": "Choose from library or upload your own"
+    },
+    {
+      "key": "musicUpload",
+      "type": "audio",
+      "required": false,
+      "maxDurationSeconds": 180,
+      "maxSizeBytes": 10485760,
+      "label": "Upload Custom Music (if selected above)"
+    }
+  ]
+}

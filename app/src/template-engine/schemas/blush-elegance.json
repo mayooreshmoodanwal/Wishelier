@@ -1,0 +1,105 @@
+{
+  "fields": [
+    {
+      "key": "birthdayPerson",
+      "type": "text",
+      "required": true,
+      "maxLength": 40,
+      "label": "Birthday Person's Name",
+      "placeholder": "e.g. Akanksha"
+    },
+    {
+      "key": "heroImage",
+      "type": "image",
+      "required": true,
+      "label": "Hero Background Image",
+      "maxSizeBytes": 10485760
+    },
+    {
+      "key": "heroTagline",
+      "type": "text",
+      "required": false,
+      "maxLength": 80,
+      "label": "Hero Tagline",
+      "default": "a little universe made just for you"
+    },
+    {
+      "key": "heroDescription",
+      "type": "text",
+      "required": false,
+      "maxLength": 200,
+      "label": "Hero Description",
+      "default": "Today is wrapped in blush light, tiny stars, warm memories, and all the love you deserve."
+    },
+    {
+      "key": "countdownDate",
+      "type": "countdown_date",
+      "required": false,
+      "label": "Birthday Countdown Date"
+    },
+    {
+      "key": "memoryPhotos",
+      "type": "images",
+      "min": 2,
+      "max": 10,
+      "aspectRatio": "free",
+      "label": "Memory Photos (2-10 images)",
+      "maxSizeBytes": 5242880
+    },
+    {
+      "key": "memoryVideo",
+      "type": "video",
+      "required": false,
+      "maxDurationSeconds": 60,
+      "maxSizeBytes": 52428800,
+      "label": "Memory Video (optional, max 60s / 50MB)"
+    },
+    {
+      "key": "memoryCaptions",
+      "type": "text_array",
+      "min": 2,
+      "max": 10,
+      "maxLength": 60,
+      "label": "Memory Captions (handwritten style)"
+    },
+    {
+      "key": "reasons",
+      "type": "text_array",
+      "min": 3,
+      "max": 100,
+      "maxLength": 80,
+      "label": "Reasons I Love You (3-100, site adapts to count)"
+    },
+    {
+      "key": "reasonImages",
+      "type": "images",
+      "min": 0,
+      "max": 100,
+      "required": false,
+      "aspectRatio": "free",
+      "label": "Reason Card Background Images (optional)"
+    },
+    {
+      "key": "letterContent",
+      "type": "long_text",
+      "required": true,
+      "maxLength": 2000,
+      "label": "Love Letter Content (typewriter effect)"
+    },
+    {
+      "key": "finalMessage",
+      "type": "text",
+      "required": false,
+      "maxLength": 120,
+      "label": "Final Page Quote",
+      "default": "You'll always be my favorite chapter."
+    },
+    {
+      "key": "finalImage",
+      "type": "image",
+      "required": false,
+      "label": "Final Page Background Image",
+      "maxSizeBytes": 10485760
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "fields": [
+    {
+      "key": "birthdayPerson",
+      "type": "text",
+      "required": true,
+      "maxLength": 40,
+      "label": "Birthday Person's Name",
+      "placeholder": "e.g. Priya"
+    },
+    {
+      "key": "greetingMessage",
+      "type": "text",
+      "required": true,
+      "maxLength": 120,
+      "label": "Greeting Message (typing effect)",
+      "placeholder": "You're the most adorable human I ever met!"
+    },
+    {
+      "key": "entryButtonText",
+      "type": "text",
+      "required": false,
+      "maxLength": 40,
+      "label": "Entry Button Text",
+      "default": "Click to Enter Our World 💕"
+    },
+    {
+      "key": "reasons",
+      "type": "text_array",
+      "min": 2,
+      "max": 8,
+      "maxLength": 150,
+      "label": "Reasons why they're special (2-8 messages)"
+    },
+    {
+      "key": "reasonGifs",
+      "type": "images",
+      "min": 0,
+      "max": 4,
+      "required": false,
+      "label": "Fun GIFs for reason cards (optional)"
+    },
+    {
+      "key": "memoryPhotos",
+      "type": "images",
+      "min": 2,
+      "max": 6,
+      "aspectRatio": "free",
+      "label": "Memory Photos (2-6 photos)",
+      "maxSizeBytes": 5242880
+    },
+    {
+      "key": "memoryCaptions",
+      "type": "text_array",
+      "min": 2,
+      "max": 6,
+      "maxLength": 60,
+      "label": "Memory Photo Titles"
+    },
+    {
+      "key": "memoryDescriptions",
+      "type": "text_array",
+      "min": 2,
+      "max": 6,
+      "maxLength": 150,
+      "label": "Memory Photo Descriptions"
+    },
+    {
+      "key": "finalMessage",
+      "type": "long_text",
+      "required": true,
+      "maxLength": 500,
+      "label": "Final heartfelt message"
+    },
+    {
+      "key": "endingImage",
+      "type": "image",
+      "required": false,
+      "label": "Ending Section Image (optional)",
+      "maxSizeBytes": 5242880
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "colors": {
+    "bg": "#1a0a1a",
+    "card": "rgba(255,182,193,0.1)",
+    "glass": "rgba(255,105,180,0.08)",
+    "accent": "#ff69b4",
+    "accent2": "#ff1493",
+    "accent3": "#ffb6c1",
+    "text": "#ffffff",
+    "textMuted": "rgba(255,255,255,0.7)",
+    "glow": "rgba(255,105,180,0.4)"
+  },
+  "fonts": {
+    "heading": "Poppins",
+    "script": "Dancing Script",
+    "body": "Quicksand"
+  },
+  "borderRadius": "20px",
+  "animationProfile": "romantic",
+  "floatingEmojis": ["💕", "🌸", "💝", "🦋", "✨", "💗", "🌷"],
+  "sections": {
+    "landing": {
+      "gradient": "linear-gradient(135deg, #1a0a1a 0%, #2d1b2d 50%, #1a0a1a 100%)",
+      "typingSpeed": 80
+    },
+    "reasons": {
+      "cardGradient": "linear-gradient(135deg, rgba(255,105,180,0.2), rgba(147,51,234,0.2))",
+      "revealDelay": 300
+    },
+    "memories": {
+      "sparkleCount": 20,
+      "heartFloat": true,
+      "gridColumns": 2
+    }
+  },
+  "cursor": {
+    "enabled": true,
+    "trailColor": "rgba(255,105,180,0.3)",
+    "size": 20
+  }
+}
