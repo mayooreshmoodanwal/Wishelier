@@ -8,8 +8,5 @@
         { "key": "Access-Control-Allow-Methods", "value": "POST" }
       ]
     }
-  ],
-  "rewrites": [
-    { "source": "/s/:slug*", "destination": "https://sites.wishelier.in/:slug*" }
   ]
 }
