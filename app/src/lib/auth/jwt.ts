@@ -29,13 +29,13 @@ export async function createAccessToken(payload: {
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("15m")
+    .setExpirationTime("7d")
     .setIssuer("wishelier")
     .sign(JWT_SECRET);
 }
 
 /**
- * Create a refresh token (7 days).
+ * Create a refresh token (30 days).
  */
 export async function createRefreshToken(payload: {
   userId: string;
@@ -47,7 +47,7 @@ export async function createRefreshToken(payload: {
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("7d")
+    .setExpirationTime("30d")
     .setIssuer("wishelier")
     .sign(JWT_REFRESH_SECRET);
 }

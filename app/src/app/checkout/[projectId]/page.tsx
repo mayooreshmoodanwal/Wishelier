@@ -21,14 +21,15 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
   const searchParams = useSearchParams();
 
   const orderId = searchParams.get("order_id");
-  const session = searchParams.get("session");
+  const sessionFromUrl = searchParams.get("session");
 
   const [status, setStatus] = useState<"loading" | "redirecting" | "polling" | "success" | "failed">("loading");
+  const [activeSession, setActiveSession] = useState<string | null>(sessionFromUrl);
   const [errorMessage, setErrorMessage] = useState("");
 
   const cashfreeEnv = process.env.NEXT_PUBLIC_CASHFREE_MODE || "sandbox";
-  const cashfreeHostedUrl = session
-    ? `${cashfreeEnv === "production" ? "https://api.cashfree.com/pg/orders/pay" : "https://sandbox.cashfree.com/pg/orders/pay"}/${session}`
+  const cashfreeHostedUrl = activeSession
+    ? `${cashfreeEnv === "production" ? "https://api.cashfree.com/pg/orders/pay" : "https://sandbox.cashfree.com/pg/orders/pay"}/${activeSession}`
     : "";
 
   // Load Cashfree Web SDK script dynamically
@@ -51,12 +52,16 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
     let interval: NodeJS.Timeout;
     let timeout: NodeJS.Timeout;
 
-    if (orderId) {
-      // User returned from Cashfree checkout, start polling webhook status
+    // Helper to start polling payment status
+    const pollStatus = (targetOrderId?: string) => {
       setStatus("polling");
+      const url = targetOrderId
+        ? `/api/payments/${projectId}/status?order_id=${encodeURIComponent(targetOrderId)}`
+        : `/api/payments/${projectId}/status`;
+
       interval = setInterval(async () => {
         try {
-          const res = await fetch(`/api/payments/${projectId}/status?order_id=${encodeURIComponent(orderId)}`);
+          const res = await fetch(url);
           const data = await res.json();
           if (res.ok && data.data?.status === "success") {
             setStatus("success");
@@ -69,45 +74,86 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
         } catch {
           // Keep polling
         }
-      }, 3000);
+      }, 2500);
 
       timeout = setTimeout(() => {
         clearInterval(interval);
         if (status === "polling") {
           setStatus("failed");
-          setErrorMessage("Payment status check timed out. Please check your dashboard or email.");
+          setErrorMessage("Payment status check timed out. Please check your dashboard.");
         }
       }, 30000);
-    } else if (session) {
-      // Initial session created — launch Cashfree Payment Gateway Checkout
+    };
+
+    // Helper to launch Cashfree SDK / Payment page
+    const triggerCashfreeCheckout = (paymentSession: string) => {
       setStatus("redirecting");
       loadCashfreeScript().then((loaded) => {
         if (loaded && window.Cashfree) {
           try {
             const cashfree = window.Cashfree({ mode: cashfreeEnv });
             cashfree.checkout({
-              paymentSessionId: session,
+              paymentSessionId: paymentSession,
               redirectTarget: "_self",
             });
             return;
           } catch (err) {
-            console.error("Cashfree SDK error, redirecting to hosted checkout:", err);
+            console.error("Cashfree SDK error, falling back to hosted page:", err);
           }
         }
-        // Direct fallback to Cashfree Hosted Payment Page
-        if (cashfreeHostedUrl) {
-          window.location.href = cashfreeHostedUrl;
-        }
+        const fallbackUrl = `${cashfreeEnv === "production" ? "https://api.cashfree.com/pg/orders/pay" : "https://sandbox.cashfree.com/pg/orders/pay"}/${paymentSession}`;
+        window.location.href = fallbackUrl;
       });
+    };
+
+    if (orderId) {
+      // 1. User returned from Cashfree checkout with order_id — poll status
+      pollStatus(orderId);
+    } else if (sessionFromUrl) {
+      // 2. User has a direct payment session token — launch Cashfree
+      triggerCashfreeCheckout(sessionFromUrl);
     } else {
+      // 3. User landed on /checkout/[projectId] directly (e.g. from Dashboard or refresh)
+      // Check database status first
       setStatus("loading");
+      fetch(`/api/payments/${projectId}/status`)
+        .then((res) => res.json())
+        .then(async (data) => {
+          if (data.data?.status === "success") {
+            setStatus("success");
+          } else if (data.data?.status === "created" && data.data?.paymentSessionId) {
+            // Existing created session found — launch Cashfree
+            setActiveSession(data.data.paymentSessionId);
+            triggerCashfreeCheckout(data.data.paymentSessionId);
+          } else {
+            // No active session — create a new order session automatically
+            const orderRes = await fetch("/api/payments/create-order", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ projectId }),
+            });
+            const orderData = await orderRes.json();
+            if (orderRes.ok && orderData.data?.paymentSessionId) {
+              setActiveSession(orderData.data.paymentSessionId);
+              triggerCashfreeCheckout(orderData.data.paymentSessionId);
+            } else {
+              setStatus("failed");
+              setErrorMessage(orderData.error?.message || "Failed to initialize payment session.");
+            }
+          }
+        })
+        .catch((err) => {
+          console.error("Error loading project checkout status:", err);
+          setStatus("failed");
+          setErrorMessage("Network error initializing checkout.");
+        });
     }
 
     return () => {
       if (interval) clearInterval(interval);
       if (timeout) clearTimeout(timeout);
     };
-  }, [orderId, session, projectId, cashfreeEnv, cashfreeHostedUrl]);
+  }, [orderId, sessionFromUrl, projectId, cashfreeEnv]);
 
   return (
     <>
@@ -160,7 +206,7 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
           </p>
 
           <Link href="/dashboard">
-            <button className="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 font-semibold text-sm flex items-center justify-center gap-2">
+            <button className="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 font-semibold text-sm flex items-center justify-center gap-2 text-white font-medium cursor-pointer">
               <span>Go to Dashboard</span>
               <ArrowRight size={16} />
             </button>
@@ -171,16 +217,23 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
       {status === "failed" && (
         <div className="py-8">
           <AlertCircle size={48} className="text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold mb-2">Payment Pending / Unconfirmed</h2>
-          <p className="text-sm text-white/50 mb-6">{errorMessage || "Payment could not be completed."}</p>
+          <h2 className="text-xl font-bold mb-2">Payment Status Check</h2>
+          <p className="text-sm text-white/50 mb-6">{errorMessage || "Payment could not be confirmed."}</p>
 
           <div className="space-y-3">
-            {cashfreeHostedUrl && (
+            {cashfreeHostedUrl ? (
               <a href={cashfreeHostedUrl} className="block w-full">
                 <button className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-sm">
-                  Retry Payment on Cashfree
+                  Complete Payment on Cashfree
                 </button>
               </a>
+            ) : (
+              <button
+                onClick={() => window.location.reload()}
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-sm"
+              >
+                Retry Payment
+              </button>
             )}
             <Link href="/dashboard" className="block w-full">
               <button className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-sm">
