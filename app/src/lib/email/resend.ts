@@ -2,11 +2,11 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Use onboarding@resend.dev in development or when custom sender is not set/verified
+// Use onboarding@resend.dev when custom domain sender is not set or verified
 const FROM_EMAIL =
   process.env.RESEND_FROM_EMAIL ||
   (process.env.NODE_ENV === "production"
-    ? "Wishelier <noreply@wishelier.in>"
+    ? "Wishelier <onboarding@resend.dev>"
     : "Wishelier <onboarding@resend.dev>");
 
 /**
@@ -47,7 +47,7 @@ export async function sendOTPEmail(
         </div>
       `;
 
-  // Log for local development visibility
+  // Always log for development / server visibility
   console.log(`🔑 [OTP GENERATED] (${purpose}) for ${email}: ${otp}`);
 
   try {
@@ -59,28 +59,35 @@ export async function sendOTPEmail(
     });
 
     if (error) {
-      console.error("Resend error:", error);
-      // Fallback: If unverified domain error in dev, attempt fallback to onboarding@resend.dev
-      if (
-        error.message?.includes("domain is not verified") &&
-        FROM_EMAIL !== "Wishelier <onboarding@resend.dev>"
-      ) {
-        console.log("Attempting fallback email send via onboarding@resend.dev...");
-        const fallbackResult = await resend.emails.send({
-          from: "Wishelier <onboarding@resend.dev>",
-          to: email,
-          subject,
-          html: body,
-        });
-        if (!fallbackResult.error) return { success: true };
+      console.error("Resend primary send error:", error);
+      // Attempt fallback send using onboarding@resend.dev if custom sender failed
+      if (FROM_EMAIL !== "Wishelier <onboarding@resend.dev>") {
+        try {
+          const fallback = await resend.emails.send({
+            from: "Wishelier <onboarding@resend.dev>",
+            to: email,
+            subject,
+            html: body,
+          });
+          if (!fallback.error) return { success: true };
+          console.error("Resend fallback error:", fallback.error);
+        } catch (fbErr) {
+          console.error("Resend fallback exception:", fbErr);
+        }
       }
-      return { success: false, error: error.message };
+      return {
+        success: false,
+        error: error.message || "Failed to send email via Resend API",
+      };
     }
 
     return { success: true };
   } catch (err) {
-    console.error("Email send error:", err);
-    return { success: false, error: "Failed to send email" };
+    console.error("Email send exception:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to send email",
+    };
   }
 }
 

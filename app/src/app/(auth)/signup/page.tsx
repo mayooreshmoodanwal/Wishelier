@@ -35,8 +35,10 @@ export default function SignupPage() {
       if (!res.ok) {
         const msg = data.error?.message || "Failed to send OTP";
         setError(msg);
-        if (res.status === 409 || msg.toLowerCase().includes("already exists")) {
+        if (res.status === 409 || data.error?.code === "ACCOUNT_EXISTS") {
           setIsExistingAccount(true);
+        } else {
+          setIsExistingAccount(false);
         }
         return;
       }

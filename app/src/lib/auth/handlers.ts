@@ -35,7 +35,10 @@ export async function signup(request: NextRequest) {
 
     const result = await initiateSignup(parsed.data.email);
     if (!result.success) {
-      return apiError("SIGNUP_FAILED", result.error!, 409);
+      const isExisting = result.error?.toLowerCase().includes("already exists");
+      const status = isExisting ? 409 : 500;
+      const code = isExisting ? "ACCOUNT_EXISTS" : "EMAIL_SEND_FAILED";
+      return apiError(code, result.error!, status);
     }
 
     return apiSuccess({ message: "Verification OTP sent to your email" });
