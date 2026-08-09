@@ -203,7 +203,7 @@ export default function HomePage() {
       </h1>
 
       {/* Floating Control Bar Overlay Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 py-2 sm:py-3 bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-2xl overflow-hidden">
+      <header className="fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 py-2 sm:py-3 bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-2xl">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-1 sm:gap-4 w-full">
           {/* Logo & Brand Navigation */}
           <div className="flex items-center gap-1 sm:gap-3 shrink-0">
@@ -219,7 +219,7 @@ export default function HomePage() {
           </div>
 
           {/* Template Switcher Dropdown */}
-          <div className="relative shrink min-w-0">
+          <div className="relative shrink min-w-0 z-50">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex items-center gap-1 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-[10px] sm:text-sm font-medium transition-all cursor-pointer max-w-[95px] xs:max-w-[120px] sm:max-w-none"
@@ -242,7 +242,7 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-60 sm:w-72 p-2 rounded-2xl bg-[#120e1a]/95 border border-white/15 backdrop-blur-2xl shadow-2xl z-50"
+                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-60 sm:w-72 p-2 rounded-2xl bg-[#120e1a] border border-white/20 backdrop-blur-2xl shadow-2xl z-[100]"
                 >
                   <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40 px-3 py-1.5">
                     Select a Birthday Template
