@@ -40,60 +40,12 @@ export default function ElegantSinglePageRenderer({
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const name = (data.birthdayPerson as string) || "Birthday Person";
-
-  // Robust hero photo extraction
-  const heroPhoto =
-    (typeof data.heroPhoto === "string" && data.heroPhoto.length > 0 ? data.heroPhoto : "") ||
-    (typeof data.heroImage === "string" && data.heroImage.length > 0 ? data.heroImage : "") ||
-    (Array.isArray(data.photos) && data.photos[0]?.url ? data.photos[0].url : "") ||
-    (Array.isArray(data.photos) && typeof data.photos[0] === "string" ? data.photos[0] : "") ||
-    (Array.isArray(data.gallery) && typeof data.gallery[0] === "string" ? data.gallery[0] : "") ||
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop";
-
-  const specialMessage = (data.specialMessage || data.letterBody || "") as string;
-  const signature = (data.senderSignature || data.letterClosing || "With all my love") as string;
-
-  // Robust gallery photo & caption extraction
-  const rawGallery =
-    Array.isArray(data.gallery) && data.gallery.length > 0
-      ? data.gallery
-      : Array.isArray(data.photos) && data.photos.length > 0
-      ? data.photos
-      : [
-          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
-        ];
-
-  const gallery: string[] = rawGallery
-    .map((item: any) => (typeof item === "string" ? item : item?.url || ""))
-    .filter((url: string) => url.trim().length > 0);
-
-  const captions: string[] = rawGallery.map((item: any, i: number) =>
-    typeof item === "object" && item?.caption
-      ? item.caption
-      : Array.isArray(data.galleryCaptions) && data.galleryCaptions[i]
-      ? data.galleryCaptions[i]
-      : `Memory ${i + 1}`
-  );
-
-  // Robust wishes extraction
-  const rawWishes = (Array.isArray(data.wishes) && data.wishes.length > 0
-    ? data.wishes
-    : [
-        "Sending you tons of love and happiness on your birthday!",
-        "May all your dreams and wishes come true this year!",
-        "Wishing you endless success, health, and joy!",
-      ]) as any[];
-
-  const wishes: string[] = rawWishes.map((w: any) =>
-    typeof w === "string"
-      ? w
-      : w?.text
-      ? `${w.from ? `${w.from}: ` : ""}${w.text}`
-      : "Happy Birthday!"
-  );
-
+  const heroPhoto = data.heroPhoto as string;
+  const specialMessage = (data.specialMessage as string) || "";
+  const signature = (data.senderSignature as string) || "With all my love";
+  const gallery = (data.gallery as string[]) || [];
+  const captions = (data.galleryCaptions as string[]) || [];
+  const wishes = (data.wishes as string[]) || [];
   const gifs = (data.celebrationGifs as string[]) || [];
   const musicUrl = data.musicUpload as string;
   const musicChoice = data.musicChoice as string;

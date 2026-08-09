@@ -1,195 +1,187 @@
 "use client";
 
 import React, { useState } from "react";
-import dynamic from "next/dynamic";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Sparkles,
-  ChevronDown,
-  ArrowRight,
-  Star,
-  Check,
-  Heart,
-  Gift,
-  Eye,
-  ShieldCheck,
-  Zap,
-} from "lucide-react";
-
+import { Sparkles, ArrowRight, ChevronDown, Check, Star, Globe, Heart, ShieldCheck, Gift } from "lucide-react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
 import ProfileDrawer from "@/components/profile/ProfileDrawer";
 
-// Dynamically import heavy canvas template renderers
-const StarlitCelebration = dynamic(
-  () => import("@/template-engine/renderers/elegant-single-page"),
-  { ssr: true }
+// Theme JSONs
+import starlitTheme from "@/template-engine/themes/starlit-celebration.json";
+import pinkTheme from "@/template-engine/themes/pink-romance.json";
+import blushTheme from "@/template-engine/themes/blush-elegance.json";
+import type { TemplateTheme } from "@/types";
+
+// Dynamic imports with SSR enabled for maximum SEO crawler visibility
+const ElegantSinglePageRenderer = dynamic(
+  () => import("@/template-engine/renderers/elegant-single-page")
 );
-const PinkRomance = dynamic(
-  () => import("@/template-engine/renderers/romantic-multi-page"),
-  { ssr: true }
+const RomanticMultiPageRenderer = dynamic(
+  () => import("@/template-engine/renderers/romantic-multi-page")
 );
-const BlushElegance = dynamic(
-  () => import("@/template-engine/renderers/luxe-multi-page"),
-  { ssr: true }
+const LuxeMultiPageRenderer = dynamic(
+  () => import("@/template-engine/renderers/luxe-multi-page")
 );
 
-interface TemplateInfo {
+interface TemplateOption {
+  slug: string;
   name: string;
   category: string;
-  slug: string;
   price: string;
   originalPrice: string;
-  description: string;
-  badge: string;
-  color: string;
-  component: React.ComponentType<{
-    data: Record<string, unknown>;
-    theme: Record<string, unknown>;
-  }>;
+  theme: TemplateTheme;
   demoData: Record<string, unknown>;
-  theme: Record<string, unknown>;
+  renderer: React.ComponentType<{ data: Record<string, unknown>; theme: TemplateTheme }>;
 }
 
-const DEMO_TEMPLATES: Record<string, TemplateInfo> = {
+// Demo data for full-screen immersive template preview
+const DEMO_TEMPLATES: Record<string, TemplateOption> = {
   "starlit-celebration": {
-    name: "Starlit Celebration",
-    category: "Magical & Deep Night",
     slug: "starlit-celebration",
+    name: "Starlit Celebration",
+    category: "Premium Animated",
     price: "₹99",
     originalPrice: "₹399",
-    description: "Floating star particle trails, ambient night glow, and interactive birthday journey.",
-    badge: "Most Popular",
-    color: "from-violet-500 to-indigo-500",
-    component: StarlitCelebration as unknown as React.ComponentType<{
-      data: Record<string, unknown>;
-      theme: Record<string, unknown>;
-    }>,
+    theme: starlitTheme as TemplateTheme,
+    renderer: ElegantSinglePageRenderer,
     demoData: {
       birthdayPerson: "Sarah",
-      headline: "Happy Birthday Sarah!",
-      tagline: "Wishing you the most magical day ✨",
-      letterTitle: "A Special Message",
-      letterBody:
-        "Dear Sarah,\n\nOn this beautiful day, I want you to know how incredibly special you are. Your smile lights up every room, your kindness touches every heart, and your spirit inspires everyone around you.\n\nMay this new year of your life bring you endless joy, boundless love, and all the dreams your heart desires.\n\nHere's to another year of adventures, laughter, and beautiful memories together!\n\nWith all my love ❤️",
-      letterClosing: "With all my love ❤️",
-      photos: [
-        {
-          url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
-          caption: "Unforgettable Moments",
-        },
-        {
-          url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
-          caption: "Shining Bright",
-        },
+      heroPhoto: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
+      specialMessage:
+        "Dear Sarah,\n\nOn this beautiful day, I want you to know how incredibly special you are. Your smile lights up every room, your kindness touches every heart, and your spirit inspires everyone around you.\n\nMay this new year of your life bring you endless joy, boundless love, and all the dreams your heart desires. You deserve every bit of happiness the world has to offer.\n\nHere's to another year of adventures, laughter, and beautiful memories together!",
+      senderSignature: "With all my love ❤️",
+      gallery: [
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop",
       ],
-      audioUrl: "",
+      galleryCaptions: [
+        "Beautiful Smile",
+        "Golden Hour",
+        "Pure Joy",
+        "Best Day Ever",
+        "Always Shining",
+        "Forever Young",
+      ],
       wishes: [
-        { from: "Alex", text: "Happy Birthday! Have an incredible year ahead!" },
-        { from: "Maya", text: "Sending you tons of love and big hugs today! 🎉" },
+        "May your life be as colorful and vibrant as a rainbow after the rain.",
+        "Wishing you success in everything you touch this year and always.",
+        "May you spread your wings and soar to new heights this birthday!",
+        "Like a sunflower, may you always turn towards the light and grow.",
+        "Here's to more laughter, more adventures, and more beautiful moments!",
+        "Luck, love, and happiness — may they follow you everywhere you go.",
       ],
-    },
-    theme: {
-      primaryColor: "#f472b6",
-      secondaryColor: "#a78bfa",
-      backgroundColor: "#0a0a0f",
-      fontFamily: "playfair",
-      particleStyle: "stars",
+      celebrationGifs: [
+        "https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyeXBzMDZ3djd6ZnAxZjJkcmVoZ28weGlrYzl5M3ZrbTFraWZ4Y3J6dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0MYt5jPR6QX5pnqM/giphy.gif",
+        "https://media2.giphy.com/media/v1.Y2lkPTZjMDliUycmJieHBuNjN3bDk3OGg1ZG9za203aDlrMjV1cDJvb24wNTV4bTg2cCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lMameLIF8voLu8HxWV/giphy.gif",
+      ],
     },
   },
   "pink-romance": {
-    name: "Pink Romance",
-    category: "Sweet & Romantic",
     slug: "pink-romance",
+    name: "Pink Romance",
+    category: "Romantic",
     price: "₹99",
     originalPrice: "₹399",
-    description: "Soft glowing hearts, ambient rose gold lighting, and romantic photo gallery.",
-    badge: "Trending",
-    color: "from-pink-500 to-rose-500",
-    component: PinkRomance as unknown as React.ComponentType<{
-      data: Record<string, unknown>;
-      theme: Record<string, unknown>;
-    }>,
+    theme: pinkTheme as TemplateTheme,
+    renderer: RomanticMultiPageRenderer,
     demoData: {
-      birthdayPerson: "Emma",
-      headline: "Happy Birthday My Love!",
-      tagline: "You make every day brighter 💖",
-      letterTitle: "For My Special Someone",
-      letterBody:
-        "My Dearest Emma,\n\nHappy Birthday! Having you in my life is the greatest gift I could ever ask for. Every moment with you is filled with warmth, laughter, and happiness.\n\nThank you for being your wonderful, caring, and beautiful self. Today is all about celebrating YOU!\n\nForever & Always 💕",
-      letterClosing: "Forever & Always 💕",
-      photos: [
-        {
-          url: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
-          caption: "Precious Memories",
-        },
+      birthdayPerson: "Priya",
+      greetingMessage: "You're the most adorable human I have ever met! 💕",
+      entryButtonText: "Click to Enter Our World 💕",
+      reasons: [
+        "Your laugh is literally my favorite sound in the whole world.",
+        "You always know how to make me smile even on my worst days.",
+        "You have the kindest heart and sweetest soul.",
+        "Every memory with you feels like a beautiful scene from a movie.",
       ],
-      audioUrl: "",
-      wishes: [{ from: "Liam", text: "Happy Birthday Emma! You're the best!" }],
-    },
-    theme: {
-      primaryColor: "#ec4899",
-      secondaryColor: "#f472b6",
-      backgroundColor: "#0f0610",
-      fontFamily: "inter",
-      particleStyle: "hearts",
+      reasonGifs: [],
+      memoryPhotos: [
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop",
+      ],
+      memoryCaptions: ["First Date", "Weekend Getaway", "Sunset Walks", "Forever Us"],
+      memoryDescriptions: [
+        "A magical evening under the lights",
+        "Laughter by the beach",
+        "Holding hands at golden hour",
+        "Here's to a lifetime of love and joy",
+      ],
+      finalMessage:
+        "Happy Birthday my love! May this year bring you all the magic and happiness you bring into my life every single day. 💖",
+      endingImage: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=500&auto=format&fit=crop",
     },
   },
   "blush-elegance": {
-    name: "Blush Elegance",
-    category: "Elegant & Modern",
     slug: "blush-elegance",
+    name: "Blush Elegance",
+    category: "Luxury",
     price: "₹99",
     originalPrice: "₹399",
-    description: "Minimalist luxury, golden serif typography, and elegant photo showcase.",
-    badge: "New Release",
-    color: "from-amber-400 to-rose-400",
-    component: BlushElegance as unknown as React.ComponentType<{
-      data: Record<string, unknown>;
-      theme: Record<string, unknown>;
-    }>,
+    theme: blushTheme as TemplateTheme,
+    renderer: LuxeMultiPageRenderer,
     demoData: {
-      birthdayPerson: "Victoria",
-      headline: "Celebrating Victoria",
-      tagline: "A toast to sophistication & elegance ✨",
-      letterTitle: "A Gentle Birthday Note",
-      letterBody:
-        "Dearest Victoria,\n\nWishing you a magnificent birthday filled with peace, prosperity, and endless inspiration. Your grace and warmth touch everyone around you.\n\nCheers to another stellar year!",
-      letterClosing: "Warmest Regards",
-      photos: [
-        {
-          url: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop",
-          caption: "Elegance & Grace",
-        },
+      birthdayPerson: "Akanksha",
+      heroImage: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&auto=format&fit=crop",
+      heroTagline: "a little universe made just for you ✨",
+      heroDescription:
+        "Today is wrapped in blush light, tiny stars, warm memories, and all the love you deserve.",
+      countdownDate: "2026-12-31T00:00:00",
+      memoryPhotos: [
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop",
       ],
-      audioUrl: "",
-      wishes: [{ from: "Sophia", text: "Happy Birthday Victoria! Wishing you health and success!" }],
-    },
-    theme: {
-      primaryColor: "#fbbf24",
-      secondaryColor: "#f43f5e",
-      backgroundColor: "#0d0b12",
-      fontFamily: "playfair",
-      particleStyle: "sparks",
+      memoryCaptions: [
+        "Summer Sunset",
+        "City Lights",
+        "Coffee Morning",
+        "Laughter",
+        "Starry Night",
+        "Forever Smile",
+      ],
+      reasons: [
+        "Your kindness illuminates every room.",
+        "You make simple moments unforgettable.",
+        "Your grace and positivity inspire me daily.",
+        "You listen with your whole heart.",
+        "Your happiness is infectious.",
+        "You are truly one of a kind.",
+      ],
+      letterContent:
+        "Dearest Akanksha,\n\nHappy Birthday! Creating this digital haven for you is just a small gesture to reflect how much light you bring into our lives. May your day be filled with warm smiles, boundless joy, and unforgettable moments.\n\nWith infinite love & admiration.",
+      finalMessage: "You'll always be my favorite chapter.",
+      finalImage: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1200&auto=format&fit=crop",
     },
   },
 };
 
 export default function HomePage() {
-  const [selectedSlug, setSelectedSlug] = useState("starlit-celebration");
+  const [selectedSlug, setSelectedSlug] = useState<string>("starlit-celebration");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const activeTemplate = DEMO_TEMPLATES[selectedSlug] || DEMO_TEMPLATES["starlit-celebration"];
-  const RendererComponent = activeTemplate.component;
+  const RendererComponent = activeTemplate.renderer;
 
-  // Schema.org Structured Data for SEO
+  // Schema.org WebApplication Structured Data for SEO
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Wishelier",
     url: "https://wishelier.in",
     description:
-      "Create & share personalized, interactive animated birthday surprise websites with music and photos.",
-    applicationCategory: "EntertainmentApplication",
+      "Wishelier lets you create magical, interactive animated birthday websites with custom music, photo galleries, and personalized greetings.",
+    applicationCategory: "DesignApplication",
+    operatingSystem: "All",
     offers: {
       "@type": "Offer",
       price: "99.00",
@@ -198,7 +190,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0a0a0f] text-white selection:bg-pink-500 selection:text-white">
+    <div className="relative min-h-screen bg-[#0a0a0f] text-white">
       {/* Schema.org Structured Data */}
       <script
         type="application/ld+json"
@@ -210,27 +202,32 @@ export default function HomePage() {
         Wishelier — Create & Share Animated Birthday Surprise Websites
       </h1>
 
-      {/* Floating Control Bar Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 py-2.5 sm:py-3 bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-2xl">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-1.5 group shrink-0">
-            <Sparkles size={18} className="text-pink-400 group-hover:rotate-12 transition-transform shrink-0" />
-            <span className="text-base sm:text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
-              Wishelier
+      {/* Floating Control Bar Overlay Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 py-2 sm:py-3 bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-2xl overflow-hidden">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1 sm:gap-4 w-full">
+          {/* Logo & Brand Navigation */}
+          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+            <Link href="/" className="flex items-center gap-1 group">
+              <Sparkles size={16} className="text-pink-400 group-hover:rotate-12 transition-transform shrink-0" />
+              <span className="text-xs sm:text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
+                Wishelier
+              </span>
+            </Link>
+            <span className="hidden lg:inline-block text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/60">
+              Live Preview
             </span>
-          </Link>
+          </div>
 
-          {/* Template Switcher Dropdown (Center) */}
+          {/* Template Switcher Dropdown */}
           <div className="relative shrink min-w-0">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-xs sm:text-sm font-medium transition-all cursor-pointer max-w-[130px] sm:max-w-none"
+              className="flex items-center gap-1 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-[10px] sm:text-sm font-medium transition-all cursor-pointer max-w-[95px] xs:max-w-[120px] sm:max-w-none"
             >
               <span className="text-white/60 text-xs hidden lg:inline">Template:</span>
               <span className="text-white font-semibold truncate">{activeTemplate.name}</span>
               <ChevronDown
-                size={14}
+                size={12}
                 className={`text-white/60 transition-transform duration-200 shrink-0 ${
                   isDropdownOpen ? "rotate-180" : ""
                 }`}
@@ -245,7 +242,7 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-64 sm:w-72 p-2 rounded-2xl bg-[#120e1a]/95 border border-white/15 backdrop-blur-2xl shadow-2xl z-50"
+                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-60 sm:w-72 p-2 rounded-2xl bg-[#120e1a]/95 border border-white/15 backdrop-blur-2xl shadow-2xl z-50"
                 >
                   <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40 px-3 py-1.5">
                     Select a Birthday Template
@@ -288,20 +285,25 @@ export default function HomePage() {
             </AnimatePresence>
           </div>
 
-          {/* Right Action Bar */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <Link href={`/create/${selectedSlug}`} className="hidden xs:block">
+          {/* Pricing & CTA & Profile Drawer */}
+          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+            <div className="hidden xl:flex items-center gap-1.5 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-full">
+              <Star size={12} className="fill-amber-300" />
+              <span>₹99 Launch Offer (was ₹399)</span>
+            </div>
+
+            <Link href={`/create/${selectedSlug}`}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-3 sm:px-5 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-pink-500/20 flex items-center gap-1.5 cursor-pointer shrink-0"
+                className="px-2 sm:px-5 py-1 sm:py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-[10px] sm:text-sm shadow-lg shadow-pink-500/20 flex items-center gap-1 sm:gap-2 cursor-pointer shrink-0"
               >
                 <span>Use Template</span>
-                <ArrowRight size={14} />
+                <ArrowRight size={12} className="hidden sm:inline" />
               </motion.button>
             </Link>
 
-            {/* Profile Drawer / Single Auth Button */}
+            {/* Profile Drawer / Auth Buttons */}
             <ProfileDrawer />
           </div>
         </div>
@@ -321,102 +323,7 @@ export default function HomePage() {
           </motion.div>
         </AnimatePresence>
 
-        {/* TEMPLATES SHOWCASE SECTION — DESKTOP & MOBILE GRID */}
-        <section className="bg-[#0b0813] border-t border-white/10 px-4 sm:px-8 py-16 sm:py-24">
-          <div className="max-w-6xl mx-auto space-y-12">
-            <div className="text-center space-y-3">
-              <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20 uppercase tracking-wider">
-                Explore All Designs
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-bold text-white">
-                Choose a Birthday Surprise Template
-              </h2>
-              <p className="text-xs sm:text-sm text-white/60 max-w-xl mx-auto">
-                Every template comes with custom photos, personal wishes, background music, and an instant shareable link.
-              </p>
-            </div>
-
-            {/* Grid of 3 Templates */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              {Object.values(DEMO_TEMPLATES).map((tmpl) => {
-                const isCurrent = tmpl.slug === selectedSlug;
-                return (
-                  <div
-                    key={tmpl.slug}
-                    className={`rounded-3xl p-6 bg-white/[0.03] border transition-all space-y-5 relative overflow-hidden flex flex-col justify-between ${
-                      isCurrent
-                        ? "border-pink-500/50 shadow-xl shadow-pink-500/10 bg-gradient-to-b from-pink-500/10 via-transparent to-transparent"
-                        : "border-white/10 hover:border-white/20"
-                    }`}
-                  >
-                    {/* Badge */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-white/10 text-white/80">
-                        {tmpl.badge}
-                      </span>
-                      <div className="text-right">
-                        <span className="text-lg font-bold text-pink-400">{tmpl.price}</span>
-                        <span className="text-xs text-white/40 line-through ml-1.5">{tmpl.originalPrice}</span>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="space-y-2">
-                      <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                        {tmpl.name}
-                        {isCurrent && <Sparkles size={16} className="text-pink-400" />}
-                      </h3>
-                      <p className="text-xs text-white/50 leading-relaxed">
-                        {tmpl.description}
-                      </p>
-                    </div>
-
-                    {/* Features list */}
-                    <div className="space-y-2 border-t border-white/10 pt-4 text-xs text-white/70">
-                      <div className="flex items-center gap-2">
-                        <Check size={14} className="text-emerald-400 shrink-0" />
-                        <span>Custom Photo Gallery & Captions</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Check size={14} className="text-emerald-400 shrink-0" />
-                        <span>Background Music & Sound Effects</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Check size={14} className="text-emerald-400 shrink-0" />
-                        <span>Custom URL (wishelier.in/s/name)</span>
-                      </div>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="pt-2 flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setSelectedSlug(tmpl.slug);
-                          window.scrollTo({ top: 0, behavior: "smooth" });
-                        }}
-                        className={`flex-1 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                          isCurrent
-                            ? "bg-white/15 text-white border border-white/20"
-                            : "bg-white/5 hover:bg-white/10 text-white/80 border border-white/10"
-                        }`}
-                      >
-                        <Eye size={14} /> Preview
-                      </button>
-                      <Link href={`/create/${tmpl.slug}`} className="flex-1">
-                        <button className="w-full py-2.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-pink-500 to-purple-600 text-white flex items-center justify-center gap-1 shadow-md shadow-pink-500/20 cursor-pointer">
-                          <span>Use Template</span>
-                          <ArrowRight size={14} />
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* Structured SEO Content Block for Search Engine Spiders */}
+        {/* Structured SEO Content Block for Search Engine Spiders (>300 words) */}
         <section className="bg-[#0e0a16] border-t border-white/10 px-6 py-16 text-white/80">
           <div className="max-w-5xl mx-auto space-y-8">
             <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -441,11 +348,11 @@ export default function HomePage() {
 
               <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
                 <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-                  <Zap size={20} />
+                  <Globe size={20} />
                 </div>
-                <h3 className="font-semibold text-lg text-white">Instant Custom Link</h3>
+                <h3 className="font-semibold text-lg text-white">Instant Custom Links</h3>
                 <p className="text-xs text-white/60 leading-relaxed">
-                  Generates an immediate shareable link such as <code className="text-pink-400">wishelier.in/s/sarah</code> ready for WhatsApp, Instagram, or email.
+                  Pick your unique link name (like <code className="text-pink-400 font-mono">wishelier.in/s/sarah</code>) and share it instantly on WhatsApp or Instagram.
                 </p>
               </div>
 
@@ -453,17 +360,62 @@ export default function HomePage() {
                 <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
                   <ShieldCheck size={20} />
                 </div>
-                <h3 className="font-semibold text-lg text-white">Secure UPI Checkout</h3>
+                <h3 className="font-semibold text-lg text-white">Instant UPI Checkout</h3>
                 <p className="text-xs text-white/60 leading-relaxed">
-                  Seamless payment via PhonePe, Google Pay, Paytm, or cards with guaranteed uptime and 100% money-back protection.
+                  Publish your custom website for just ₹99 with secure Cashfree payment via Google Pay, PhonePe, Paytm, or UPI.
                 </p>
+              </div>
+            </div>
+
+            {/* Template Internal Links Grid for SEO */}
+            <div className="pt-6 border-t border-white/10">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-pink-400 mb-4">
+                Explore Birthday Templates
+              </h3>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/create/starlit-celebration"
+                  className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all flex items-center gap-2"
+                >
+                  <Gift size={14} className="text-pink-400" /> Starlit Celebration Template
+                </Link>
+                <Link
+                  href="/create/pink-romance"
+                  className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all flex items-center gap-2"
+                >
+                  <Heart size={14} className="text-purple-400" /> Pink Romance Template
+                </Link>
+                <Link
+                  href="/create/blush-elegance"
+                  className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all flex items-center gap-2"
+                >
+                  <Sparkles size={14} className="text-amber-400" /> Blush Elegance Template
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all"
+                >
+                  My Dashboard
+                </Link>
+                <Link
+                  href="/projects"
+                  className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all"
+                >
+                  My Websites
+                </Link>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all"
+                >
+                  Account Login
+                </Link>
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
+      {/* Footer with Semantic Internal Links */}
       <footer className="border-t border-white/10 bg-black/40 px-6 py-8 text-xs text-white/50">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">

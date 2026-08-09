@@ -17,36 +17,11 @@ export default function RomanticMultiPageRenderer({ data, theme }: RendererProps
   const entryButtonText = (data.entryButtonText as string) || "Click to Enter Our World 💕";
   const reasons = (data.reasons as string[]) || [];
   const reasonGifs = (data.reasonGifs as string[]) || [];
-
-  const rawMemories = (Array.isArray(data.memoryPhotos) && data.memoryPhotos.length > 0
-    ? data.memoryPhotos
-    : Array.isArray(data.photos) && data.photos.length > 0
-    ? data.photos
-    : Array.isArray(data.gallery) && data.gallery.length > 0
-    ? data.gallery
-    : [
-        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
-      ]) as any[];
-
-  const memoryPhotos: string[] = rawMemories
-    .map((item: any) => (typeof item === "string" ? item : item?.url || ""))
-    .filter((url: string) => url.trim().length > 0);
-
-  const memoryCaptions: string[] = rawMemories.map((item: any, i: number) =>
-    typeof item === "object" && item?.caption
-      ? item.caption
-      : Array.isArray(data.memoryCaptions) && data.memoryCaptions[i]
-      ? data.memoryCaptions[i]
-      : `Memory ${i + 1}`
-  );
-
+  const memoryPhotos = (data.memoryPhotos as string[]) || [];
+  const memoryCaptions = (data.memoryCaptions as string[]) || [];
   const memoryDescriptions = (data.memoryDescriptions as string[]) || [];
   const finalMessage = (data.finalMessage as string) || "";
-  const endingImage =
-    (typeof data.endingImage === "string" && data.endingImage.length > 0 ? data.endingImage : "") ||
-    memoryPhotos[0] ||
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop";
+  const endingImage = data.endingImage as string;
 
   const colors = theme?.colors || {
     bg: "#1a0a1a",
