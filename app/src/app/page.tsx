@@ -203,13 +203,13 @@ export default function HomePage() {
       </h1>
 
       {/* Floating Control Bar Overlay Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 py-2 sm:py-3 bg-black/70 backdrop-blur-xl border-b border-white/10 shadow-2xl">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1 sm:gap-4">
+      <header className="fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 py-2 sm:py-3 bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-2xl overflow-hidden">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1 sm:gap-4 w-full">
           {/* Logo & Brand Navigation */}
           <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-            <Link href="/" className="flex items-center gap-1.5 group">
-              <Sparkles size={18} className="text-pink-400 group-hover:rotate-12 transition-transform shrink-0" />
-              <span className="text-sm sm:text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
+            <Link href="/" className="flex items-center gap-1 group">
+              <Sparkles size={16} className="text-pink-400 group-hover:rotate-12 transition-transform shrink-0" />
+              <span className="text-xs sm:text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
                 Wishelier
               </span>
             </Link>
@@ -219,15 +219,15 @@ export default function HomePage() {
           </div>
 
           {/* Template Switcher Dropdown */}
-          <div className="relative shrink">
+          <div className="relative shrink min-w-0">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-1 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-[11px] sm:text-sm font-medium transition-all cursor-pointer max-w-[120px] sm:max-w-none"
+              className="flex items-center gap-1 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-[10px] sm:text-sm font-medium transition-all cursor-pointer max-w-[95px] xs:max-w-[120px] sm:max-w-none"
             >
               <span className="text-white/60 text-xs hidden lg:inline">Template:</span>
               <span className="text-white font-semibold truncate">{activeTemplate.name}</span>
               <ChevronDown
-                size={14}
+                size={12}
                 className={`text-white/60 transition-transform duration-200 shrink-0 ${
                   isDropdownOpen ? "rotate-180" : ""
                 }`}
@@ -242,7 +242,7 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-64 sm:w-72 p-2 rounded-2xl bg-[#120e1a]/95 border border-white/15 backdrop-blur-2xl shadow-2xl z-50"
+                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-60 sm:w-72 p-2 rounded-2xl bg-[#120e1a]/95 border border-white/15 backdrop-blur-2xl shadow-2xl z-50"
                 >
                   <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40 px-3 py-1.5">
                     Select a Birthday Template
@@ -286,7 +286,7 @@ export default function HomePage() {
           </div>
 
           {/* Pricing & CTA & Profile Drawer */}
-          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
             <div className="hidden xl:flex items-center gap-1.5 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-full">
               <Star size={12} className="fill-amber-300" />
               <span>₹99 Launch Offer (was ₹399)</span>
@@ -296,10 +296,10 @@ export default function HomePage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-[11px] sm:text-sm shadow-lg shadow-pink-500/20 flex items-center gap-1 sm:gap-2 cursor-pointer shrink-0"
+                className="px-2 sm:px-5 py-1 sm:py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-[10px] sm:text-sm shadow-lg shadow-pink-500/20 flex items-center gap-1 sm:gap-2 cursor-pointer shrink-0"
               >
                 <span>Use Template</span>
-                <ArrowRight size={14} />
+                <ArrowRight size={12} className="hidden sm:inline" />
               </motion.button>
             </Link>
 
@@ -416,22 +416,28 @@ export default function HomePage() {
       </main>
 
       {/* Footer with Semantic Internal Links */}
-      <footer className="border-t border-white/10 bg-black/40 px-6 py-8 text-xs text-white/40">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="border-t border-white/10 bg-black/40 px-6 py-8 text-xs text-white/50">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <Sparkles size={14} className="text-pink-400" />
-            <span className="font-semibold text-white/70">Wishelier</span>
+            <span className="font-semibold text-white/90">Wishelier</span>
             <span>© {new Date().getFullYear()} All rights reserved.</span>
           </div>
-          <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="hover:text-white transition-colors">
-              Dashboard
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            <Link href="/about" className="hover:text-white transition-colors">
+              About Us
             </Link>
-            <Link href="/login" className="hover:text-white transition-colors">
-              Login
+            <Link href="/contact" className="hover:text-white transition-colors">
+              Contact Us
             </Link>
-            <Link href="/signup" className="hover:text-white transition-colors">
-              Sign Up
+            <Link href="/privacy" className="hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-white transition-colors">
+              Terms & Conditions
+            </Link>
+            <Link href="/refund" className="hover:text-white transition-colors">
+              Cancellation & Refund
             </Link>
           </div>
         </div>

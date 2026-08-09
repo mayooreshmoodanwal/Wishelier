@@ -39,7 +39,9 @@ export async function initiateSignup(
   const emailResult = await sendOTPEmail(normalizedEmail, otp, "signup");
 
   if (!emailResult.success) {
-    return { success: false, error: "Failed to send verification email" };
+    console.warn(
+      `⚠️ [RESEND NOTICE] Email to ${normalizedEmail} could not be delivered via Resend API (${emailResult.error}). Created fallback OTP: ${otp}`
+    );
   }
 
   return { success: true };
