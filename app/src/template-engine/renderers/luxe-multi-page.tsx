@@ -32,18 +32,52 @@ export default function LuxeMultiPageRenderer({ data, theme }: RendererProps) {
 
   // Extract data
   const name = (data.birthdayPerson as string) || "You";
-  const heroImage = data.heroImage as string;
-  const heroTagline = (data.heroTagline as string) || "a little universe made just for you";
+  const heroImage =
+    (typeof data.heroImage === "string" && data.heroImage.length > 0 ? data.heroImage : "") ||
+    (typeof data.heroPhoto === "string" && data.heroPhoto.length > 0 ? data.heroPhoto : "") ||
+    (Array.isArray(data.polaroids) && data.polaroids[0]?.url ? data.polaroids[0].url : "") ||
+    (Array.isArray(data.photos) && data.photos[0]?.url ? data.photos[0].url : "") ||
+    (Array.isArray(data.photos) && typeof data.photos[0] === "string" ? data.photos[0] : "") ||
+    "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop";
+
+  const heroTagline = (data.heroTagline || data.subtitle || "a little universe made just for you") as string;
   const heroDescription = (data.heroDescription as string) || "Today is wrapped in blush light, tiny stars, warm memories, and all the love you deserve.";
   const countdownDate = data.countdownDate as string;
-  const memoryPhotos = (data.memoryPhotos as string[]) || [];
+
+  const rawMemories = (Array.isArray(data.memoryPhotos) && data.memoryPhotos.length > 0
+    ? data.memoryPhotos
+    : Array.isArray(data.polaroids) && data.polaroids.length > 0
+    ? data.polaroids
+    : Array.isArray(data.photos) && data.photos.length > 0
+    ? data.photos
+    : Array.isArray(data.gallery) && data.gallery.length > 0
+    ? data.gallery
+    : [
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
+      ]) as any[];
+
+  const memoryPhotos: string[] = rawMemories
+    .map((item: any) => (typeof item === "string" ? item : item?.url || ""))
+    .filter((url: string) => url.trim().length > 0);
+
   const memoryVideo = data.memoryVideo as string;
-  const memoryCaptions = (data.memoryCaptions as string[]) || [];
-  const reasons = (data.reasons as string[]) || [];
+  const memoryCaptions: string[] = rawMemories.map((item: any, i: number) =>
+    typeof item === "object" && item?.caption
+      ? item.caption
+      : Array.isArray(data.memoryCaptions) && data.memoryCaptions[i]
+      ? data.memoryCaptions[i]
+      : `Memory ${i + 1}`
+  );
+
+  const reasons = (Array.isArray(data.reasons) ? data.reasons.map((r: any) => typeof r === "string" ? r : r.title ? `${r.title}: ${r.detail || ""}` : "") : []) as string[];
   const reasonImages = (data.reasonImages as string[]) || [];
-  const letterContent = (data.letterContent as string) || "";
+  const letterContent = (data.letterContent || data.letterBody || data.specialMessage || "") as string;
   const finalMessage = (data.finalMessage as string) || "You'll always be my favorite chapter.";
-  const finalImage = data.finalImage as string;
+  const finalImage =
+    (typeof data.finalImage === "string" && data.finalImage.length > 0 ? data.finalImage : "") ||
+    heroImage ||
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop";
 
   const colors = theme?.colors || {
     bg: "#fdf2f8",
