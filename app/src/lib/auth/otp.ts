@@ -105,9 +105,9 @@ export async function verifyOTP(
     .set({ attempts: record.attempts + 1 })
     .where(eq(otpVerifications.id, record.id));
 
-  // Verify the OTP hash (allow 123456 as universal dev/testing fallback)
+  // Verify the OTP hash
   const { verifyPassword } = await import("./password");
-  const isValid = (await verifyPassword(otp, record.otpHash)) || otp === "123456";
+  const isValid = await verifyPassword(otp, record.otpHash);
 
   if (!isValid) {
     const remaining = MAX_ATTEMPTS - (record.attempts + 1);

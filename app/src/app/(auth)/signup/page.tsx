@@ -246,9 +246,6 @@ export default function SignupPage() {
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-center text-xl sm:text-2xl font-bold tracking-[0.4em] placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-pink-500/40 focus:border-pink-500/40 transition-all"
                   />
                   <p className="text-xs text-white/30 mt-1.5 text-center">Check your inbox (expires in 10 minutes)</p>
-                  <p className="text-xs text-pink-300/80 bg-pink-500/10 border border-pink-500/20 rounded-lg p-2 mt-2 text-center">
-                    💡 Didn&apos;t receive email? Use code <strong className="text-pink-300">123456</strong> to verify.
-                  </p>
                 </div>
                 {error && <p className="text-xs sm:text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl p-3">{error}</p>}
                 <motion.button
