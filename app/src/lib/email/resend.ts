@@ -2,12 +2,8 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Use onboarding@resend.dev when custom domain sender is not set or verified
-const FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL ||
-  (process.env.NODE_ENV === "production"
-    ? "Wishelier <onboarding@resend.dev>"
-    : "Wishelier <onboarding@resend.dev>");
+// Use onboarding@resend.dev when custom domain sender is not set
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
 /**
  * Send OTP verification email.
@@ -61,10 +57,10 @@ export async function sendOTPEmail(
     if (error) {
       console.error("Resend primary send error:", error);
       // Attempt fallback send using onboarding@resend.dev if custom sender failed
-      if (FROM_EMAIL !== "Wishelier <onboarding@resend.dev>") {
+      if (FROM_EMAIL !== "onboarding@resend.dev") {
         try {
           const fallback = await resend.emails.send({
-            from: "Wishelier <onboarding@resend.dev>",
+            from: "onboarding@resend.dev",
             to: email,
             subject,
             html: body,
