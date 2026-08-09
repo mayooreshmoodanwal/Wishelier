@@ -1,9 +1,15 @@
 import { neon } from "@neondatabase/serverless";
-import { config } from "dotenv";
 import fs from "fs";
 import path from "path";
 
-config({ path: ".env.local" });
+if (typeof process !== "undefined" && !process.env.DATABASE_URL) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require("dotenv").config({ path: ".env.local" });
+  } catch {
+    // Ignore in production
+  }
+}
 
 async function runMigrations() {
   if (!process.env.DATABASE_URL) {
@@ -21,7 +27,6 @@ async function runMigrations() {
 
   const sqlContent = fs.readFileSync(migrationPath, "utf-8");
 
-  // Split SQL by statement break points or execute in chunks
   const statements = sqlContent
     .split("--> statement-breakpoint")
     .map((s) => s.trim())
@@ -35,7 +40,6 @@ async function runMigrations() {
         err instanceof Error &&
         (err.message.includes("already exists") || err.message.includes("duplicate"))
       ) {
-        // Skip existing tables/types
         continue;
       }
       console.error("Migration statement error:", err);

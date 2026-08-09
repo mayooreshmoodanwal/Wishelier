@@ -1,9 +1,15 @@
 import { neon } from "@neondatabase/serverless";
-import { config } from "dotenv";
 import fs from "fs";
 import path from "path";
 
-config({ path: ".env.local" });
+if (typeof process !== "undefined" && !process.env.DATABASE_URL) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require("dotenv").config({ path: ".env.local" });
+  } catch {
+    // Ignore in production
+  }
+}
 
 async function resetAndMigrate() {
   if (!process.env.DATABASE_URL) {
@@ -14,7 +20,6 @@ async function resetAndMigrate() {
 
   console.log("🔥 Resetting legacy database tables on Neon Postgres...");
 
-  // Drop all known legacy and current tables to ensure clean slate
   const tablesToDrop = [
     "password_reset_otps",
     "site_generations",
@@ -41,7 +46,6 @@ async function resetAndMigrate() {
     }
   }
 
-  // Drop legacy enums if they exist
   const enumsToDrop = [
     "user_role",
     "otp_purpose",

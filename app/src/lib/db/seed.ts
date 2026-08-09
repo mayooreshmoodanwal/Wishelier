@@ -1,10 +1,16 @@
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { eq } from "drizzle-orm";
-import { config } from "dotenv";
 import * as schema from "./schema";
 
-config({ path: ".env.local" });
+if (typeof process !== "undefined" && !process.env.DATABASE_URL) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require("dotenv").config({ path: ".env.local" });
+  } catch {
+    // Ignore in production
+  }
+}
 
 // Import schemas and themes as JSON
 import starlitSchema from "@/template-engine/schemas/starlit-celebration.json";
@@ -101,7 +107,6 @@ async function seed() {
       .returning();
 
     if (template) {
-      // Create version 1
       await db
         .insert(schema.templateVersions)
         .values({
