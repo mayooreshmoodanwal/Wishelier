@@ -85,21 +85,14 @@ export default function ProfileDrawer() {
     }
   };
 
-  // If not authenticated, render Login / Signup buttons
+  // If not authenticated, render a single combined Sign In button
   if (!profileData?.authenticated) {
     return (
-      <div className="flex items-center gap-2">
-        <Link href="/login">
-          <button className="px-3.5 py-1.5 rounded-full text-xs font-medium text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5">
-            <LogIn size={13} /> Log In
-          </button>
-        </Link>
-        <Link href="/signup">
-          <button className="px-3.5 py-1.5 rounded-full text-xs font-medium text-white bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 transition-all flex items-center gap-1.5 shadow-md shadow-pink-500/10">
-            <UserPlus size={13} /> Sign Up
-          </button>
-        </Link>
-      </div>
+      <Link href="/login">
+        <button className="px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 transition-all flex items-center gap-1.5 shadow-md shadow-pink-500/10 cursor-pointer shrink-0">
+          <LogIn size={13} /> <span>Sign In</span>
+        </button>
+      </Link>
     );
   }
 
