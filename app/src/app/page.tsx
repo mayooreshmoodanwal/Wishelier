@@ -203,32 +203,32 @@ export default function HomePage() {
       </h1>
 
       {/* Floating Control Bar Overlay Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-4 py-3 bg-black/60 backdrop-blur-xl border-b border-white/10 shadow-2xl">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <header className="fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 py-2 sm:py-3 bg-black/70 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1 sm:gap-4">
           {/* Logo & Brand Navigation */}
-          <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-2 group">
-              <Sparkles size={20} className="text-pink-400 group-hover:rotate-12 transition-transform" />
-              <span className="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
+          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+            <Link href="/" className="flex items-center gap-1.5 group">
+              <Sparkles size={18} className="text-pink-400 group-hover:rotate-12 transition-transform shrink-0" />
+              <span className="text-sm sm:text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
                 Wishelier
               </span>
             </Link>
-            <span className="hidden sm:inline-block text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/60">
+            <span className="hidden lg:inline-block text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/60">
               Live Preview
             </span>
           </div>
 
           {/* Template Switcher Dropdown */}
-          <div className="relative">
+          <div className="relative shrink">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-sm font-medium transition-all cursor-pointer"
+              className="flex items-center gap-1 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-[11px] sm:text-sm font-medium transition-all cursor-pointer max-w-[120px] sm:max-w-none"
             >
-              <span className="text-white/60 text-xs hidden md:inline">Template:</span>
-              <span className="text-white font-semibold">{activeTemplate.name}</span>
+              <span className="text-white/60 text-xs hidden lg:inline">Template:</span>
+              <span className="text-white font-semibold truncate">{activeTemplate.name}</span>
               <ChevronDown
-                size={16}
-                className={`text-white/60 transition-transform duration-200 ${
+                size={14}
+                className={`text-white/60 transition-transform duration-200 shrink-0 ${
                   isDropdownOpen ? "rotate-180" : ""
                 }`}
               />
@@ -242,9 +242,9 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-72 p-2 rounded-2xl bg-[#120e1a]/95 border border-white/15 backdrop-blur-2xl shadow-2xl z-50"
+                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-64 sm:w-72 p-2 rounded-2xl bg-[#120e1a]/95 border border-white/15 backdrop-blur-2xl shadow-2xl z-50"
                 >
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40 px-3 py-1.5">
+                  <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40 px-3 py-1.5">
                     Select a Birthday Template
                   </p>
                   <div className="space-y-1">
@@ -257,18 +257,18 @@ export default function HomePage() {
                             setSelectedSlug(tmpl.slug);
                             setIsDropdownOpen(false);
                           }}
-                          className={`w-full flex items-center justify-between p-3 rounded-xl text-left transition-all cursor-pointer ${
+                          className={`w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all cursor-pointer ${
                             isSelected
                               ? "bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/30 text-white"
                               : "hover:bg-white/5 text-white/70 hover:text-white border border-transparent"
                           }`}
                         >
                           <div>
-                            <div className="font-medium text-sm flex items-center gap-2">
+                            <div className="font-medium text-xs sm:text-sm flex items-center gap-1.5">
                               {tmpl.name}
                               {isSelected && <Check size={14} className="text-pink-400" />}
                             </div>
-                            <div className="text-xs text-white/40 mt-0.5">{tmpl.category}</div>
+                            <div className="text-[10px] sm:text-xs text-white/40 mt-0.5">{tmpl.category}</div>
                           </div>
                           <div className="text-right">
                             <div className="text-xs font-bold text-pink-400">{tmpl.price}</div>
@@ -286,7 +286,7 @@ export default function HomePage() {
           </div>
 
           {/* Pricing & CTA & Profile Drawer */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <div className="hidden xl:flex items-center gap-1.5 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-full">
               <Star size={12} className="fill-amber-300" />
               <span>₹99 Launch Offer (was ₹399)</span>
@@ -296,10 +296,10 @@ export default function HomePage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-pink-500/20 flex items-center gap-2 cursor-pointer"
+                className="px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-[11px] sm:text-sm shadow-lg shadow-pink-500/20 flex items-center gap-1 sm:gap-2 cursor-pointer shrink-0"
               >
                 <span>Use Template</span>
-                <ArrowRight size={16} />
+                <ArrowRight size={14} />
               </motion.button>
             </Link>
 

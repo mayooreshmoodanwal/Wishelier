@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, User, Loader2, Sparkles, CheckCircle2 } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Loader2, Sparkles, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -18,10 +18,12 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isExistingAccount, setIsExistingAccount] = useState(false);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsExistingAccount(false);
     setLoading(true);
     try {
       const res = await fetch("/api/auth/signup", {
@@ -31,7 +33,11 @@ export default function SignupPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error?.message || "Failed to send OTP");
+        const msg = data.error?.message || "Failed to send OTP";
+        setError(msg);
+        if (res.status === 409 || msg.toLowerCase().includes("already exists")) {
+          setIsExistingAccount(true);
+        }
         return;
       }
       setStep("otp");
@@ -94,10 +100,10 @@ export default function SignupPage() {
   const currentStepIdx = step === "email" ? 0 : step === "otp" ? 1 : 2;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4">
-      <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-pink-500/5" />
-      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-[100px]" />
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-pink-500/10 rounded-full blur-[100px]" />
+    <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4 py-8">
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-pink-500/5 pointer-events-none" />
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-pink-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       <motion.div
         className="relative z-10 w-full max-w-sm"
@@ -105,19 +111,19 @@ export default function SignupPage() {
         animate={{ opacity: 1, y: 0 }}
       >
         {/* Logo */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <Link href="/" className="inline-flex items-center gap-2">
             <Sparkles size={20} className="text-pink-400" />
             <span className="text-xl font-bold bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-transparent">
               Wishelier
             </span>
           </Link>
-          <h1 className="text-2xl font-bold text-white mt-4 mb-1">Create your account</h1>
-          <p className="text-sm text-white/40">Start creating birthday surprises</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-white mt-3 mb-1">Create your account</h1>
+          <p className="text-xs sm:text-sm text-white/40">Start creating birthday surprises</p>
         </div>
 
         {/* Step indicators */}
-        <div className="flex items-center justify-center gap-3 mb-6">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 mb-6">
           {steps.map((s, i) => (
             <React.Fragment key={s}>
               <div className="flex items-center gap-1.5">
@@ -132,18 +138,18 @@ export default function SignupPage() {
                 >
                   {i < currentStepIdx ? <CheckCircle2 size={14} /> : i + 1}
                 </div>
-                <span className={`text-xs ${i === currentStepIdx ? "text-white/70" : "text-white/30"}`}>
+                <span className={`text-xs ${i === currentStepIdx ? "text-white/70 font-medium" : "text-white/30"}`}>
                   {s}
                 </span>
               </div>
               {i < steps.length - 1 && (
-                <div className={`flex-1 h-px max-w-[40px] ${i < currentStepIdx ? "bg-emerald-500/50" : "bg-white/10"}`} />
+                <div className={`flex-1 h-px max-w-[30px] sm:max-w-[40px] ${i < currentStepIdx ? "bg-emerald-500/50" : "bg-white/10"}`} />
               )}
             </React.Fragment>
           ))}
         </div>
 
-        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 backdrop-blur-sm overflow-hidden">
+        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 sm:p-6 backdrop-blur-sm overflow-hidden">
           <AnimatePresence mode="wait">
             {/* STEP 1: Email */}
             {step === "email" && (
@@ -164,7 +170,11 @@ export default function SignupPage() {
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        setError("");
+                        setIsExistingAccount(false);
+                      }}
                       placeholder="you@example.com"
                       required
                       autoFocus
@@ -173,11 +183,29 @@ export default function SignupPage() {
                   </div>
                   <p className="text-xs text-white/30 mt-1.5">We&apos;ll send a verification code</p>
                 </div>
-                {error && <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>}
+
+                {error && (
+                  <div className="text-xs sm:text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl p-3 space-y-2">
+                    <div className="flex items-start gap-2">
+                      <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                      <span>{error}</span>
+                    </div>
+                    {isExistingAccount && (
+                      <Link
+                        href={`/login?email=${encodeURIComponent(email)}`}
+                        className="inline-flex items-center gap-1 text-xs text-pink-400 hover:text-pink-300 font-semibold underline underline-offset-4 pt-1"
+                      >
+                        <span>Click here to Log In instead</span>
+                        <ArrowRight size={12} />
+                      </Link>
+                    )}
+                  </div>
+                )}
+
                 <motion.button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   whileHover={!loading ? { scale: 1.02 } : {}}
                   whileTap={!loading ? { scale: 0.98 } : {}}
                 >
@@ -199,7 +227,7 @@ export default function SignupPage() {
               >
                 <div className="text-center mb-2">
                   <p className="text-sm text-white/50">Code sent to</p>
-                  <p className="text-sm text-white font-medium">{email}</p>
+                  <p className="text-sm text-white font-medium truncate max-w-[240px] mx-auto">{email}</p>
                 </div>
                 <div>
                   <label className="text-xs text-white/50 uppercase tracking-wider mb-1.5 block">
@@ -213,15 +241,15 @@ export default function SignupPage() {
                     required
                     maxLength={6}
                     autoFocus
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-center text-2xl font-bold tracking-[0.4em] placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-pink-500/40 focus:border-pink-500/40 transition-all"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-center text-xl sm:text-2xl font-bold tracking-[0.4em] placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-pink-500/40 focus:border-pink-500/40 transition-all"
                   />
                   <p className="text-xs text-white/30 mt-1.5 text-center">Check your inbox (expires in 10 minutes)</p>
                 </div>
-                {error && <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>}
+                {error && <p className="text-xs sm:text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl p-3">{error}</p>}
                 <motion.button
                   type="submit"
                   disabled={loading || otp.length < 6}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   whileHover={!loading ? { scale: 1.02 } : {}}
                   whileTap={!loading ? { scale: 0.98 } : {}}
                 >
@@ -238,11 +266,11 @@ export default function SignupPage() {
                       handleEmailSubmit({ preventDefault: () => {} } as React.FormEvent);
                     }}
                     disabled={loading}
-                    className="text-xs text-pink-400 hover:text-pink-300 transition-colors font-medium disabled:opacity-50"
+                    className="text-xs text-pink-400 hover:text-pink-300 transition-colors font-medium disabled:opacity-50 cursor-pointer"
                   >
                     Resend Code
                   </button>
-                  <button type="button" onClick={() => setStep("email")} className="text-xs text-white/30 hover:text-white/50 transition-colors">
+                  <button type="button" onClick={() => setStep("email")} className="text-xs text-white/30 hover:text-white/50 transition-colors cursor-pointer">
                     ← Change email
                   </button>
                 </div>
@@ -287,11 +315,11 @@ export default function SignupPage() {
                     ))}
                   </div>
                 </div>
-                {error && <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>}
+                {error && <p className="text-xs sm:text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl p-3">{error}</p>}
                 <motion.button
                   type="submit"
                   disabled={loading || password.length < 8}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   whileHover={!loading ? { scale: 1.02 } : {}}
                   whileTap={!loading ? { scale: 0.98 } : {}}
                 >
@@ -302,7 +330,7 @@ export default function SignupPage() {
             )}
           </AnimatePresence>
 
-          <p className="text-center text-sm text-white/40 mt-5">
+          <p className="text-center text-xs sm:text-sm text-white/40 mt-5">
             Already have an account?{" "}
             <Link href="/login" className="text-pink-400 hover:text-pink-300 transition-colors font-medium">
               Sign in
