@@ -16,25 +16,36 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Wishelier — Birthday Surprise Websites",
+    default: "Wishelier — Create & Share Animated Birthday Websites",
     template: "%s | Wishelier",
   },
-  description: "Create stunning animated birthday websites and share them with a unique link. Premium templates, custom music, beautiful animations.",
+  description:
+    "Create magical, interactive animated birthday websites with custom music, photo galleries, and personalized greetings. Share instantly with a unique link for ₹99.",
+  keywords: [
+    "birthday website",
+    "birthday surprise link",
+    "personalized birthday wish",
+    "animated birthday website",
+    "birthday card online",
+    "wishelier",
+  ],
   metadataBase: new URL("https://wishelier.in"),
   openGraph: {
-    title: "Wishelier — Birthday Surprise Websites",
-    description: "Create & share animated birthday websites. From ₹99.",
+    title: "Wishelier — Create & Share Animated Birthday Websites",
+    description:
+      "Create magical, interactive animated birthday websites with custom music, photo galleries, and personalized greetings. Share instantly for ₹99.",
     url: "https://wishelier.in",
     siteName: "Wishelier",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wishelier — Birthday Surprise Websites",
-    description: "Create & share animated birthday websites. From ₹99.",
+    title: "Wishelier — Create & Share Animated Birthday Websites",
+    description: "Create & share magical animated birthday websites from ₹99.",
   },
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 
@@ -46,8 +57,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <meta name="theme-color" content="#0a0a0f" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </head>
-      <body className="min-h-full flex flex-col font-sans" style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
+      <body
+        className="min-h-full flex flex-col font-sans bg-[#0a0a0f] text-white"
+        style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}
+      >
         {children}
       </body>
     </html>
