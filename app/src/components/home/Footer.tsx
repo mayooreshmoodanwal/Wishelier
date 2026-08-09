@@ -1,8 +1,17 @@
 "use client";
 
 import React from "react";
-import { Heart, Sparkles } from "lucide-react";
+import { Heart } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+
+const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
 
 export default function Footer() {
   return (
@@ -12,7 +21,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="text-center md:text-left">
             <Link href="/" className="inline-flex items-center gap-2 mb-1">
-              <Sparkles size={16} className="text-pink-400" />
+              <Image src="/logo.png" alt="Wishelier Logo" width={24} height={24} className="rounded object-contain" />
               <span className="text-lg font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                 Wishelier
               </span>
@@ -22,7 +31,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Navigation Links */}
+          {/* Navigation Links & Instagram */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-white/60">
             <Link href="/about" className="hover:text-white transition-colors">
               About Us
@@ -39,6 +48,15 @@ export default function Footer() {
             <Link href="/refund" className="hover:text-white transition-colors">
               Cancellation & Refund
             </Link>
+            <a
+              href="https://www.instagram.com/wishelier/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-pink-400 hover:text-pink-300 font-medium transition-colors"
+            >
+              <InstagramIcon className="w-3.5 h-3.5" />
+              <span>@wishelier</span>
+            </a>
           </div>
         </div>
 

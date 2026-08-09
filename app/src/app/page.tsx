@@ -4,8 +4,17 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, ArrowRight, ChevronDown, Check, Star, Globe, Heart, ShieldCheck, Gift } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import ProfileDrawer from "@/components/profile/ProfileDrawer";
+
+const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
 
 // Theme JSONs
 import starlitTheme from "@/template-engine/themes/starlit-celebration.json";
@@ -172,12 +181,15 @@ export default function HomePage() {
   const activeTemplate = DEMO_TEMPLATES[selectedSlug] || DEMO_TEMPLATES["starlit-celebration"];
   const RendererComponent = activeTemplate.renderer;
 
-  // Schema.org WebApplication Structured Data for SEO
+  // Schema.org WebApplication Structured Data for SEO & Google Search Branding
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Wishelier",
     url: "https://wishelier.in",
+    logo: "https://wishelier.in/logo.png",
+    image: "https://wishelier.in/logo.png",
+    sameAs: ["https://www.instagram.com/wishelier/"],
     description:
       "Wishelier lets you create magical, interactive animated birthday websites with custom music, photo galleries, and personalized greetings.",
     applicationCategory: "DesignApplication",
@@ -207,8 +219,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-1 sm:gap-4 w-full">
           {/* Logo & Brand Navigation */}
           <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-            <Link href="/" className="flex items-center gap-1 group">
-              <Sparkles size={16} className="text-pink-400 group-hover:rotate-12 transition-transform shrink-0" />
+            <Link href="/" className="flex items-center gap-1.5 group">
+              <Image src="/logo.png" alt="Wishelier Logo" width={28} height={28} className="rounded-lg object-contain shrink-0" />
               <span className="text-xs sm:text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
                 Wishelier
               </span>
@@ -419,7 +431,7 @@ export default function HomePage() {
       <footer className="border-t border-white/10 bg-black/40 px-6 py-8 text-xs text-white/50">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <Sparkles size={14} className="text-pink-400" />
+            <Image src="/logo.png" alt="Wishelier Logo" width={20} height={20} className="rounded object-contain" />
             <span className="font-semibold text-white/90">Wishelier</span>
             <span>© {new Date().getFullYear()} All rights reserved.</span>
           </div>
@@ -439,6 +451,15 @@ export default function HomePage() {
             <Link href="/refund" className="hover:text-white transition-colors">
               Cancellation & Refund
             </Link>
+            <a
+              href="https://www.instagram.com/wishelier/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-pink-400 hover:text-pink-300 font-medium transition-colors"
+            >
+              <InstagramIcon className="w-3.5 h-3.5" />
+              <span>@wishelier</span>
+            </a>
           </div>
         </div>
       </footer>

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Sparkles, ArrowLeft } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "Terms & Conditions | Wishelier",
@@ -12,14 +13,14 @@ export default function TermsPage() {
     <div className="min-h-screen bg-[#0a0a0f] text-white selection:bg-pink-500 selection:text-white">
       <header className="px-6 py-4 border-b border-white/10 bg-black/40 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <Sparkles size={20} className="text-pink-400" />
+          <Link href="/" className="flex items-center gap-2.5">
+            <Image src="/logo.png" alt="Wishelier Logo" width={32} height={32} className="rounded-lg shrink-0 object-contain" />
             <span className="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
               Wishelier
             </span>
           </Link>
           <Link href="/" className="text-xs text-white/60 hover:text-white flex items-center gap-1.5 transition-colors">
-            <ArrowLeft size={14} /> Back to Templates
+            <ArrowLeft size={14} /> Back to Home
           </Link>
         </div>
       </header>

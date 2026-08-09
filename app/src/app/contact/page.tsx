@@ -1,11 +1,20 @@
 import React from "react";
 import Link from "next/link";
-import { Sparkles, Mail, MessageSquare, Clock, ArrowLeft } from "lucide-react";
+import Image from "next/image";
+import { Mail, MessageSquare, Clock, ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "Contact Us | Wishelier — Support & Inquiries",
   description: "Get in touch with the Wishelier customer support team for inquiries, help, or payment assistance.",
 };
+
+const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
 
 export default function ContactPage() {
   return (
@@ -13,15 +22,26 @@ export default function ContactPage() {
       {/* Top Header */}
       <header className="px-6 py-4 border-b border-white/10 bg-black/40 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <Sparkles size={20} className="text-pink-400" />
+          <Link href="/" className="flex items-center gap-2.5">
+            <Image src="/logo.png" alt="Wishelier Logo" width={32} height={32} className="rounded-lg shrink-0 object-contain" />
             <span className="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
               Wishelier
             </span>
           </Link>
-          <Link href="/" className="text-xs text-white/60 hover:text-white flex items-center gap-1.5 transition-colors">
-            <ArrowLeft size={14} /> Back to Templates
-          </Link>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://www.instagram.com/wishelier/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-pink-500/30 text-xs text-pink-300 hover:text-white transition-all"
+            >
+              <InstagramIcon className="w-3.5 h-3.5 text-pink-400" />
+              <span>@wishelier</span>
+            </a>
+            <Link href="/" className="text-xs text-white/60 hover:text-white flex items-center gap-1.5 transition-colors">
+              <ArrowLeft size={14} /> Back to Home
+            </Link>
+          </div>
         </div>
       </header>
 

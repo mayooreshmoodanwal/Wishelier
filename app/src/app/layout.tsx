@@ -37,15 +37,28 @@ export const metadata: Metadata = {
     url: "https://wishelier.in",
     siteName: "Wishelier",
     type: "website",
+    images: [
+      {
+        url: "https://wishelier.in/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Wishelier Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Wishelier — Create & Share Animated Birthday Websites",
     description: "Create & share magical animated birthday websites from ₹99.",
+    images: ["https://wishelier.in/logo.png"],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/logo.png", type: "image/png" },
+      { url: "/icon.png", type: "image/png" },
+    ],
     apple: "/apple-touch-icon.png",
+    shortcut: "/logo.png",
   },
 };
 
@@ -58,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="theme-color" content="#0a0a0f" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" href="/logo.png" />
       </head>
       <body
         className="min-h-full flex flex-col font-sans bg-[#0a0a0f] text-white"
