@@ -16,11 +16,11 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Wishelier | Handcrafted Birthday Website Generator & Personalised Birthday Gifts",
+    default: "Wishelier — Birthday Website Generator & Gifts",
     template: "%s | Wishelier",
   },
   description:
-    "Wishelier is India's #1 handcrafted 3D birthday website generator. Turn personal photos, memory notes, and custom music into personalized digital birthday surprise websites. Share instantly for ₹99.",
+    "Create handcrafted 3D birthday websites with custom music, photo galleries, and personal notes. Share your digital surprise link instantly for ₹99.",
   keywords: [
     "birthday website generator",
     "personalised birthday gifts",
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
   ],
   metadataBase: new URL("https://wishelier.in"),
   openGraph: {
-    title: "Wishelier | Handcrafted Birthday Website Generator & Personalised Birthday Gifts",
+    title: "Wishelier — Birthday Website Generator & Gifts",
     description:
-      "Wishelier is India's premier handcrafted 3D birthday website generator. Turn personal photos, memory notes, and music into custom interactive birthday surprise links for ₹99.",
+      "Create handcrafted 3D birthday websites with custom music, photo galleries, and personal notes. Share your digital surprise link instantly for ₹99.",
     url: "https://wishelier.in",
     siteName: "Wishelier",
     type: "website",
@@ -52,8 +52,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wishelier | Handcrafted Birthday Website Generator & Personalised Birthday Gifts",
-    description: "Create & share magical animated birthday surprise websites from ₹99.",
+    title: "Wishelier — Birthday Website Generator & Gifts",
+    description:
+      "Create handcrafted 3D birthday websites with custom music, photo galleries, and personal notes. Share your digital surprise link instantly for ₹99.",
     images: ["https://wishelier.in/logo.png"],
   },
   icons: {

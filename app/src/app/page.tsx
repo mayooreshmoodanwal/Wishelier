@@ -191,6 +191,18 @@ const FAQS = [
     q: "How much does a Wishelier birthday website cost?",
     a: "Publishing your custom birthday website costs just ₹99 (discounted from ₹399). You get instant UPI checkout via Google Pay, PhonePe, Paytm, or Credit/Debit Cards, and your custom link stays active online.",
   },
+  {
+    q: "How do I share my personalized birthday website link?",
+    a: "Once published, you get a clean, memorable URL such as wishelier.in/s/name. You can share this link directly via WhatsApp, Instagram DM, SMS, or email to surprise your friend, partner, or family member on their special day.",
+  },
+  {
+    q: "Is any technical or coding knowledge required?",
+    a: "No coding or design skills are required! Simply select your favorite animated birthday template, fill in your personal notes, upload your photos, pick a song, and your handcrafted website is generated automatically in under two minutes.",
+  },
+  {
+    q: "Will the website work smoothly on mobile phones?",
+    a: "Absolutely! Every Wishelier birthday template is 100% responsive and optimized for mobile devices, iPhones, Android smartphones, tablets, and desktop browsers.",
+  },
 ];
 
 export default function HomePage() {
@@ -212,7 +224,7 @@ export default function HomePage() {
     image: "https://wishelier.in/logo.png",
     sameAs: ["https://www.instagram.com/wishelier/"],
     description:
-      "Wishelier is India's premier handcrafted birthday website generator and personalised birthday gift studio. Create 3D animated birthday surprise websites with custom music, photo galleries, and personalized notes for ₹99.",
+      "Create handcrafted 3D birthday websites with custom music, photo galleries, and personal notes. Share your digital surprise link instantly for ₹99.",
     applicationCategory: "DesignApplication",
     operatingSystem: "All",
     offers: {
@@ -255,7 +267,7 @@ export default function HomePage() {
 
       {/* Primary Keyword-Rich H1 Heading for Googlebot */}
       <h1 className="sr-only">
-        Wishelier — Handcrafted Birthday Website Generator & Personalised Birthday Gifts
+        Wishelier — Birthday Website Generator & Gifts
       </h1>
 
       {/* Floating Control Bar Overlay Header */}
