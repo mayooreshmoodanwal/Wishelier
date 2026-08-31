@@ -23,27 +23,27 @@ const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 );
 
 const FOUNDERS = [
-  {
-    name: "Udit Agarwal",
-    title: "Co-Founder & Lead Developer",
-    photo: "/founders/udit.png",
-    linkedin: "https://www.linkedin.com/in/udit-agarwal260/",
-    bio: "Passionate about full-stack engineering and building seamless, delightful digital experiences for celebrations.",
-  },
+  // {
+  //   name: "Udit Agarwal",
+  //   title: "Co-Founder & Lead Developer",
+  //   photo: "/founders/udit.png",
+  //   linkedin: "https://www.linkedin.com/in/udit-agarwal260/",
+  //   bio: "Passionate about full-stack engineering and building seamless, delightful digital experiences for celebrations.",
+  // },
   {
     name: "Ayush Kumar Singh",
-    title: "Co-Founder & System Architect",
+    title: "Founder",
     photo: "/founders/ayush.png",
     linkedin: "https://www.linkedin.com/in/ayush-kumar-singh-781aa6337/",
     bio: "Specializing in high-performance web applications, interactive canvas rendering, and scalable backend infrastructure.",
   },
-  {
-    name: "Divyansh Agarwal",
-    title: "Co-Founder & Product Lead",
-    photo: "/founders/divyansh.png",
-    linkedin: "https://www.linkedin.com/in/divyansh-agarwal2905/",
-    bio: "Focused on user experience design, creative animations, and crafting emotional surprise moments.",
-  },
+  // {
+  //   name: "Divyansh Agarwal",
+  //   title: "Co-Founder & Product Lead",
+  //   photo: "/founders/divyansh.png",
+  //   linkedin: "https://www.linkedin.com/in/divyansh-agarwal2905/",
+  //   bio: "Focused on user experience design, creative animations, and crafting emotional surprise moments.",
+  // },
 ];
 
 export default function AboutPage() {
@@ -124,19 +124,19 @@ export default function AboutPage() {
             <span className="text-xs font-semibold px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 uppercase tracking-wider">
               Leadership Team
             </span>
-            <h2 className="text-2xl sm:text-4xl font-bold text-white">Meet Our Founders</h2>
+            <h2 className="text-2xl sm:text-4xl font-bold text-white">Meet Our Founder</h2>
             <p className="text-xs sm:text-sm text-white/50 max-w-lg mx-auto">
-              The creative minds behind Wishelier building India&apos;s leading birthday surprise platform.
+              The creative mind behind Wishelier building India&apos;s leading birthday surprise platform.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
             {FOUNDERS.map((founder) => (
               <div
                 key={founder.name}
                 className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-pink-500/30 transition-all flex flex-col items-center text-center space-y-4 group relative overflow-hidden"
               >
-                <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-pink-500/30 group-hover:border-pink-400 transition-all shadow-xl shadow-pink-500/10">
+                <div className="relative w-42 h-42 rounded-full overflow-hidden border-2 border-pink-500/30 group-hover:border-pink-400 transition-all shadow-xl shadow-pink-500/10">
                   <Image
                     src={founder.photo}
                     alt={founder.name}
