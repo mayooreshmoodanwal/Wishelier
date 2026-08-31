@@ -6,7 +6,8 @@
       "required": true,
       "maxLength": 40,
       "label": "Birthday Person's Name",
-      "placeholder": "e.g. Priya"
+      "placeholder": "e.g. Priya",
+      "default": "Priya"
     },
     {
       "key": "greetingMessage",
@@ -14,7 +15,8 @@
       "required": true,
       "maxLength": 120,
       "label": "Greeting Message (typing effect)",
-      "placeholder": "You're the most adorable human I ever met!"
+      "placeholder": "You're the most adorable human I ever met! 💕",
+      "default": "You're the most adorable human I have ever met! 💕"
     },
     {
       "key": "entryButtonText",
@@ -30,7 +32,13 @@
       "min": 2,
       "max": 8,
       "maxLength": 150,
-      "label": "Reasons why they're special (2-8 messages)"
+      "label": "Reasons why they're special (2-8 messages)",
+      "default": [
+        "Your laugh is literally my favorite sound in the whole world.",
+        "You always know how to make me smile even on my worst days.",
+        "You have the kindest heart and sweetest soul.",
+        "Every memory with you feels like a beautiful scene from a movie."
+      ]
     },
     {
       "key": "reasonGifs",
@@ -38,7 +46,10 @@
       "min": 0,
       "max": 4,
       "required": false,
-      "label": "Fun GIFs for reason cards (optional)"
+      "label": "Fun GIFs for reason cards (optional)",
+      "default": [
+        "https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyeXBzMDZ3djd6ZnAxZjJkcmVoZ28weGlrYzl5M3ZrbTFraWZ4Y3J6dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0MYt5jPR6QX5pnqM/giphy.gif"
+      ]
     },
     {
       "key": "memoryPhotos",
@@ -47,7 +58,13 @@
       "max": 6,
       "aspectRatio": "free",
       "label": "Memory Photos (2-6 photos)",
-      "maxSizeBytes": 5242880
+      "maxSizeBytes": 5242880,
+      "default": [
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop"
+      ]
     },
     {
       "key": "memoryCaptions",
@@ -55,7 +72,13 @@
       "min": 2,
       "max": 6,
       "maxLength": 60,
-      "label": "Memory Photo Titles"
+      "label": "Memory Photo Titles",
+      "default": [
+        "First Date",
+        "Weekend Getaway",
+        "Sunset Walks",
+        "Forever Us"
+      ]
     },
     {
       "key": "memoryDescriptions",
@@ -63,21 +86,29 @@
       "min": 2,
       "max": 6,
       "maxLength": 150,
-      "label": "Memory Photo Descriptions"
+      "label": "Memory Photo Descriptions",
+      "default": [
+        "A magical evening under the twinkling fairy lights",
+        "Endless laughter and breeze by the beach",
+        "Holding hands as the golden hour faded",
+        "Here's to a lifetime of love, warmth, and joy"
+      ]
     },
     {
       "key": "finalMessage",
       "type": "long_text",
       "required": true,
       "maxLength": 500,
-      "label": "Final heartfelt message"
+      "label": "Final heartfelt message",
+      "default": "Happy Birthday my love! May this year bring you all the magic, happiness, and peace you bring into my life every single day. 💖"
     },
     {
       "key": "endingImage",
       "type": "image",
       "required": false,
       "label": "Ending Section Image (optional)",
-      "maxSizeBytes": 5242880
+      "maxSizeBytes": 5242880,
+      "default": "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=500&auto=format&fit=crop"
     }
   ]
 }

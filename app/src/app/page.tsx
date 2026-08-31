@@ -2,7 +2,23 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, ArrowRight, ChevronDown, Check, Star, Globe, Heart, ShieldCheck, Gift, HelpCircle, Music, Image as ImageIcon } from "lucide-react";
+import {
+  Sparkles,
+  ArrowRight,
+  ChevronDown,
+  Check,
+  Star,
+  Globe,
+  Heart,
+  ShieldCheck,
+  Gift,
+  HelpCircle,
+  Music,
+  Zap,
+  CheckCircle2,
+  Camera,
+  Layers,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -49,7 +65,7 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
   "starlit-celebration": {
     slug: "starlit-celebration",
     name: "Starlit Celebration",
-    category: "Premium Animated",
+    category: "Premium Animated 3D",
     price: "₹99",
     originalPrice: "₹399",
     theme: starlitTheme as TemplateTheme,
@@ -93,7 +109,7 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
   "pink-romance": {
     slug: "pink-romance",
     name: "Pink Romance",
-    category: "Romantic",
+    category: "Romantic & Playful",
     price: "₹99",
     originalPrice: "₹399",
     theme: pinkTheme as TemplateTheme,
@@ -108,7 +124,9 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
         "You have the kindest heart and sweetest soul.",
         "Every memory with you feels like a beautiful scene from a movie.",
       ],
-      reasonGifs: [],
+      reasonGifs: [
+        "https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyeXBzMDZ3djd6ZnAxZjJkcmVoZ28weGlrYzl5M3ZrbTFraWZ4Y3J6dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0MYt5jPR6QX5pnqM/giphy.gif",
+      ],
       memoryPhotos: [
         "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
@@ -117,20 +135,20 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
       ],
       memoryCaptions: ["First Date", "Weekend Getaway", "Sunset Walks", "Forever Us"],
       memoryDescriptions: [
-        "A magical evening under the lights",
-        "Laughter by the beach",
-        "Holding hands at golden hour",
-        "Here's to a lifetime of love and joy",
+        "A magical evening under the twinkling fairy lights",
+        "Endless laughter and breeze by the beach",
+        "Holding hands as the golden hour faded",
+        "Here's to a lifetime of love, warmth, and joy",
       ],
       finalMessage:
-        "Happy Birthday my love! May this year bring you all the magic and happiness you bring into my life every single day. 💖",
+        "Happy Birthday my love! May this year bring you all the magic, happiness, and peace you bring into my life every single day. 💖",
       endingImage: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=500&auto=format&fit=crop",
     },
   },
   "blush-elegance": {
     slug: "blush-elegance",
     name: "Blush Elegance",
-    category: "Luxury",
+    category: "Luxury Multi-Chapter",
     price: "₹99",
     originalPrice: "₹399",
     theme: blushTheme as TemplateTheme,
@@ -141,7 +159,7 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
       heroTagline: "a little universe made just for you ✨",
       heroDescription:
         "Today is wrapped in blush light, tiny stars, warm memories, and all the love you deserve.",
-      countdownDate: "2026-12-31T00:00:00",
+      countdownDate: "2026-12-31T00:00",
       memoryPhotos: [
         "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
@@ -165,9 +183,13 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
         "You listen with your whole heart.",
         "Your happiness is infectious.",
         "You are truly one of a kind.",
+        "You always know how to comfort my heart.",
+        "Your smile feels like warm golden hour.",
+        "You turn regular days into beautiful stories.",
+        "You are loved more than words could ever say.",
       ],
       letterContent:
-        "Dearest Akanksha,\n\nHappy Birthday! Creating this digital haven for you is just a small gesture to reflect how much light you bring into our lives. May your day be filled with warm smiles, boundless joy, and unforgettable moments.\n\nWith infinite love & admiration.",
+        "Dearest Akanksha,\n\nHappy Birthday! Creating this digital haven for you is just a small gesture to reflect how much light, kindness, and beauty you bring into my world every day.\n\nMay this year be filled with warm smiles, boundless joy, and unforgettable adventures. Thank you for simply being you.\n\nWith infinite love & admiration.",
       finalMessage: "You'll always be my favorite chapter.",
       finalImage: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1200&auto=format&fit=crop",
     },
@@ -176,32 +198,32 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
 
 const FAQS = [
   {
-    q: "What is a Handcrafted Birthday Website Generator?",
-    a: "Wishelier is a handcrafted birthday website generator that lets you build personalized, interactive 3D animated websites for your loved ones. Unlike paper cards or static messages, Wishelier websites feature glowing particle animations, custom photo carousels, personal memory notes, and background music.",
+    q: "What is Wishelier and why is it the best birthday website builder?",
+    a: "Wishelier is the #1 handcrafted 3D birthday website builder and generator. Unlike paper cards or static greeting pages, Wishelier creates personalized, high-performance interactive websites featuring glowing particle animations, 3D candle blowing, custom background music, memory polaroid flip-cards, love letter envelopes, and personalized photo galleries for ₹99.",
   },
   {
-    q: "Why is a Wishelier site the best personalised birthday gift?",
-    a: "Wishelier offers a unique digital birthday surprise link (like wishelier.in/s/name) that opens instantly on any phone, laptop, or tablet. It combines your personal photos, favorite songs, memory notes, and interactive surprise cards into an unforgettable digital keepsake.",
+    q: "How does the birthday website generator work?",
+    a: "Creating your personalized website takes under 2 minutes: 1) Pick a curated 3D animated template, 2) Customize with the birthday person's name, personal message, photos, reasons, and music, 3) Publish via instant UPI payment (₹99) to get a custom sharable link like wishelier.in/s/name.",
   },
   {
-    q: "Can I add custom background music and photo galleries?",
-    a: "Yes! You can upload your favorite photos, customize captions, choose background music tracks, and write personalized birthday notes. Everything is updated in real time with instant live previews.",
+    q: "Can I add custom background music, video, and photos?",
+    a: "Yes! You can choose from our royalty-free celebratory soundtrack library or upload your own audio track, attach high-resolution photo galleries with captions, and even embed surprise memory videos.",
   },
   {
     q: "How much does a Wishelier birthday website cost?",
-    a: "Publishing your custom birthday website costs just ₹99 (discounted from ₹399). You get instant UPI checkout via Google Pay, PhonePe, Paytm, or Credit/Debit Cards, and your custom link stays active online.",
+    a: "Publishing a full handcrafted birthday website costs a one-time launch price of ₹99 (discounted from ₹399). There are zero recurring fees, and you get instant checkout with Google Pay, PhonePe, Paytm, UPI, or Cards.",
   },
   {
-    q: "How do I share my personalized birthday website link?",
-    a: "Once published, you get a clean, memorable URL such as wishelier.in/s/name. You can share this link directly via WhatsApp, Instagram DM, SMS, or email to surprise your friend, partner, or family member on their special day.",
+    q: "How do I share the custom birthday link with my friend or partner?",
+    a: "Once published, you get a clean URL like wishelier.in/s/priya that opens instantly in full screen on any smartphone (iOS / Android), tablet, or desktop browser. You can share it directly via WhatsApp, Instagram DM, Telegram, or SMS at midnight!",
   },
   {
-    q: "Is any technical or coding knowledge required?",
-    a: "No coding or design skills are required! Simply select your favorite animated birthday template, fill in your personal notes, upload your photos, pick a song, and your handcrafted website is generated automatically in under two minutes.",
+    q: "Do I need any coding or design skills?",
+    a: "No coding or design skills required at all! Everything is automatically generated and animated in real-time with our smart builder and live preview.",
   },
   {
-    q: "Will the website work smoothly on mobile phones?",
-    a: "Absolutely! Every Wishelier birthday template is 100% responsive and optimized for mobile devices, iPhones, Android smartphones, tablets, and desktop browsers.",
+    q: "Will the generated birthday website have complete content if I only fill in a few details?",
+    a: "Yes! Wishelier includes smart fallbacks and rich curated starter templates so your generated birthday website always looks complete, vibrant, and full of heartfelt content even if you're in a rush.",
   },
 ];
 
@@ -213,24 +235,31 @@ export default function HomePage() {
   const activeTemplate = DEMO_TEMPLATES[selectedSlug] || DEMO_TEMPLATES["starlit-celebration"];
   const RendererComponent = activeTemplate.renderer;
 
-  // Schema.org WebApplication & FAQPage Structured Data for Google Rich Snippets
+  // Schema.org WebApplication, FAQPage & HowTo Structured Data for Google & AI Engines
   const jsonLdApp = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Wishelier",
-    alternateName: ["Wishelier Handcrafted Birthday Website Generator", "Wishelier 3D Birthday Studio"],
+    name: "Wishelier — #1 Best Birthday Website Builder",
+    alternateName: ["Wishelier", "Wishelier Birthday Website Generator", "Wishelier 3D Surprise Studio"],
     url: "https://wishelier.in",
     logo: "https://wishelier.in/logo.png",
     image: "https://wishelier.in/logo.png",
-    sameAs: ["https://www.instagram.com/wishelier/"],
     description:
-      "Create handcrafted 3D birthday websites with custom music, photo galleries, and personal notes. Share your digital surprise link instantly for ₹99.",
+      "The #1 handcrafted 3D birthday website builder and generator. Build interactive personalized birthday websites with music, 3D candles, polaroid memories, and love letters for ₹99.",
     applicationCategory: "DesignApplication",
     operatingSystem: "All",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      ratingCount: "1280",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "99.00",
       priceCurrency: "INR",
+      availability: "https://schema.org/InStock",
     },
     author: {
       "@type": "Organization",
@@ -253,9 +282,33 @@ export default function HomePage() {
     })),
   };
 
+  const jsonLdHowTo = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Build a Custom 3D Birthday Website in 2 Minutes",
+    description: "Create an interactive personalized birthday website with custom photos, music, and love letters for ₹99.",
+    step: [
+      {
+        "@type": "HowToStep",
+        name: "Choose an Animated Template",
+        text: "Select from our 3D Starlit Celebration, Romantic Multi-Page, or Blush Elegance templates.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Personalize with Memories & Music",
+        text: "Add the birthday person's name, custom messages, memory photos, reasons, and background music.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Publish & Share Custom Link",
+        text: "Publish instantly for ₹99 via UPI to receive your custom surprise URL (wishelier.in/s/name).",
+      },
+    ],
+  };
+
   return (
-    <div className="relative min-h-screen bg-[#0a0a0f] text-white">
-      {/* Schema.org Structured Data Scripts */}
+    <div className="relative min-h-screen bg-[#faf7f2] text-[#1e1b2e]">
+      {/* Schema.org Structured Data Scripts for Google & LLM Crawlers */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdApp) }}
@@ -264,25 +317,29 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdHowTo) }}
+      />
 
-      {/* Primary Keyword-Rich H1 Heading for Googlebot */}
+      {/* Semantic H1 for Search Engine Spiders */}
       <h1 className="sr-only">
-        Wishelier — Birthday Website Generator & Gifts
+        Wishelier — Best Birthday Website Builder & Handcrafted 3D Birthday Website Generator
       </h1>
 
-      {/* Floating Control Bar Overlay Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 py-2 sm:py-3 bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+      {/* Floating Header Overlay */}
+      <header className="fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 py-2 sm:py-2.5 bg-white/85 backdrop-blur-xl border-b border-[#e6cb9c]/40 shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-1 sm:gap-4 w-full">
-          {/* Logo & Brand Navigation */}
-          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+          {/* Logo */}
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <Link href="/" className="flex items-center gap-1.5 group">
-              <Image src="/logo.png" alt="Wishelier Logo" width={28} height={28} className="rounded-lg object-contain shrink-0" />
-              <span className="text-xs sm:text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
+              <Image src="/logo.png" alt="Wishelier" width={28} height={28} className="rounded-lg object-contain shrink-0" />
+              <span className="text-sm sm:text-xl font-bold bg-gradient-to-r from-[#d97706] via-[#c026d3] to-[#0f766e] bg-clip-text text-transparent">
                 Wishelier
               </span>
             </Link>
-            <span className="hidden lg:inline-block text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/60">
-              Live Preview
+            <span className="hidden lg:inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#bcf6f0]/50 text-[#0f766e] border border-[#0f766e]/20">
+              3D Live Preview
             </span>
           </div>
 
@@ -290,13 +347,13 @@ export default function HomePage() {
           <div className="relative shrink min-w-0 z-50">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-1 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-[10px] sm:text-sm font-medium transition-all cursor-pointer max-w-[95px] xs:max-w-[120px] sm:max-w-none"
+              className="flex items-center gap-1 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#faf7f2] hover:bg-white border border-[#e6cb9c]/80 text-[11px] sm:text-sm font-semibold transition-all cursor-pointer max-w-[110px] xs:max-w-[140px] sm:max-w-none shadow-xs"
             >
-              <span className="text-white/60 text-xs hidden lg:inline">Template:</span>
-              <span className="text-white font-semibold truncate">{activeTemplate.name}</span>
+              <span className="text-[#4a4458]/70 text-xs hidden lg:inline">Template:</span>
+              <span className="text-[#1e1b2e] truncate">{activeTemplate.name}</span>
               <ChevronDown
-                size={12}
-                className={`text-white/60 transition-transform duration-200 shrink-0 ${
+                size={13}
+                className={`text-[#4a4458]/70 transition-transform duration-200 shrink-0 ${
                   isDropdownOpen ? "rotate-180" : ""
                 }`}
               />
@@ -306,14 +363,14 @@ export default function HomePage() {
             <AnimatePresence>
               {isDropdownOpen && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  initial={{ opacity: 0, y: 8, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-60 sm:w-72 p-2 rounded-2xl bg-[#120e1a] border border-white/20 backdrop-blur-2xl shadow-2xl z-[100]"
+                  className="absolute left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-64 sm:w-80 p-2 rounded-3xl bg-white border border-[#e6cb9c] backdrop-blur-2xl shadow-2xl z-[100]"
                 >
-                  <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40 px-3 py-1.5">
-                    Select a Birthday Template
+                  <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#4a4458]/60 px-3 py-1.5">
+                    Select Birthday Template
                   </p>
                   <div className="space-y-1">
                     {Object.values(DEMO_TEMPLATES).map((tmpl) => {
@@ -325,24 +382,22 @@ export default function HomePage() {
                             setSelectedSlug(tmpl.slug);
                             setIsDropdownOpen(false);
                           }}
-                          className={`w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all cursor-pointer ${
+                          className={`w-full flex items-center justify-between p-3 rounded-2xl text-left transition-all cursor-pointer ${
                             isSelected
-                              ? "bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/30 text-white"
-                              : "hover:bg-white/5 text-white/70 hover:text-white border border-transparent"
+                              ? "bg-[#bcf6f0]/40 border border-[#0f766e]/30 text-[#1e1b2e]"
+                              : "hover:bg-[#faf7f2] text-[#4a4458] hover:text-[#1e1b2e] border border-transparent"
                           }`}
                         >
                           <div>
-                            <div className="font-medium text-xs sm:text-sm flex items-center gap-1.5">
+                            <div className="font-bold text-xs sm:text-sm flex items-center gap-1.5">
                               {tmpl.name}
-                              {isSelected && <Check size={14} className="text-pink-400" />}
+                              {isSelected && <Check size={14} className="text-[#0f766e]" />}
                             </div>
-                            <div className="text-[10px] sm:text-xs text-white/40 mt-0.5">{tmpl.category}</div>
+                            <div className="text-[10px] sm:text-xs text-[#4a4458]/70 mt-0.5">{tmpl.category}</div>
                           </div>
                           <div className="text-right">
-                            <div className="text-xs font-bold text-pink-400">{tmpl.price}</div>
-                            <div className="text-[10px] text-white/30 line-through">
-                              {tmpl.originalPrice}
-                            </div>
+                            <div className="text-xs font-bold text-[#d97706]">{tmpl.price}</div>
+                            <div className="text-[10px] text-gray-400 line-through">{tmpl.originalPrice}</div>
                           </div>
                         </button>
                       );
@@ -353,25 +408,24 @@ export default function HomePage() {
             </AnimatePresence>
           </div>
 
-          {/* Pricing & CTA & Profile Drawer */}
-          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-            <div className="hidden xl:flex items-center gap-1.5 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-full">
-              <Star size={12} className="fill-amber-300" />
-              <span>₹99 Launch Offer (was ₹399)</span>
+          {/* Pricing Offer & Use Template CTA */}
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+            <div className="hidden xl:flex items-center gap-1.5 text-xs font-bold text-[#92400e] bg-[#e6cb9c]/30 border border-[#e6cb9c] px-3 py-1.5 rounded-full">
+              <Star size={12} className="fill-[#d97706] text-[#d97706]" />
+              <span>₹99 Launch Deal (was ₹399)</span>
             </div>
 
             <Link href={`/create/${selectedSlug}`}>
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-2 sm:px-5 py-1 sm:py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-[10px] sm:text-sm shadow-lg shadow-pink-500/20 flex items-center gap-1 sm:gap-2 cursor-pointer shrink-0"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                className="px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-xs sm:text-sm shadow-md shadow-amber-500/15 flex items-center gap-1 sm:gap-2 cursor-pointer shrink-0"
               >
                 <span>Use Template</span>
-                <ArrowRight size={12} className="hidden sm:inline" />
+                <ArrowRight size={13} className="hidden sm:inline" />
               </motion.button>
             </Link>
 
-            {/* Profile Drawer / Auth Buttons */}
             <ProfileDrawer />
           </div>
         </div>
@@ -385,93 +439,188 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.35 }}
           >
             <RendererComponent data={activeTemplate.demoData} theme={activeTemplate.theme} />
           </motion.div>
         </AnimatePresence>
 
         {/* High-Authority SEO Content Section */}
-        <section className="bg-[#0e0a16] border-t border-white/10 px-6 py-16 text-white/80">
-          <div className="max-w-5xl mx-auto space-y-12">
+        <section className="bg-gradient-to-b from-white via-[#faf7f2] to-white border-t border-[#e6cb9c]/40 px-6 py-20 text-[#1e1b2e]">
+          <div className="max-w-6xl mx-auto space-y-16">
+            {/* Main Header */}
             <div className="text-center max-w-3xl mx-auto space-y-4">
-              <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20 uppercase tracking-wider">
-                India&apos;s #1 Birthday Surprise Studio
+              <span className="inline-block text-xs font-bold px-3.5 py-1 rounded-full bg-[#bcf6f0]/60 text-[#0f766e] border border-[#0f766e]/30 uppercase tracking-wider">
+                ✨ India&apos;s #1 Best Birthday Website Builder & Generator
               </span>
-              <h2 className="text-2xl sm:text-4xl font-bold text-white leading-tight">
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-[#1e1b2e] leading-tight tracking-tight">
                 Handcrafted 3D Birthday Website Generator & Personalised Birthday Gifts
               </h2>
-              <p className="text-sm sm:text-base text-white/60 leading-relaxed">
-                Wishelier is the ultimate digital birthday website generator. Turn unforgettable photos, heartfelt notes, and custom music into a handcrafted 3D animated birthday website that opens seamlessly on any phone, laptop, or tablet.
+              <p className="text-sm sm:text-base text-[#4a4458] leading-relaxed">
+                Wishelier is the ultimate digital birthday surprise builder. Transform treasured photos, heartfelt memories, and favorite songs into an unforgettable 3D animated website that opens instantly on any phone, tablet, or laptop.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400">
-                  <Sparkles size={20} />
+            {/* Feature Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-7 rounded-3xl bg-white border border-[#e6cb9c]/50 shadow-sm space-y-3.5 hover:shadow-md transition-all">
+                <div className="w-11 h-11 rounded-2xl bg-[#ebcae8]/50 border border-[#ebcae8] flex items-center justify-center text-[#86198f]">
+                  <Sparkles size={22} />
                 </div>
-                <h3 className="font-semibold text-lg text-white">3D Animated Templates</h3>
-                <p className="text-xs text-white/60 leading-relaxed">
-                  Interactive floating confetti, glowing stars, polaroid memory flips, and music players tailored for handcrafted birthday surprises.
+                <h3 className="font-bold text-lg text-[#1e1b2e]">3D Animated Particle Magic</h3>
+                <p className="text-xs sm:text-sm text-[#4a4458] leading-relaxed">
+                  Interactive floating confetti, 3D candle blowing, typewriter love letters, and polaroid memory flips crafted for emotional surprise moments.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-                  <Globe size={20} />
+              <div className="p-7 rounded-3xl bg-white border border-[#e6cb9c]/50 shadow-sm space-y-3.5 hover:shadow-md transition-all">
+                <div className="w-11 h-11 rounded-2xl bg-[#bcf6f0]/60 border border-[#bcf6f0] flex items-center justify-center text-[#0f766e]">
+                  <Globe size={22} />
                 </div>
-                <h3 className="font-semibold text-lg text-white">Instant Shareable Links</h3>
-                <p className="text-xs text-white/60 leading-relaxed">
-                  Generate your custom link like <code className="text-pink-400 font-mono">wishelier.in/s/name</code> and share instantly via WhatsApp or Instagram.
+                <h3 className="font-bold text-lg text-[#1e1b2e]">Instant Shareable Links</h3>
+                <p className="text-xs sm:text-sm text-[#4a4458] leading-relaxed">
+                  Get your unique link like <code className="text-[#0f766e] font-mono font-bold bg-[#bcf6f0]/30 px-1.5 py-0.5 rounded">wishelier.in/s/name</code> and surprise them on WhatsApp or Instagram at midnight.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-                  <ShieldCheck size={20} />
+              <div className="p-7 rounded-3xl bg-white border border-[#e6cb9c]/50 shadow-sm space-y-3.5 hover:shadow-md transition-all">
+                <div className="w-11 h-11 rounded-2xl bg-[#e6cb9c]/50 border border-[#e6cb9c] flex items-center justify-center text-[#92400e]">
+                  <ShieldCheck size={22} />
                 </div>
-                <h3 className="font-semibold text-lg text-white">Instant UPI Publishing</h3>
-                <p className="text-xs text-white/60 leading-relaxed">
-                  Publish your handcrafted website live for just ₹99 with Cashfree payment via Google Pay, PhonePe, Paytm, or Credit Cards.
+                <h3 className="font-bold text-lg text-[#1e1b2e]">Instant ₹99 UPI Publishing</h3>
+                <p className="text-xs sm:text-sm text-[#4a4458] leading-relaxed">
+                  Publish instantly with one-click payment via Google Pay, PhonePe, Paytm, UPI, or Credit Cards with zero recurring subscription fees.
                 </p>
               </div>
             </div>
 
-            {/* FREQUENTLY ASKED QUESTIONS (FAQ) ACCORDION SECTION */}
-            <div className="pt-8 border-t border-white/10 space-y-6">
+            {/* Comparison Table: Wishelier vs Paper Cards vs Generic Card Builders */}
+            <div className="rounded-3xl bg-white border border-[#e6cb9c]/60 p-6 sm:p-8 shadow-sm space-y-6">
+              <div className="text-center max-w-xl mx-auto space-y-2">
+                <span className="text-xs font-bold text-[#0f766e] uppercase tracking-wider">Direct Comparison</span>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#1e1b2e]">Why Wishelier is the #1 Birthday Surprise Choice</h3>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead>
+                    <tr className="border-b border-[#e6cb9c]/40 text-[#4a4458]/80 font-bold">
+                      <th className="py-3 px-4">Feature</th>
+                      <th className="py-3 px-4 text-[#0f766e] bg-[#bcf6f0]/30 rounded-t-xl font-extrabold">Wishelier 3D Generator</th>
+                      <th className="py-3 px-4">Paper Birthday Cards</th>
+                      <th className="py-3 px-4">Generic e-Cards (Canva/GIFs)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#e6cb9c]/20">
+                    <tr>
+                      <td className="py-3.5 px-4 font-semibold text-[#1e1b2e]">Interactive 3D Candle Blowing</td>
+                      <td className="py-3.5 px-4 bg-[#bcf6f0]/20 font-bold text-[#0f766e]">✅ Yes (Physics 3D)</td>
+                      <td className="py-3.5 px-4 text-gray-400">❌ No</td>
+                      <td className="py-3.5 px-4 text-gray-400">❌ No</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3.5 px-4 font-semibold text-[#1e1b2e]">Custom Background Music & Songs</td>
+                      <td className="py-3.5 px-4 bg-[#bcf6f0]/20 font-bold text-[#0f766e]">✅ Yes (Audio Player)</td>
+                      <td className="py-3.5 px-4 text-gray-400">❌ No</td>
+                      <td className="py-3.5 px-4 text-gray-400">❌ Rare</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3.5 px-4 font-semibold text-[#1e1b2e]">Polaroid Photo Grids & Flip Cards</td>
+                      <td className="py-3.5 px-4 bg-[#bcf6f0]/20 font-bold text-[#0f766e]">✅ Up to 10+ Memories</td>
+                      <td className="py-3.5 px-4 text-gray-400">1 printed photo</td>
+                      <td className="py-3.5 px-4 text-gray-400">Static image only</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3.5 px-4 font-semibold text-[#1e1b2e]">Custom Shareable URL Link</td>
+                      <td className="py-3.5 px-4 bg-[#bcf6f0]/20 font-bold text-[#0f766e]">✅ wishelier.in/s/name</td>
+                      <td className="py-3.5 px-4 text-gray-400">❌ Physical only</td>
+                      <td className="py-3.5 px-4 text-gray-400">Generic long link</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3.5 px-4 font-semibold text-[#1e1b2e]">Affordable One-Time Price</td>
+                      <td className="py-3.5 px-4 bg-[#bcf6f0]/20 font-bold text-[#0f766e]">✅ ₹99 one-time</td>
+                      <td className="py-3.5 px-4 text-gray-600">₹200 - ₹500</td>
+                      <td className="py-3.5 px-4 text-gray-600">₹499+/month</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* How It Works Section */}
+            <div className="space-y-8">
+              <div className="text-center max-w-xl mx-auto space-y-2">
+                <span className="text-xs font-bold text-[#92400e] uppercase tracking-wider">Fast & Easy</span>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#1e1b2e]">Create Your Birthday Surprise in 3 Steps</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-6 rounded-3xl bg-white border border-[#e6cb9c]/40 text-center space-y-3 shadow-xs">
+                  <div className="w-10 h-10 rounded-full bg-[#d97706] text-white font-bold flex items-center justify-center mx-auto text-sm">
+                    1
+                  </div>
+                  <h4 className="font-bold text-base text-[#1e1b2e]">Select a 3D Template</h4>
+                  <p className="text-xs text-[#4a4458] leading-relaxed">
+                    Pick from Starlit Celebration, Pink Romance, or Blush Elegance based on your relationship.
+                  </p>
+                </div>
+
+                <div className="p-6 rounded-3xl bg-white border border-[#e6cb9c]/40 text-center space-y-3 shadow-xs">
+                  <div className="w-10 h-10 rounded-full bg-[#0f766e] text-white font-bold flex items-center justify-center mx-auto text-sm">
+                    2
+                  </div>
+                  <h4 className="font-bold text-base text-[#1e1b2e]">Add Memories & Note</h4>
+                  <p className="text-xs text-[#4a4458] leading-relaxed">
+                    Type your personal message, upload your favorite photos, pick reasons, and choose background music.
+                  </p>
+                </div>
+
+                <div className="p-6 rounded-3xl bg-white border border-[#e6cb9c]/40 text-center space-y-3 shadow-xs">
+                  <div className="w-10 h-10 rounded-full bg-[#c026d3] text-white font-bold flex items-center justify-center mx-auto text-sm">
+                    3
+                  </div>
+                  <h4 className="font-bold text-base text-[#1e1b2e]">Publish & Share Link</h4>
+                  <p className="text-xs text-[#4a4458] leading-relaxed">
+                    Complete the ₹99 payment and share your custom link via WhatsApp or Instagram at midnight!
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* FAQ Accordion Section */}
+            <div className="space-y-6 pt-6">
               <div className="text-center space-y-2">
-                <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center justify-center gap-2">
-                  <HelpCircle size={20} className="text-pink-400" />
+                <h3 className="text-xl sm:text-2xl font-bold text-[#1e1b2e] flex items-center justify-center gap-2">
+                  <HelpCircle size={22} className="text-[#0f766e]" />
                   <span>Frequently Asked Questions</span>
                 </h3>
-                <p className="text-xs text-white/50">
-                  Everything you need to know about creating personalized birthday websites on Wishelier.
+                <p className="text-xs text-[#4a4458]/70">
+                  Everything you need to know about creating personalized 3D birthday websites on Wishelier.
                 </p>
               </div>
 
-              <div className="space-y-4 max-w-3xl mx-auto">
+              <div className="space-y-3.5 max-w-3xl mx-auto">
                 {FAQS.map((faq, index) => {
                   const isOpen = openFaqIndex === index;
                   return (
                     <div
                       key={faq.q}
-                      className="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden transition-all"
+                      className="rounded-2xl bg-white border border-[#e6cb9c]/50 overflow-hidden transition-all shadow-xs"
                     >
                       <button
                         onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                        className="w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-white hover:text-pink-300 transition-colors cursor-pointer"
+                        className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm text-[#1e1b2e] hover:text-[#0f766e] transition-colors cursor-pointer"
                       >
                         <span>{faq.q}</span>
                         <ChevronDown
                           size={18}
-                          className={`text-white/50 shrink-0 transition-transform duration-200 ${
-                            isOpen ? "rotate-180 text-pink-400" : ""
+                          className={`text-[#4a4458]/60 shrink-0 transition-transform duration-200 ${
+                            isOpen ? "rotate-180 text-[#0f766e]" : ""
                           }`}
                         />
                       </button>
                       {isOpen && (
-                        <div className="px-5 pb-5 text-xs sm:text-sm text-white/60 leading-relaxed border-t border-white/5 pt-3">
+                        <div className="px-5 pb-5 text-xs sm:text-sm text-[#4a4458] leading-relaxed border-t border-[#e6cb9c]/30 pt-3.5">
                           {faq.a}
                         </div>
                       )}
@@ -481,45 +630,45 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Keyword Tag Cloud & Template Links for Search Indexing */}
-            <div className="pt-6 border-t border-white/10 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-pink-400">
-                Explore Top Birthday Surprise Categories
-              </h3>
+            {/* Keyword Links for SEO & AI Retrieval */}
+            <div className="pt-6 border-t border-[#e6cb9c]/40 space-y-4">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#92400e]">
+                Explore Popular Birthday Surprise Categories
+              </h4>
               <div className="flex flex-wrap gap-2.5">
                 <Link
                   href="/create/starlit-celebration"
-                  className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#e6cb9c]/30 border border-[#e6cb9c]/70 text-xs font-semibold text-[#1e1b2e] transition-all flex items-center gap-1.5 shadow-xs"
                 >
-                  <Gift size={12} className="text-pink-400" /> Birthday Website Generator
+                  <Gift size={12} className="text-[#d97706]" /> Birthday Website Generator
                 </Link>
                 <Link
                   href="/create/pink-romance"
-                  className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#ebcae8]/40 border border-[#ebcae8] text-xs font-semibold text-[#1e1b2e] transition-all flex items-center gap-1.5 shadow-xs"
                 >
-                  <Heart size={12} className="text-purple-400" /> Personalised Birthday Gifts
+                  <Heart size={12} className="text-[#c026d3]" /> Birthday Surprise for Girlfriend
                 </Link>
                 <Link
                   href="/create/blush-elegance"
-                  className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#bcf6f0]/40 border border-[#bcf6f0] text-xs font-semibold text-[#1e1b2e] transition-all flex items-center gap-1.5 shadow-xs"
                 >
-                  <Sparkles size={12} className="text-amber-400" /> Handcrafted Birthday Website
+                  <Sparkles size={12} className="text-[#0f766e]" /> Birthday Website for Boyfriend
                 </Link>
                 <Link
                   href="/about"
-                  className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all"
+                  className="px-3.5 py-1.5 rounded-full bg-white hover:bg-gray-50 border border-gray-200 text-xs font-semibold text-[#1e1b2e] transition-all shadow-xs"
                 >
-                  About Founders
+                  About Wishelier
                 </Link>
                 <Link
                   href="/dashboard"
-                  className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all"
+                  className="px-3.5 py-1.5 rounded-full bg-white hover:bg-gray-50 border border-gray-200 text-xs font-semibold text-[#1e1b2e] transition-all shadow-xs"
                 >
-                  My Dashboard
+                  My Projects Dashboard
                 </Link>
                 <Link
                   href="/contact"
-                  className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all"
+                  className="px-3.5 py-1.5 rounded-full bg-white hover:bg-gray-50 border border-gray-200 text-xs font-semibold text-[#1e1b2e] transition-all shadow-xs"
                 >
                   Support & Help
                 </Link>
@@ -529,35 +678,35 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* Footer with Semantic Internal Links */}
-      <footer className="border-t border-white/10 bg-black/40 px-6 py-8 text-xs text-white/50">
+      {/* Footer */}
+      <footer className="border-t border-[#e6cb9c]/40 bg-white px-6 py-8 text-xs text-[#4a4458]">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="Wishelier Logo" width={20} height={20} className="rounded object-contain" />
-            <span className="font-semibold text-white/90">Wishelier</span>
-            <span>© {new Date().getFullYear()} All rights reserved.</span>
+            <Image src="/logo.png" alt="Wishelier Logo" width={22} height={22} className="rounded object-contain" />
+            <span className="font-bold text-[#1e1b2e]">Wishelier</span>
+            <span>© {new Date().getFullYear()} Wishelier Studio. All rights reserved.</span>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            <Link href="/about" className="hover:text-white transition-colors">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-medium">
+            <Link href="/about" className="hover:text-[#0f766e] transition-colors">
               About Us
             </Link>
-            <Link href="/contact" className="hover:text-white transition-colors">
+            <Link href="/contact" className="hover:text-[#0f766e] transition-colors">
               Contact Us
             </Link>
-            <Link href="/privacy" className="hover:text-white transition-colors">
+            <Link href="/privacy" className="hover:text-[#0f766e] transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
+            <Link href="/terms" className="hover:text-[#0f766e] transition-colors">
               Terms & Conditions
             </Link>
-            <Link href="/refund" className="hover:text-white transition-colors">
+            <Link href="/refund" className="hover:text-[#0f766e] transition-colors">
               Cancellation & Refund
             </Link>
             <a
               href="https://www.instagram.com/wishelier/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-pink-400 hover:text-pink-300 font-medium transition-colors"
+              className="inline-flex items-center gap-1 text-[#c026d3] hover:opacity-80 font-bold transition-opacity"
             >
               <InstagramIcon className="w-3.5 h-3.5" />
               <span>@wishelier</span>

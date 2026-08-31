@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, Loader2, Sparkles, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 type Step = "email" | "otp" | "password";
@@ -102,11 +103,7 @@ export default function SignupPage() {
   const currentStepIdx = step === "email" ? 0 : step === "otp" ? 1 : 2;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4 py-8">
-      <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-pink-500/5 pointer-events-none" />
-      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-pink-500/10 rounded-full blur-[100px] pointer-events-none" />
-
+    <div className="min-h-screen bg-[#faf7f2] flex items-center justify-center px-4 py-8">
       <motion.div
         className="relative z-10 w-full max-w-sm"
         initial={{ opacity: 0, y: 20 }}
@@ -115,13 +112,13 @@ export default function SignupPage() {
         {/* Logo */}
         <div className="text-center mb-6">
           <Link href="/" className="inline-flex items-center gap-2">
-            <Sparkles size={20} className="text-pink-400" />
-            <span className="text-xl font-bold bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-transparent">
+            <Image src="/logo.png" alt="Wishelier" width={32} height={32} className="rounded-lg object-contain" />
+            <span className="text-xl font-bold bg-gradient-to-r from-[#d97706] via-[#c026d3] to-[#0f766e] bg-clip-text text-transparent">
               Wishelier
             </span>
           </Link>
-          <h1 className="text-xl sm:text-2xl font-bold text-white mt-3 mb-1">Create your account</h1>
-          <p className="text-xs sm:text-sm text-white/40">Start creating birthday surprises</p>
+          <h1 className="text-2xl font-extrabold text-[#1e1b2e] mt-3 mb-1">Create your account</h1>
+          <p className="text-xs text-[#4a4458]">Start creating custom birthday surprise websites</p>
         </div>
 
         {/* Step indicators */}
@@ -132,26 +129,26 @@ export default function SignupPage() {
                 <div
                   className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                     i < currentStepIdx
-                      ? "bg-emerald-500 text-white"
+                      ? "bg-[#0f766e] text-white"
                       : i === currentStepIdx
-                      ? "bg-pink-500 text-white"
-                      : "bg-white/10 text-white/30"
+                      ? "bg-[#d97706] text-white"
+                      : "bg-gray-200 text-gray-400"
                   }`}
                 >
                   {i < currentStepIdx ? <CheckCircle2 size={14} /> : i + 1}
                 </div>
-                <span className={`text-xs ${i === currentStepIdx ? "text-white/70 font-medium" : "text-white/30"}`}>
+                <span className={`text-xs font-bold ${i === currentStepIdx ? "text-[#1e1b2e]" : "text-gray-400"}`}>
                   {s}
                 </span>
               </div>
               {i < steps.length - 1 && (
-                <div className={`flex-1 h-px max-w-[30px] sm:max-w-[40px] ${i < currentStepIdx ? "bg-emerald-500/50" : "bg-white/10"}`} />
+                <div className={`flex-1 h-0.5 max-w-[30px] sm:max-w-[40px] ${i < currentStepIdx ? "bg-[#0f766e]" : "bg-gray-200"}`} />
               )}
             </React.Fragment>
           ))}
         </div>
 
-        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 sm:p-6 backdrop-blur-sm overflow-hidden">
+        <div className="bg-white border border-[#e6cb9c]/60 rounded-3xl p-6 shadow-xl overflow-hidden">
           <AnimatePresence mode="wait">
             {/* STEP 1: Email */}
             {step === "email" && (
@@ -164,11 +161,11 @@ export default function SignupPage() {
                 exit={{ opacity: 0, x: -30 }}
               >
                 <div>
-                  <label className="text-xs text-white/50 uppercase tracking-wider mb-1.5 block">
+                  <label className="text-xs text-[#4a4458] font-bold uppercase tracking-wider mb-1.5 block">
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+                    <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                     <input
                       type="email"
                       value={email}
@@ -180,22 +177,22 @@ export default function SignupPage() {
                       placeholder="you@example.com"
                       required
                       autoFocus
-                      className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-pink-500/40 focus:border-pink-500/40 transition-all"
+                      className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#e6cb9c]/70 rounded-xl text-[#1e1b2e] text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#e6cb9c] font-medium"
                     />
                   </div>
-                  <p className="text-xs text-white/30 mt-1.5">We&apos;ll send a verification code</p>
+                  <p className="text-[11px] text-[#4a4458]/70 mt-1.5">We&apos;ll send a verification OTP</p>
                 </div>
 
                 {error && (
-                  <div className="text-xs sm:text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl p-3 space-y-2">
+                  <div className="text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-xl p-3 space-y-2">
                     <div className="flex items-start gap-2">
-                      <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                      <AlertCircle size={15} className="shrink-0 mt-0.5" />
                       <span>{error}</span>
                     </div>
                     {isExistingAccount && (
                       <Link
                         href={`/login?email=${encodeURIComponent(email)}`}
-                        className="inline-flex items-center gap-1 text-xs text-pink-400 hover:text-pink-300 font-semibold underline underline-offset-4 pt-1"
+                        className="inline-flex items-center gap-1 text-xs text-[#0f766e] font-bold underline underline-offset-4 pt-1"
                       >
                         <span>Click here to Log In instead</span>
                         <ArrowRight size={12} />
@@ -207,7 +204,7 @@ export default function SignupPage() {
                 <motion.button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   whileHover={!loading ? { scale: 1.02 } : {}}
                   whileTap={!loading ? { scale: 0.98 } : {}}
                 >
@@ -228,11 +225,11 @@ export default function SignupPage() {
                 exit={{ opacity: 0, x: -30 }}
               >
                 <div className="text-center mb-2">
-                  <p className="text-sm text-white/50">Code sent to</p>
-                  <p className="text-sm text-white font-medium truncate max-w-[240px] mx-auto">{email}</p>
+                  <p className="text-xs text-[#4a4458]">Code sent to</p>
+                  <p className="text-xs font-bold text-[#1e1b2e] truncate max-w-[240px] mx-auto">{email}</p>
                 </div>
                 <div>
-                  <label className="text-xs text-white/50 uppercase tracking-wider mb-1.5 block">
+                  <label className="text-xs text-[#4a4458] font-bold uppercase tracking-wider mb-1.5 block">
                     Verification Code
                   </label>
                   <input
@@ -243,15 +240,15 @@ export default function SignupPage() {
                     required
                     maxLength={6}
                     autoFocus
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-center text-xl sm:text-2xl font-bold tracking-[0.4em] placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-pink-500/40 focus:border-pink-500/40 transition-all"
+                    className="w-full px-4 py-2.5 bg-white border border-[#e6cb9c]/70 rounded-xl text-[#1e1b2e] text-center text-xl font-bold tracking-[0.4em] focus:outline-none focus:ring-2 focus:ring-[#e6cb9c]"
                   />
-                  <p className="text-xs text-white/30 mt-1.5 text-center">Check your inbox (expires in 10 minutes)</p>
+                  <p className="text-[11px] text-[#4a4458]/70 mt-1.5 text-center">Check your inbox (valid for 10 minutes)</p>
                 </div>
-                {error && <p className="text-xs sm:text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl p-3">{error}</p>}
+                {error && <p className="text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-xl p-3">{error}</p>}
                 <motion.button
                   type="submit"
                   disabled={loading || otp.length < 6}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   whileHover={!loading ? { scale: 1.02 } : {}}
                   whileTap={!loading ? { scale: 0.98 } : {}}
                 >
@@ -268,11 +265,15 @@ export default function SignupPage() {
                       handleEmailSubmit({ preventDefault: () => {} } as React.FormEvent);
                     }}
                     disabled={loading}
-                    className="text-xs text-pink-400 hover:text-pink-300 transition-colors font-medium disabled:opacity-50 cursor-pointer"
+                    className="text-xs text-[#0f766e] font-bold hover:underline disabled:opacity-50 cursor-pointer"
                   >
                     Resend Code
                   </button>
-                  <button type="button" onClick={() => setStep("email")} className="text-xs text-white/30 hover:text-white/50 transition-colors cursor-pointer">
+                  <button
+                    type="button"
+                    onClick={() => setStep("email")}
+                    className="text-xs text-gray-400 hover:text-gray-600 cursor-pointer font-medium"
+                  >
                     ← Change email
                   </button>
                 </div>
@@ -290,13 +291,13 @@ export default function SignupPage() {
                 exit={{ opacity: 0, x: -30 }}
               >
                 <div className="text-center mb-2">
-                  <CheckCircle2 size={32} className="text-emerald-400 mx-auto mb-2" />
-                  <p className="text-sm text-white/50">Email verified! Set your password.</p>
+                  <CheckCircle2 size={32} className="text-[#0f766e] mx-auto mb-2" />
+                  <p className="text-xs font-semibold text-[#4a4458]">Email verified! Set your password.</p>
                 </div>
                 <div>
-                  <label className="text-xs text-white/50 uppercase tracking-wider mb-1.5 block">Password</label>
+                  <label className="text-xs text-[#4a4458] font-bold uppercase tracking-wider mb-1.5 block">Password</label>
                   <div className="relative">
-                    <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+                    <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                     <input
                       type={showPassword ? "text" : "password"}
                       value={password}
@@ -305,36 +306,36 @@ export default function SignupPage() {
                       required
                       minLength={8}
                       autoFocus
-                      className="w-full pl-10 pr-10 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-pink-500/40 focus:border-pink-500/40 transition-all"
+                      className="w-full pl-10 pr-10 py-2.5 bg-white border border-[#e6cb9c]/70 rounded-xl text-[#1e1b2e] text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#e6cb9c] font-medium"
                     />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60">
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                       {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
                   <div className="flex gap-1 mt-2">
                     {[...Array(4)].map((_, i) => (
-                      <div key={i} className={`h-1 flex-1 rounded-full transition-all ${password.length > i * 2 ? i < 2 ? "bg-red-500" : i < 3 ? "bg-amber-500" : "bg-emerald-500" : "bg-white/10"}`} />
+                      <div key={i} className={`h-1 flex-1 rounded-full transition-all ${password.length > i * 2 ? i < 2 ? "bg-red-500" : i < 3 ? "bg-amber-500" : "bg-emerald-500" : "bg-gray-200"}`} />
                     ))}
                   </div>
                 </div>
-                {error && <p className="text-xs sm:text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl p-3">{error}</p>}
+                {error && <p className="text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-xl p-3">{error}</p>}
                 <motion.button
                   type="submit"
                   disabled={loading || password.length < 8}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   whileHover={!loading ? { scale: 1.02 } : {}}
                   whileTap={!loading ? { scale: 0.98 } : {}}
                 >
                   {loading && <Loader2 size={16} className="animate-spin" />}
-                  {loading ? "Creating account..." : "Create Account 🎉"}
+                  {loading ? "Creating account..." : "Complete & Open Studio 🎉"}
                 </motion.button>
               </motion.form>
             )}
           </AnimatePresence>
 
-          <p className="text-center text-xs sm:text-sm text-white/40 mt-5">
+          <p className="text-center text-xs text-[#4a4458] mt-5">
             Already have an account?{" "}
-            <Link href="/login" className="text-pink-400 hover:text-pink-300 transition-colors font-medium">
+            <Link href="/login" className="text-[#0f766e] font-bold hover:underline">
               Sign in
             </Link>
           </p>

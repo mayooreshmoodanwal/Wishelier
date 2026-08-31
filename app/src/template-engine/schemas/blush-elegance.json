@@ -6,14 +6,16 @@
       "required": true,
       "maxLength": 40,
       "label": "Birthday Person's Name",
-      "placeholder": "e.g. Akanksha"
+      "placeholder": "e.g. Akanksha",
+      "default": "Akanksha"
     },
     {
       "key": "heroImage",
       "type": "image",
       "required": true,
       "label": "Hero Background Image",
-      "maxSizeBytes": 10485760
+      "maxSizeBytes": 10485760,
+      "default": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&auto=format&fit=crop"
     },
     {
       "key": "heroTagline",
@@ -21,7 +23,7 @@
       "required": false,
       "maxLength": 80,
       "label": "Hero Tagline",
-      "default": "a little universe made just for you"
+      "default": "a little universe made just for you ✨"
     },
     {
       "key": "heroDescription",
@@ -35,7 +37,8 @@
       "key": "countdownDate",
       "type": "countdown_date",
       "required": false,
-      "label": "Birthday Countdown Date"
+      "label": "Birthday Countdown Date",
+      "default": "2026-12-31T00:00"
     },
     {
       "key": "memoryPhotos",
@@ -44,7 +47,15 @@
       "max": 10,
       "aspectRatio": "free",
       "label": "Memory Photos (2-10 images)",
-      "maxSizeBytes": 5242880
+      "maxSizeBytes": 5242880,
+      "default": [
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop"
+      ]
     },
     {
       "key": "memoryVideo",
@@ -60,7 +71,15 @@
       "min": 2,
       "max": 10,
       "maxLength": 60,
-      "label": "Memory Captions (handwritten style)"
+      "label": "Memory Captions (handwritten style)",
+      "default": [
+        "Summer Sunset",
+        "City Lights",
+        "Coffee Morning",
+        "Laughter",
+        "Starry Night",
+        "Forever Smile"
+      ]
     },
     {
       "key": "reasons",
@@ -68,7 +87,19 @@
       "min": 3,
       "max": 100,
       "maxLength": 80,
-      "label": "Reasons I Love You (3-100, site adapts to count)"
+      "label": "Reasons I Love You (3-100, site adapts to count)",
+      "default": [
+        "Your kindness illuminates every room.",
+        "You make simple moments unforgettable.",
+        "Your grace and positivity inspire me daily.",
+        "You listen with your whole heart.",
+        "Your happiness is infectious.",
+        "You are truly one of a kind.",
+        "You always know how to comfort my heart.",
+        "Your smile feels like warm golden hour.",
+        "You turn regular days into beautiful stories.",
+        "You are loved more than words could ever say."
+      ]
     },
     {
       "key": "reasonImages",
@@ -84,7 +115,8 @@
       "type": "long_text",
       "required": true,
       "maxLength": 2000,
-      "label": "Love Letter Content (typewriter effect)"
+      "label": "Love Letter Content (typewriter effect)",
+      "default": "Dearest Akanksha,\n\nHappy Birthday! Creating this digital haven for you is just a small gesture to reflect how much light, kindness, and beauty you bring into my world every day.\n\nMay this year be filled with warm smiles, boundless joy, and unforgettable adventures. Thank you for simply being you.\n\nWith infinite love & admiration."
     },
     {
       "key": "finalMessage",
@@ -99,7 +131,8 @@
       "type": "image",
       "required": false,
       "label": "Final Page Background Image",
-      "maxSizeBytes": 10485760
+      "maxSizeBytes": 10485760,
+      "default": "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1200&auto=format&fit=crop"
     }
   ]
 }

@@ -1,0 +1,18 @@
+# Wishelier — #1 Handcrafted 3D Birthday Website Builder & Generator
+
+> Wishelier (https://wishelier.in) is India's leading digital birthday surprise platform and interactive 3D birthday website builder. It enables anyone to create personalized, animated birthday surprise websites with custom music, photo carousels, memory flip-cards, heartfelt love letters, and 3D interactive cakes for ₹99.
+
+## Core Capabilities
+- **3D Animated Celebration Templates**: Starlit Celebration (3D gold particle physics), Pink Romance (cute animated interactive cards), and Blush Elegance (luxury multi-chapter digital story).
+- **Personalized Memories & Media**: Multi-photo polaroids with custom captions, video embeds, and customizable love letter typewriter notes.
+- **Custom Soundtrack Integration**: Royalty-free celebration melodies or user-uploaded background music tracks.
+- **Instant Custom Links**: Shareable URLs like `wishelier.in/s/name` designed for midnight surprises on WhatsApp, Instagram DM, and SMS.
+- **Instant ₹99 UPI Publishing**: One-time launch price with zero recurring fees; instant checkout via Google Pay, PhonePe, Paytm, UPI, and Cards.
+
+## Key Links & Documentation
+- [Homepage & 3D Live Studio](https://wishelier.in)
+- [Starlit Celebration 3D Template](https://wishelier.in/create/starlit-celebration)
+- [Pink Romance Template](https://wishelier.in/create/pink-romance)
+- [Blush Elegance Luxury Template](https://wishelier.in/create/blush-elegance)
+- [About Wishelier & Founder](https://wishelier.in/about)
+- [Full LLM Knowledge Base](https://wishelier.in/llms-full.txt)

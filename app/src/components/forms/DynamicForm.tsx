@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload,
   X,
@@ -14,6 +14,8 @@ import {
   Type,
   AlignLeft,
   List,
+  Sparkles,
+  Wand2,
 } from "lucide-react";
 import type { TemplateField, TemplateSchema } from "@/types";
 
@@ -43,6 +45,28 @@ const MUSIC_LIBRARY: Record<string, string> = {
   custom_upload: "📁 Upload your own",
 };
 
+// Preset AI Wish & Letter Ideas for Instant Generation
+const AI_PRESETS: Record<string, string[]> = {
+  romantic_letter: [
+    "On this beautiful day, I want you to know how incredibly special you are to me. Your smile lights up every room, and your kindness inspires me daily. May this new year of your life bring you boundless joy, love, and all the dreams your heart holds dear.",
+    "Happy Birthday to my favorite person in the entire universe. Every moment spent with you is a memory I treasure. Thank you for filling my world with laughter, warmth, and pure magic. Here's to a lifetime of adventures together!",
+  ],
+  romantic_reasons: [
+    "Your laugh is my absolute favorite sound in the world.",
+    "You have an unmatched kindness that touches everyone around you.",
+    "You always know how to make me smile even on difficult days.",
+    "You turn ordinary moments into timeless stories.",
+    "Your smile brings peace to my heart.",
+    "You inspire me to be a better person every single day.",
+  ],
+  friendship_wishes: [
+    "May your year ahead be as radiant, joyful, and wonderful as your soul!",
+    "Wishing you endless success, golden opportunities, and endless laughter.",
+    "Like a sunflower, may you always turn towards the light and bloom beautifully.",
+    "Here's to celebrating the most incredible human today and always!",
+  ],
+};
+
 export default function DynamicForm({
   schema,
   values,
@@ -50,7 +74,7 @@ export default function DynamicForm({
   onMediaUpload,
 }: DynamicFormProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {schema.fields.map((field) => (
         <FieldRenderer
           key={field.key}
@@ -79,15 +103,35 @@ function FieldRenderer({
 
   return (
     <motion.div
-      className="rounded-xl bg-white/5 border border-white/10 p-5"
+      className="rounded-2xl bg-white/70 backdrop-blur-md border border-[#e6cb9c]/40 p-5 shadow-sm hover:shadow-md transition-all"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <label className="flex items-center gap-2 text-sm font-medium text-white/90 mb-3">
-        <Icon size={16} className="text-pink-400" />
-        {field.label}
-        {field.required && <span className="text-red-400">*</span>}
-      </label>
+      <div className="flex items-center justify-between gap-2 mb-3">
+        <label className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#1e1b2e]">
+          <span className="p-1.5 rounded-lg bg-[#bcf6f0]/50 text-[#0f766e]">
+            <Icon size={15} />
+          </span>
+          <span>{field.label}</span>
+          {field.required && <span className="text-pink-500 font-bold">*</span>}
+        </label>
+
+        {/* AI Quick Generator for text/letter/reasons */}
+        {(field.type === "long_text" || field.key === "specialMessage" || field.key === "letterContent") && (
+          <button
+            type="button"
+            onClick={() => {
+              const options = AI_PRESETS.romantic_letter;
+              const pick = options[Math.floor(Math.random() * options.length)];
+              onChange(pick);
+            }}
+            className="flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-gradient-to-r from-[#ebcae8] to-[#bcf6f0] text-[#1e1b2e] hover:opacity-90 transition-all cursor-pointer shadow-xs"
+          >
+            <Sparkles size={11} className="text-[#86198f]" />
+            <span>AI Wish Ideas</span>
+          </button>
+        )}
+      </div>
 
       {field.type === "text" && (
         <TextInput field={field} value={value as string} onChange={onChange} />
@@ -150,7 +194,7 @@ function FieldRenderer({
       )}
 
       {field.note && (
-        <p className="text-xs text-white/40 mt-2">{field.note}</p>
+        <p className="text-[11px] text-[#4a4458]/70 mt-2 font-medium">{field.note}</p>
       )}
     </motion.div>
   );
@@ -159,32 +203,34 @@ function FieldRenderer({
 // --- Field Components ---
 
 function TextInput({ field, value, onChange }: { field: TemplateField; value: string; onChange: (v: string) => void }) {
+  const displayVal = value !== undefined && value !== null ? value : (field.default as string) || "";
   return (
     <input
       type="text"
-      value={value || field.default || ""}
+      value={displayVal}
       onChange={(e) => onChange(e.target.value)}
       placeholder={field.placeholder || ""}
       maxLength={field.maxLength}
-      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition-all"
+      className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#e6cb9c]/60 text-[#1e1b2e] text-sm placeholder:text-[#4a4458]/40 focus:outline-none focus:ring-2 focus:ring-[#e6cb9c] transition-all font-medium"
     />
   );
 }
 
 function LongTextInput({ field, value, onChange }: { field: TemplateField; value: string; onChange: (v: string) => void }) {
+  const displayVal = value !== undefined && value !== null ? value : (field.default as string) || "";
   return (
     <div>
       <textarea
-        value={value || field.default || ""}
+        value={displayVal}
         onChange={(e) => onChange(e.target.value)}
         placeholder={field.placeholder || ""}
         maxLength={field.maxLength}
         rows={5}
-        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition-all resize-y"
+        className="w-full px-4 py-3 rounded-xl bg-white border border-[#e6cb9c]/60 text-[#1e1b2e] text-sm placeholder:text-[#4a4458]/40 focus:outline-none focus:ring-2 focus:ring-[#e6cb9c] transition-all resize-y font-medium leading-relaxed"
       />
       {field.maxLength && (
-        <p className="text-right text-xs text-white/30 mt-1">
-          {(value || "").length}/{field.maxLength}
+        <p className="text-right text-xs text-[#4a4458]/60 mt-1 font-medium">
+          {(displayVal || "").length}/{field.maxLength}
         </p>
       )}
     </div>
@@ -222,21 +268,25 @@ function SingleImageUpload({
   return (
     <div>
       {hasValue ? (
-        <div className="relative w-32 h-32 rounded-xl overflow-hidden group">
+        <div className="relative w-32 h-32 rounded-2xl overflow-hidden group shadow-md border border-[#e6cb9c]/60">
           <img src={value} alt="Uploaded" className="w-full h-full object-cover" />
           <button
+            type="button"
             onClick={() => onChange("")}
-            className="absolute top-1 right-1 p-1 rounded-full bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
           >
-            <X size={14} className="text-white" />
+            <X size={14} />
           </button>
         </div>
       ) : (
-        <label className="flex items-center justify-center w-32 h-32 rounded-xl border-2 border-dashed border-white/20 cursor-pointer hover:border-pink-400/50 transition-colors">
+        <label className="flex flex-col items-center justify-center w-32 h-32 rounded-2xl border-2 border-dashed border-[#e6cb9c] bg-white/50 cursor-pointer hover:bg-[#bcf6f0]/20 hover:border-[#0f766e] transition-all group">
           {uploading ? (
-            <div className="animate-spin w-6 h-6 border-2 border-pink-400 border-t-transparent rounded-full" />
+            <div className="animate-spin w-6 h-6 border-2 border-pink-500 border-t-transparent rounded-full" />
           ) : (
-            <Upload size={24} className="text-white/30" />
+            <>
+              <Upload size={22} className="text-[#4a4458]/50 group-hover:text-[#0f766e] transition-colors mb-1" />
+              <span className="text-[10px] font-semibold text-[#4a4458]/70">Upload Image</span>
+            </>
           )}
           <input type="file" accept="image/*" className="hidden" onChange={handleUpload} />
         </label>
@@ -258,13 +308,18 @@ function MultiImageUpload({
 }) {
   const [uploading, setUploading] = useState(false);
 
+  const initialList =
+    Array.isArray(value) && value.length > 0
+      ? value
+      : (field.default as unknown as string[]) || [];
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
     try {
       const url = await onUpload(field.key, file);
-      onChange([...value, url]);
+      onChange([...initialList, url]);
     } catch (err) {
       console.error("Upload failed:", err);
     }
@@ -272,40 +327,43 @@ function MultiImageUpload({
   };
 
   const removeImage = (idx: number) => {
-    onChange(value.filter((_, i) => i !== idx));
+    onChange(initialList.filter((_, i) => i !== idx));
   };
 
   const max = field.max || 10;
-
-  const validImages = (value || []).filter((u) => typeof u === "string" && u.trim().length > 0);
+  const validImages = initialList.filter((u) => typeof u === "string" && u.trim().length > 0);
 
   return (
     <div>
       <div className="flex flex-wrap gap-3">
         {validImages.map((url, i) => (
-          <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden group">
+          <div key={i} className="relative w-24 h-24 rounded-xl overflow-hidden group shadow-sm border border-[#e6cb9c]/60">
             <img src={url} alt="" className="w-full h-full object-cover" />
             <button
+              type="button"
               onClick={() => removeImage(i)}
-              className="absolute top-1 right-1 p-0.5 rounded-full bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-1 right-1 p-1 rounded-full bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
             >
-              <X size={12} className="text-white" />
+              <X size={12} />
             </button>
           </div>
         ))}
         {validImages.length < max && (
-          <label className="flex items-center justify-center w-24 h-24 rounded-lg border-2 border-dashed border-white/20 cursor-pointer hover:border-pink-400/50 transition-colors">
+          <label className="flex flex-col items-center justify-center w-24 h-24 rounded-xl border-2 border-dashed border-[#e6cb9c] bg-white/50 cursor-pointer hover:border-[#0f766e] hover:bg-[#bcf6f0]/20 transition-all group">
             {uploading ? (
-              <div className="animate-spin w-5 h-5 border-2 border-pink-400 border-t-transparent rounded-full" />
+              <div className="animate-spin w-5 h-5 border-2 border-pink-500 border-t-transparent rounded-full" />
             ) : (
-              <Plus size={20} className="text-white/30" />
+              <>
+                <Plus size={18} className="text-[#4a4458]/50 group-hover:text-[#0f766e] transition-colors mb-1" />
+                <span className="text-[9px] font-semibold text-[#4a4458]/70">Add Photo</span>
+              </>
             )}
             <input type="file" accept="image/*" className="hidden" onChange={handleUpload} />
           </label>
         )}
       </div>
-      <p className="text-xs text-white/30 mt-2">
-        {value.length}/{max} images (min {field.min || 0})
+      <p className="text-xs text-[#4a4458]/60 mt-2 font-medium">
+        {validImages.length}/{max} photos (min {field.min || 0})
       </p>
     </div>
   );
@@ -338,23 +396,24 @@ function VideoUpload({
   };
 
   return value ? (
-    <div className="relative max-w-xs rounded-xl overflow-hidden group">
+    <div className="relative max-w-xs rounded-2xl overflow-hidden group shadow-md border border-[#e6cb9c]">
       <video src={value} controls className="w-full" />
       <button
+        type="button"
         onClick={() => onChange("")}
-        className="absolute top-2 right-2 p-1 rounded-full bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute top-2 right-2 p-1.5 rounded-full bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
       >
-        <X size={14} className="text-white" />
+        <X size={14} />
       </button>
     </div>
   ) : (
-    <label className="flex items-center justify-center w-48 h-32 rounded-xl border-2 border-dashed border-white/20 cursor-pointer hover:border-pink-400/50 transition-colors gap-2">
+    <label className="flex items-center justify-center w-48 h-28 rounded-2xl border-2 border-dashed border-[#e6cb9c] bg-white/50 cursor-pointer hover:border-[#0f766e] transition-all gap-2 group">
       {uploading ? (
-        <div className="animate-spin w-6 h-6 border-2 border-pink-400 border-t-transparent rounded-full" />
+        <div className="animate-spin w-6 h-6 border-2 border-pink-500 border-t-transparent rounded-full" />
       ) : (
         <>
-          <Video size={20} className="text-white/30" />
-          <span className="text-xs text-white/30">Upload video</span>
+          <Video size={18} className="text-[#4a4458]/50 group-hover:text-[#0f766e]" />
+          <span className="text-xs font-semibold text-[#4a4458]/70">Upload video</span>
         </>
       )}
       <input type="file" accept="video/*" className="hidden" onChange={handleUpload} />
@@ -389,20 +448,24 @@ function AudioUpload({
   };
 
   return value ? (
-    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+    <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-[#e6cb9c]/60 shadow-xs">
       <audio src={value} controls className="flex-1 h-8" />
-      <button onClick={() => onChange("")} className="p-1 rounded-full hover:bg-white/10 transition-colors">
-        <X size={14} className="text-white/60" />
+      <button
+        type="button"
+        onClick={() => onChange("")}
+        className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+      >
+        <X size={14} className="text-gray-500" />
       </button>
     </div>
   ) : (
-    <label className="flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-dashed border-white/20 cursor-pointer hover:border-pink-400/50 transition-colors">
+    <label className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl border-2 border-dashed border-[#e6cb9c] bg-white/50 cursor-pointer hover:border-[#0f766e] transition-all group">
       {uploading ? (
-        <div className="animate-spin w-5 h-5 border-2 border-pink-400 border-t-transparent rounded-full" />
+        <div className="animate-spin w-5 h-5 border-2 border-pink-500 border-t-transparent rounded-full" />
       ) : (
         <>
-          <Music size={16} className="text-white/30" />
-          <span className="text-sm text-white/30">Upload audio</span>
+          <Music size={16} className="text-[#4a4458]/50 group-hover:text-[#0f766e]" />
+          <span className="text-xs font-semibold text-[#4a4458]/70">Upload custom audio</span>
         </>
       )}
       <input type="file" accept="audio/*" className="hidden" onChange={handleUpload} />
@@ -419,22 +482,28 @@ function MusicSelect({
   value: string;
   onChange: (v: string) => void;
 }) {
+  const selected = value || (field.default as string) || "royalty_free_1";
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-      {(field.options || Object.keys(MUSIC_LIBRARY)).map((option) => (
-        <button
-          key={option}
-          onClick={() => onChange(option)}
-          className="px-4 py-3 rounded-lg text-sm text-left transition-all"
-          style={{
-            backgroundColor: value === option ? "rgba(244,114,182,0.2)" : "rgba(255,255,255,0.03)",
-            border: value === option ? "1px solid rgba(244,114,182,0.5)" : "1px solid rgba(255,255,255,0.08)",
-            color: value === option ? "#f472b6" : "rgba(255,255,255,0.6)",
-          }}
-        >
-          {MUSIC_LIBRARY[option] || option}
-        </button>
-      ))}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      {(field.options || Object.keys(MUSIC_LIBRARY)).map((option) => {
+        const isSel = selected === option;
+        return (
+          <button
+            key={option}
+            type="button"
+            onClick={() => onChange(option)}
+            className="px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer shadow-xs"
+            style={{
+              backgroundColor: isSel ? "#bcf6f0" : "rgba(255,255,255,0.9)",
+              border: isSel ? "1.5px solid #0f766e" : "1px solid rgba(230, 203, 156, 0.6)",
+              color: isSel ? "#0f766e" : "#1e1b2e",
+            }}
+          >
+            {MUSIC_LIBRARY[option] || option}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -451,60 +520,81 @@ function TextArrayInput({
   const min = field.min || 1;
   const max = field.max || 10;
 
+  const currentList =
+    Array.isArray(value) && value.length > 0
+      ? value
+      : (field.default as unknown as string[]) || [];
+
   const updateItem = (idx: number, text: string) => {
-    const next = [...value];
+    const next = [...currentList];
     next[idx] = text;
     onChange(next);
   };
 
   const addItem = () => {
-    if (value.length < max) {
-      onChange([...value, ""]);
+    if (currentList.length < max) {
+      onChange([...currentList, ""]);
     }
   };
 
   const removeItem = (idx: number) => {
-    if (value.length > min) {
-      onChange(value.filter((_, i) => i !== idx));
+    if (currentList.length > min) {
+      onChange(currentList.filter((_, i) => i !== idx));
     }
   };
 
-  // Initialize with minimum items
-  React.useEffect(() => {
-    if (value.length < min) {
-      onChange([...value, ...Array(min - value.length).fill("")]);
+  const autofillIdeas = () => {
+    if (field.key === "reasons") {
+      onChange(AI_PRESETS.romantic_reasons);
+    } else if (field.key === "wishes") {
+      onChange(AI_PRESETS.friendship_wishes);
     }
-  }, []);
+  };
 
   return (
-    <div className="space-y-2">
-      {value.map((item, i) => (
+    <div className="space-y-2.5">
+      {field.key === "reasons" && (
+        <div className="flex justify-end mb-1">
+          <button
+            type="button"
+            onClick={autofillIdeas}
+            className="flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#ebcae8]/60 hover:bg-[#ebcae8] text-[#86198f] transition-all cursor-pointer"
+          >
+            <Wand2 size={11} /> <span>Fill with AI Reasons</span>
+          </button>
+        </div>
+      )}
+
+      {currentList.map((item, i) => (
         <div key={i} className="flex items-center gap-2">
-          <span className="text-xs text-white/30 w-6 text-right">{i + 1}.</span>
+          <span className="text-xs font-bold text-[#4a4458]/60 w-5 text-right">{i + 1}.</span>
           <input
             type="text"
             value={item}
             onChange={(e) => updateItem(i, e.target.value)}
-            placeholder={field.placeholders?.[i] || `Item ${i + 1}`}
+            placeholder={field.placeholders?.[i] || `Message or Reason ${i + 1}`}
             maxLength={field.maxLength}
-            className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+            className="flex-1 px-3.5 py-2.5 rounded-xl bg-white border border-[#e6cb9c]/60 text-[#1e1b2e] text-sm placeholder:text-[#4a4458]/40 focus:outline-none focus:ring-2 focus:ring-[#e6cb9c] font-medium"
           />
-          {value.length > min && (
+          {currentList.length > min && (
             <button
+              type="button"
               onClick={() => removeItem(i)}
-              className="p-1.5 rounded-lg hover:bg-red-500/20 transition-colors"
+              className="p-2 rounded-xl text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
             >
-              <Minus size={14} className="text-red-400" />
+              <Minus size={15} />
             </button>
           )}
         </div>
       ))}
-      {value.length < max && (
+
+      {currentList.length < max && (
         <button
+          type="button"
           onClick={addItem}
-          className="flex items-center gap-2 text-xs text-pink-400 hover:text-pink-300 transition-colors mt-2"
+          className="flex items-center gap-1.5 text-xs font-semibold text-[#0f766e] hover:text-[#115e59] transition-colors mt-2 px-3 py-1.5 rounded-lg hover:bg-[#bcf6f0]/30 cursor-pointer"
         >
-          <Plus size={14} /> Add another ({value.length}/{max})
+          <Plus size={14} /> Add another item ({currentList.length}/{max})
         </button>
       )}
     </div>
@@ -512,12 +602,13 @@ function TextArrayInput({
 }
 
 function DateInput({ field, value, onChange }: { field: TemplateField; value: string; onChange: (v: string) => void }) {
+  const displayVal = value || (field.default as string) || "2026-12-31T00:00";
   return (
     <input
       type="datetime-local"
-      value={value || ""}
+      value={displayVal}
       onChange={(e) => onChange(e.target.value)}
-      className="px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition-all"
+      className="px-4 py-2.5 rounded-xl bg-white border border-[#e6cb9c]/60 text-[#1e1b2e] text-sm focus:outline-none focus:ring-2 focus:ring-[#e6cb9c] transition-all font-medium shadow-xs"
     />
   );
 }

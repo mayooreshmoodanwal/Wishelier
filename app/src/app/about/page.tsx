@@ -1,11 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Heart, Globe, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Heart, Globe, ShieldCheck, Sparkles } from "lucide-react";
 
 export const metadata = {
-  title: "About Us | Wishelier — Birthday Surprise Websites",
-  description: "Meet the founders of Wishelier: Udit Agarwal, Ayush Kumar Singh, and Divyansh Agarwal. Learn how we build interactive digital birthday surprises.",
+  title: "About Us | Wishelier — Best Birthday Website Builder",
+  description:
+    "Meet the founder of Wishelier: Ayush Kumar Singh. Learn how we build interactive 3D digital birthday surprise websites with custom music, photo memories, and instant links.",
 };
 
 const LinkedinIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -23,52 +24,38 @@ const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 );
 
 const FOUNDERS = [
-  // {
-  //   name: "Udit Agarwal",
-  //   title: "Co-Founder & Lead Developer",
-  //   photo: "/founders/udit.png",
-  //   linkedin: "https://www.linkedin.com/in/udit-agarwal260/",
-  //   bio: "Passionate about full-stack engineering and building seamless, delightful digital experiences for celebrations.",
-  // },
   {
     name: "Ayush Kumar Singh",
-    title: "Founder",
+    title: "Founder & Lead Architect",
     photo: "/founders/ayush.png",
     linkedin: "https://www.linkedin.com/in/ayush-kumar-singh-781aa6337/",
-    bio: "Specializing in high-performance web applications, interactive canvas rendering, and scalable backend infrastructure.",
+    bio: "Specializing in high-performance interactive web applications, real-time 3D canvas animation, and scalable cloud infrastructure for celebration memories.",
   },
-  // {
-  //   name: "Divyansh Agarwal",
-  //   title: "Co-Founder & Product Lead",
-  //   photo: "/founders/divyansh.png",
-  //   linkedin: "https://www.linkedin.com/in/divyansh-agarwal2905/",
-  //   bio: "Focused on user experience design, creative animations, and crafting emotional surprise moments.",
-  // },
 ];
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white selection:bg-pink-500 selection:text-white">
+    <div className="min-h-screen bg-[#faf7f2] text-[#1e1b2e]">
       {/* Top Header */}
-      <header className="px-6 py-4 border-b border-white/10 bg-black/40 backdrop-blur-xl">
+      <header className="px-6 py-3.5 border-b border-[#e6cb9c]/40 bg-white/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
-            <Image src="/logo.png" alt="Wishelier Logo" width={32} height={32} className="rounded-lg shrink-0 object-contain" />
-            <span className="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
+            <Image src="/logo.png" alt="Wishelier Logo" width={30} height={30} className="rounded-lg shrink-0 object-contain" />
+            <span className="text-xl font-bold bg-gradient-to-r from-[#d97706] via-[#c026d3] to-[#0f766e] bg-clip-text text-transparent">
               Wishelier
             </span>
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3.5">
             <a
               href="https://www.instagram.com/wishelier/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-pink-500/30 text-xs text-pink-300 hover:text-white transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#ebcae8]/50 border border-[#ebcae8] text-xs font-semibold text-[#86198f] hover:opacity-80 transition-all shadow-xs"
             >
-              <InstagramIcon className="w-3.5 h-3.5 text-pink-400" />
+              <InstagramIcon className="w-3.5 h-3.5 text-[#c026d3]" />
               <span>@wishelier</span>
             </a>
-            <Link href="/" className="text-xs text-white/60 hover:text-white flex items-center gap-1.5 transition-colors">
+            <Link href="/" className="text-xs font-semibold text-[#4a4458] hover:text-[#1e1b2e] flex items-center gap-1.5 transition-colors">
               <ArrowLeft size={14} /> Back to Home
             </Link>
           </div>
@@ -79,85 +66,91 @@ export default function AboutPage() {
       <main className="max-w-5xl mx-auto px-6 py-16 space-y-16">
         {/* Hero Banner */}
         <div className="space-y-4 text-center">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20 uppercase tracking-wider">
-            <Image src="/logo.png" alt="Wishelier Icon" width={16} height={16} className="inline object-contain" />
-            <span>Our Vision</span>
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-1 rounded-full bg-[#bcf6f0]/60 text-[#0f766e] border border-[#0f766e]/30 uppercase tracking-wider">
+            <Sparkles size={13} className="text-[#0f766e]" />
+            <span>Our Mission</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-white via-white/90 to-white/60 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#1e1b2e] tracking-tight">
             Crafting Unforgettable Birthday Surprises
           </h1>
-          <p className="text-base sm:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
-            Wishelier turns ordinary birthday wishes into interactive, animated digital surprise websites filled with custom photo galleries, personalized notes, background music, and instant shareable links.
+          <p className="text-base sm:text-lg text-[#4a4458] max-w-2xl mx-auto leading-relaxed">
+            Wishelier turns ordinary birthday greetings into interactive, animated digital surprise websites filled with custom photo galleries, personalized notes, background music, and instant shareable links.
           </p>
         </div>
 
         {/* Feature Highlights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
-            <Heart size={28} className="text-pink-400" />
-            <h3 className="text-lg font-semibold">Made with Heart</h3>
-            <p className="text-xs text-white/50 leading-relaxed">
+          <div className="p-7 rounded-3xl bg-white border border-[#e6cb9c]/50 shadow-sm space-y-3">
+            <div className="w-11 h-11 rounded-2xl bg-[#ebcae8]/50 border border-[#ebcae8] flex items-center justify-center text-[#86198f]">
+              <Heart size={24} />
+            </div>
+            <h3 className="text-lg font-bold text-[#1e1b2e]">Made with Heart</h3>
+            <p className="text-xs sm:text-sm text-[#4a4458] leading-relaxed">
               Every template is designed with rich animations, glowing particle trails, and custom music to make every birthday person feel uniquely loved.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
-            <Globe size={28} className="text-purple-400" />
-            <h3 className="text-lg font-semibold">Instant Unique Links</h3>
-            <p className="text-xs text-white/50 leading-relaxed">
-              Get your personalized URL like <code className="text-pink-400">wishelier.in/s/sarah</code> instantly and share it on WhatsApp or Instagram.
+          <div className="p-7 rounded-3xl bg-white border border-[#e6cb9c]/50 shadow-sm space-y-3">
+            <div className="w-11 h-11 rounded-2xl bg-[#bcf6f0]/60 border border-[#bcf6f0] flex items-center justify-center text-[#0f766e]">
+              <Globe size={24} />
+            </div>
+            <h3 className="text-lg font-bold text-[#1e1b2e]">Instant Unique Links</h3>
+            <p className="text-xs sm:text-sm text-[#4a4458] leading-relaxed">
+              Get your personalized URL like <code className="text-[#0f766e] font-bold bg-[#bcf6f0]/40 px-1 rounded">wishelier.in/s/name</code> instantly and share it on WhatsApp or Instagram at midnight.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
-            <ShieldCheck size={28} className="text-amber-400" />
-            <h3 className="text-lg font-semibold">Affordable & Secure</h3>
-            <p className="text-xs text-white/50 leading-relaxed">
+          <div className="p-7 rounded-3xl bg-white border border-[#e6cb9c]/50 shadow-sm space-y-3">
+            <div className="w-11 h-11 rounded-2xl bg-[#e6cb9c]/50 border border-[#e6cb9c] flex items-center justify-center text-[#92400e]">
+              <ShieldCheck size={24} />
+            </div>
+            <h3 className="text-lg font-bold text-[#1e1b2e]">Affordable & Instant</h3>
+            <p className="text-xs sm:text-sm text-[#4a4458] leading-relaxed">
               Premium birthday websites published for just ₹99 with instant UPI payment via Google Pay, PhonePe, Paytm, or Cards.
             </p>
           </div>
         </div>
 
-        {/* MEET OUR FOUNDERS SECTION */}
-        <section className="space-y-8 pt-6">
+        {/* MEET OUR FOUNDER SECTION */}
+        <section className="space-y-8 pt-4">
           <div className="text-center space-y-2">
-            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 uppercase tracking-wider">
-              Leadership Team
+            <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#ebcae8]/50 text-[#86198f] uppercase tracking-wider">
+              Leadership
             </span>
-            <h2 className="text-2xl sm:text-4xl font-bold text-white">Meet Our Founder</h2>
-            <p className="text-xs sm:text-sm text-white/50 max-w-lg mx-auto">
-              The creative mind behind Wishelier building India&apos;s leading birthday surprise platform.
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-[#1e1b2e]">Meet the Creator</h2>
+            <p className="text-xs sm:text-sm text-[#4a4458]/80 max-w-lg mx-auto">
+              The engineer and designer behind Wishelier building India&apos;s leading birthday surprise platform.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
+          <div className="max-w-md mx-auto">
             {FOUNDERS.map((founder) => (
               <div
                 key={founder.name}
-                className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-pink-500/30 transition-all flex flex-col items-center text-center space-y-4 group relative overflow-hidden"
+                className="p-8 rounded-3xl bg-white border border-[#e6cb9c]/60 shadow-md hover:shadow-xl transition-all flex flex-col items-center text-center space-y-4 group relative overflow-hidden"
               >
-                <div className="relative w-42 h-42 rounded-full overflow-hidden border-2 border-pink-500/30 group-hover:border-pink-400 transition-all shadow-xl shadow-pink-500/10">
+                <div className="relative w-36 h-36 rounded-full overflow-hidden border-3 border-[#e6cb9c] shadow-lg group-hover:scale-105 transition-transform">
                   <Image
                     src={founder.photo}
                     alt={founder.name}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover"
                   />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-lg font-bold text-white">{founder.name}</h3>
-                  <p className="text-xs font-medium text-pink-400">{founder.title}</p>
+                  <h3 className="text-xl font-bold text-[#1e1b2e]">{founder.name}</h3>
+                  <p className="text-xs font-bold text-[#d97706]">{founder.title}</p>
                 </div>
-                <p className="text-xs text-white/50 leading-relaxed flex-1">
+                <p className="text-xs sm:text-sm text-[#4a4458] leading-relaxed">
                   {founder.bio}
                 </p>
                 <a
                   href={founder.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0077b5]/20 hover:bg-[#0077b5]/30 border border-[#0077b5]/40 text-xs font-semibold text-white transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0077b5] hover:bg-[#005f93] text-xs font-bold text-white transition-all shadow-sm"
                 >
-                  <LinkedinIcon className="w-3.5 h-3.5 text-[#0077b5]" />
+                  <LinkedinIcon className="w-3.5 h-3.5" />
                   <span>Connect on LinkedIn</span>
                 </a>
               </div>
@@ -166,21 +159,21 @@ export default function AboutPage() {
         </section>
 
         {/* INSTAGRAM & CTA BANNER */}
-        <div className="p-8 rounded-3xl bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-transparent border border-pink-500/20 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="p-8 rounded-3xl bg-gradient-to-r from-[#ebcae8]/40 via-[#bcf6f0]/40 to-[#e6cb9c]/40 border border-[#e6cb9c]/60 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
           <div className="space-y-2 text-center sm:text-left">
             <div className="flex items-center justify-center sm:justify-start gap-2">
-              <InstagramIcon className="w-5 h-5 text-pink-400" />
-              <h3 className="text-xl font-bold text-white">Follow us on Instagram</h3>
+              <InstagramIcon className="w-5 h-5 text-[#c026d3]" />
+              <h3 className="text-xl font-bold text-[#1e1b2e]">Follow Wishelier on Instagram</h3>
             </div>
-            <p className="text-xs text-white/60">
-              Stay updated with new templates, surprise ideas, and featured birthday websites @wishelier.
+            <p className="text-xs sm:text-sm text-[#4a4458]">
+              Stay updated with new 3D templates, celebration surprise ideas, and featured websites @wishelier.
             </p>
           </div>
           <a
             href="https://www.instagram.com/wishelier/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-pink-500/20 flex items-center gap-2 cursor-pointer shrink-0 hover:opacity-90 transition-opacity"
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-xs sm:text-sm shadow-md flex items-center gap-2 cursor-pointer shrink-0 hover:opacity-90 transition-opacity"
           >
             <InstagramIcon className="w-4 h-4" />
             <span>Follow @wishelier</span>

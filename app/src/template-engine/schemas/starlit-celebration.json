@@ -6,7 +6,8 @@
       "required": true,
       "maxLength": 40,
       "label": "Birthday Person's Name",
-      "placeholder": "e.g. Sarah"
+      "placeholder": "e.g. Sarah",
+      "default": "Sarah"
     },
     {
       "key": "heroPhoto",
@@ -14,7 +15,8 @@
       "required": true,
       "aspectRatio": "1:1",
       "label": "Hero Photo (circular)",
-      "maxSizeBytes": 5242880
+      "maxSizeBytes": 5242880,
+      "default": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop"
     },
     {
       "key": "specialMessage",
@@ -22,7 +24,8 @@
       "required": true,
       "maxLength": 500,
       "label": "Special Message / Letter",
-      "placeholder": "Dear Sarah, on this beautiful day..."
+      "placeholder": "Dear Sarah, on this beautiful day...",
+      "default": "Dear Sarah,\n\nOn this beautiful day, I want you to know how incredibly special you are. Your smile lights up every room, your kindness touches every heart, and your spirit inspires everyone around you.\n\nMay this new year of your life bring you endless joy, boundless love, and all the dreams your heart desires. You deserve every bit of happiness the world has to offer.\n\nHere's to another year of adventures, laughter, and beautiful memories together!"
     },
     {
       "key": "senderSignature",
@@ -30,7 +33,7 @@
       "required": false,
       "maxLength": 60,
       "label": "Signature (e.g. 'With all my love')",
-      "default": "With all my love"
+      "default": "With all my love ❤️"
     },
     {
       "key": "gallery",
@@ -39,7 +42,15 @@
       "max": 6,
       "aspectRatio": "1:1",
       "label": "Cherished Moments (2-6 photos)",
-      "maxSizeBytes": 5242880
+      "maxSizeBytes": 5242880,
+      "default": [
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop"
+      ]
     },
     {
       "key": "galleryCaptions",
@@ -48,7 +59,7 @@
       "max": 6,
       "maxLength": 40,
       "label": "Photo Captions",
-      "placeholders": [
+      "default": [
         "Beautiful Smile",
         "Golden Hour",
         "Pure Joy",
@@ -63,7 +74,15 @@
       "min": 2,
       "max": 6,
       "maxLength": 120,
-      "label": "Birthday Wishes (2-6 messages)"
+      "label": "Birthday Wishes (2-6 messages)",
+      "default": [
+        "May your life be as colorful and vibrant as a rainbow after the rain.",
+        "Wishing you success in everything you touch this year and always.",
+        "May you spread your wings and soar to new heights this birthday!",
+        "Like a sunflower, may you always turn towards the light and grow.",
+        "Here's to more laughter, more adventures, and more beautiful moments!",
+        "Luck, love, and happiness — may they follow you everywhere you go."
+      ]
     },
     {
       "key": "celebrationGifs",
@@ -71,7 +90,11 @@
       "min": 0,
       "max": 3,
       "required": false,
-      "label": "Celebration GIFs/Images (optional)"
+      "label": "Celebration GIFs/Images (optional)",
+      "default": [
+        "https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyeXBzMDZ3djd6ZnAxZjJkcmVoZ28weGlrYzl5M3ZrbTFraWZ4Y3J6dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0MYt5jPR6QX5pnqM/giphy.gif",
+        "https://media2.giphy.com/media/v1.Y2lkPTZjMDliUycmJieHBuNjN3bDk3OGg1ZG9za203aDlrMjV1cDJvb24wNTV4bTg2cCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lMameLIF8voLu8HxWV/giphy.gif"
+      ]
     },
     {
       "key": "musicChoice",
@@ -84,6 +107,7 @@
         "royalty_free_3",
         "custom_upload"
       ],
+      "default": "royalty_free_1",
       "note": "Choose from library or upload your own"
     },
     {

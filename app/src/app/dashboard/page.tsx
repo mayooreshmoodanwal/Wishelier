@@ -16,6 +16,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import ProfileDrawer from "@/components/profile/ProfileDrawer";
 
 interface UserProject {
@@ -50,7 +51,6 @@ export default function DashboardPage() {
   const fetchDashboardData = async () => {
     setLoading(true);
     try {
-      // 1. Fetch user profile & transactions data
       const profileRes = await fetch("/api/user/profile");
       if (profileRes.status === 401) {
         window.location.href = "/login?redirect=/dashboard";
@@ -62,7 +62,6 @@ export default function DashboardPage() {
         setProjects(profileData.data.projects || []);
         setTransactions(profileData.data.transactions || []);
       } else {
-        // Fallback to /api/projects
         const projRes = await fetch("/api/projects");
         if (projRes.status === 401) {
           window.location.href = "/login?redirect=/dashboard";
@@ -90,31 +89,31 @@ export default function DashboardPage() {
     switch (status) {
       case "live":
         return (
-          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">
+          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">
             <CheckCircle size={12} /> Live
           </span>
         );
       case "pending_payment":
         return (
-          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">
+          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-bold">
             <Clock size={12} /> Payment Pending
           </span>
         );
       case "generating":
         return (
-          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 font-medium">
+          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200 font-bold">
             <RefreshCw size={12} className="animate-spin" /> Generating...
           </span>
         );
       case "failed":
         return (
-          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 font-medium">
+          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-red-50 text-red-700 border border-red-200 font-bold">
             <AlertCircle size={12} /> Failed
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-white/10 text-white/60 border border-white/10 font-medium">
+          <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200 font-bold">
             Draft
           </span>
         );
@@ -122,39 +121,36 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white flex flex-col">
-      {/* Top Header Navigation */}
-      <header className="sticky top-0 z-40 bg-black/60 backdrop-blur-xl border-b border-white/10 px-4 py-3">
+    <div className="min-h-screen bg-[#faf7f2] text-[#1e1b2e] flex flex-col">
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-[#e6cb9c]/40 px-4 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Sparkles size={20} className="text-pink-400" />
-            <span className="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">
+            <Image src="/logo.png" alt="Wishelier" width={28} height={28} className="rounded-lg object-contain" />
+            <span className="text-xl font-bold bg-gradient-to-r from-[#d97706] via-[#c026d3] to-[#0f766e] bg-clip-text text-transparent">
               Wishelier
             </span>
           </Link>
 
           <div className="flex items-center gap-4">
-            <Link href="/" className="text-xs text-white/70 hover:text-white transition-colors">
+            <Link href="/" className="text-xs font-semibold text-[#4a4458] hover:text-[#1e1b2e] transition-colors">
               Templates
-            </Link>
-            <Link href="/projects" className="text-xs text-white/70 hover:text-white transition-colors">
-              Projects
             </Link>
             <ProfileDrawer />
           </div>
         </div>
       </header>
 
-      {/* Main Dashboard Content */}
+      {/* Main Content */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-8 md:py-12">
-        {/* Page Title & Actions */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-white/10">
+        {/* Title & Action */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-[#e6cb9c]/40">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-[#1e1b2e] mb-1">
               Dashboard Overview
             </h1>
-            <p className="text-sm text-white/40">
-              Manage your birthday surprise websites and payments
+            <p className="text-xs sm:text-sm text-[#4a4458]">
+              Manage your personalized birthday websites and orders
             </p>
           </div>
 
@@ -162,16 +158,16 @@ export default function DashboardPage() {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-pink-500/20"
+              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md shadow-amber-500/15 cursor-pointer"
             >
               <Plus size={16} />
-              <span>Create New Site</span>
+              <span>Create New Website</span>
             </motion.button>
           </Link>
         </div>
 
         {error && (
-          <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-6">
+          <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm font-semibold mb-6">
             {error}
           </div>
         )}
@@ -181,33 +177,28 @@ export default function DashboardPage() {
           {/* Section: My Websites */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                <Globe size={18} className="text-pink-400" /> My Websites ({projects.length})
+              <h2 className="text-lg font-bold text-[#1e1b2e] flex items-center gap-2">
+                <Globe size={18} className="text-[#0f766e]" /> My Birthday Websites ({projects.length})
               </h2>
-              {projects.length > 0 && (
-                <Link href="/projects" className="text-xs text-pink-400 hover:text-pink-300 font-medium flex items-center gap-1">
-                  View All <ArrowRight size={12} />
-                </Link>
-              )}
             </div>
 
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-44 rounded-2xl bg-white/5 animate-pulse border border-white/5" />
+                  <div key={i} className="h-44 rounded-3xl bg-white animate-pulse border border-[#e6cb9c]/40" />
                 ))}
               </div>
             ) : projects.length === 0 ? (
-              <div className="text-center py-16 bg-white/[0.02] border border-white/5 rounded-3xl">
-                <Sparkles size={40} className="text-pink-400/40 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white/80 mb-2">
+              <div className="text-center py-16 bg-white border border-[#e6cb9c]/50 rounded-3xl p-8 shadow-xs">
+                <Sparkles size={40} className="text-[#d97706] mx-auto mb-4" />
+                <h3 className="text-lg font-bold text-[#1e1b2e] mb-2">
                   No websites created yet
                 </h3>
-                <p className="text-sm text-white/40 max-w-md mx-auto mb-6">
-                  Select a template, customize messages and photos, and deploy a shareable website in minutes!
+                <p className="text-xs sm:text-sm text-[#4a4458] max-w-md mx-auto mb-6 leading-relaxed">
+                  Select a template, customize messages and photos, and deploy your personalized surprise in 2 minutes!
                 </p>
                 <Link href="/">
-                  <button className="px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-sm">
+                  <button className="px-6 py-3 rounded-full bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-xs sm:text-sm shadow-md cursor-pointer">
                     Browse Birthday Templates
                   </button>
                 </Link>
@@ -220,31 +211,31 @@ export default function DashboardPage() {
                   return (
                     <motion.div
                       key={project.id}
-                      whileHover={{ y: -4 }}
-                      className="rounded-2xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between"
+                      whileHover={{ y: -3 }}
+                      className="rounded-3xl bg-white border border-[#e6cb9c]/60 p-6 flex flex-col justify-between shadow-xs hover:shadow-md transition-all"
                     >
                       <div>
                         <div className="flex items-center justify-between gap-2 mb-3">
-                          <span className="text-xs text-white/40 uppercase tracking-wider font-medium">
+                          <span className="text-[11px] text-[#4a4458]/70 uppercase tracking-wider font-bold">
                             {project.templateName}
                           </span>
                           {getStatusBadge(project.status)}
                         </div>
 
-                        <h3 className="text-xl font-bold text-white mb-1">
+                        <h3 className="text-xl font-extrabold text-[#1e1b2e] mb-1">
                           {birthdayPerson}
                         </h3>
-                        <p className="text-xs text-white/40 font-mono mb-4">
+                        <p className="text-xs text-[#0f766e] font-mono font-bold mb-4 bg-[#bcf6f0]/40 px-2 py-1 rounded-lg inline-block">
                           wishelier.in/s/{project.slug}
                         </p>
                       </div>
 
-                      <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                      <div className="pt-4 border-t border-[#e6cb9c]/30 flex items-center justify-between">
                         <Link
                           href={`/create/${project.templateSlug}`}
-                          className="inline-flex items-center gap-1.5 text-xs text-pink-400 hover:text-pink-300 font-medium"
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#c026d3] hover:underline"
                         >
-                          <Edit size={14} /> Edit Site
+                          <Edit size={14} /> Edit Content
                         </Link>
 
                         {project.status === "live" && (
@@ -252,7 +243,7 @@ export default function DashboardPage() {
                             href={`/s/${project.slug}`}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1 text-xs text-white/60 hover:text-white font-medium"
+                            className="inline-flex items-center gap-1 text-xs font-bold text-[#0f766e] hover:underline"
                           >
                             Visit Site <ExternalLink size={12} />
                           </a>
@@ -268,18 +259,18 @@ export default function DashboardPage() {
           {/* Section: Transaction History */}
           {transactions.length > 0 && (
             <div>
-              <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <CreditCard size={18} className="text-purple-400" /> Recent Transactions
+              <h2 className="text-lg font-bold text-[#1e1b2e] mb-4 flex items-center gap-2">
+                <CreditCard size={18} className="text-[#d97706]" /> Recent Transactions
               </h2>
-              <div className="rounded-2xl bg-white/[0.02] border border-white/5 overflow-hidden">
-                <div className="divide-y divide-white/5">
+              <div className="rounded-3xl bg-white border border-[#e6cb9c]/50 overflow-hidden shadow-xs">
+                <div className="divide-y divide-[#e6cb9c]/30">
                   {transactions.slice(0, 5).map((tx) => (
                     <div key={tx.id} className="p-4 flex items-center justify-between text-xs sm:text-sm">
                       <div>
-                        <p className="font-mono text-white font-medium mb-0.5">
+                        <p className="font-mono text-[#1e1b2e] font-bold mb-0.5">
                           Order #{tx.orderId}
                         </p>
-                        <p className="text-xs text-white/40">
+                        <p className="text-xs text-[#4a4458]/70">
                           {new Date(tx.createdAt).toLocaleDateString("en-IN", {
                             year: "numeric",
                             month: "short",
@@ -288,14 +279,14 @@ export default function DashboardPage() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-white text-sm sm:text-base">
+                        <p className="font-extrabold text-[#1e1b2e] text-sm sm:text-base">
                           ₹{tx.amount}
                         </p>
                         <span
-                          className={`inline-block text-[10px] px-2.5 py-0.5 rounded-full capitalize font-medium ${
+                          className={`inline-block text-[10px] px-2.5 py-0.5 rounded-full capitalize font-bold ${
                             tx.status === "success"
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                              : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                              : "bg-amber-50 text-amber-800 border border-amber-200"
                           }`}
                         >
                           {tx.status}

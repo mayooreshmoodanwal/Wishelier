@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Caveat, Dancing_Script, Quicksand } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -14,15 +14,37 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const dancingScript = Dancing_Script({
+  variable: "--font-dancing-script",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const quicksand = Quicksand({
+  variable: "--font-quicksand",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
-    default: "Wishelier — Birthday Website Generator & Gifts",
+    default: "Wishelier — #1 Best Birthday Website Builder & Generator",
     template: "%s | Wishelier",
   },
   description:
-    "Create handcrafted 3D birthday websites with custom music, photo galleries, and personal notes. Share your digital surprise link instantly for ₹99.",
+    "Wishelier is the #1 handcrafted 3D birthday website generator. Create personalized animated birthday websites with custom music, photo carousels, heartfelt love letters, flip reasons, and 3D candle blowing for just ₹99. Share your custom surprise link instantly.",
   keywords: [
+    "best birthday website builder",
     "birthday website generator",
+    "birthday website builder",
+    "make birthday website online",
+    "create birthday website",
     "personalised birthday gifts",
     "handcrafted birthday website",
     "3D birthday website studio",
@@ -30,31 +52,37 @@ export const metadata: Metadata = {
     "digital birthday surprise link",
     "online birthday card website",
     "interactive birthday wish generator",
+    "birthday surprise link for girlfriend",
+    "birthday website for boyfriend",
     "wishelier",
     "wishelier.in",
   ],
   metadataBase: new URL("https://wishelier.in"),
+  alternates: {
+    canonical: "https://wishelier.in",
+  },
   openGraph: {
-    title: "Wishelier — Birthday Website Generator & Gifts",
+    title: "Wishelier — #1 Best Birthday Website Builder & Generator",
     description:
-      "Create handcrafted 3D birthday websites with custom music, photo galleries, and personal notes. Share your digital surprise link instantly for ₹99.",
+      "Create personalized 3D animated birthday websites with custom music, photo carousels, memory flip-cards, love letters, and 3D interactive cakes. Share your custom link instantly for ₹99.",
     url: "https://wishelier.in",
     siteName: "Wishelier",
     type: "website",
+    locale: "en_IN",
     images: [
       {
         url: "https://wishelier.in/logo.png",
         width: 1200,
         height: 630,
-        alt: "Wishelier Handcrafted Birthday Website Generator Logo",
+        alt: "Wishelier — #1 Best Birthday Website Builder & Generator",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wishelier — Birthday Website Generator & Gifts",
+    title: "Wishelier — #1 Best Birthday Website Builder & Generator",
     description:
-      "Create handcrafted 3D birthday websites with custom music, photo galleries, and personal notes. Share your digital surprise link instantly for ₹99.",
+      "Create personalized 3D animated birthday websites with custom music, photo galleries, and personal notes. Share your surprise link for ₹99.",
     images: ["https://wishelier.in/logo.png"],
   },
   icons: {
@@ -74,11 +102,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} ${caveat.variable} ${dancingScript.variable} ${quicksand.variable} h-full antialiased`}
     >
       <head>
-        <meta name="theme-color" content="#0a0a0f" />
-        {/* Google Favicon Guidelines Compliant Links */}
+        <meta name="theme-color" content="#faf7f2" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="48x48" href="/icon-48.png" />
@@ -88,7 +115,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </head>
       <body
-        className="min-h-full flex flex-col font-sans bg-[#0a0a0f] text-white"
+        className="min-h-full flex flex-col font-sans bg-[#faf7f2] text-[#1e1b2e]"
         style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}
       >
         {children}

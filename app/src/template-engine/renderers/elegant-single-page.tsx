@@ -39,16 +39,55 @@ export default function ElegantSinglePageRenderer({
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const name = (data.birthdayPerson as string) || "Birthday Person";
-  const heroPhoto = data.heroPhoto as string;
-  const specialMessage = (data.specialMessage as string) || "";
-  const signature = (data.senderSignature as string) || "With all my love";
-  const gallery = (data.gallery as string[]) || [];
-  const captions = (data.galleryCaptions as string[]) || [];
-  const wishes = (data.wishes as string[]) || [];
-  const gifs = (data.celebrationGifs as string[]) || [];
-  const musicUrl = data.musicUpload as string;
-  const musicChoice = data.musicChoice as string;
+  const DEFAULT_HERO = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop";
+  const DEFAULT_MESSAGE =
+    "Dear Sarah,\n\nOn this beautiful day, I want you to know how incredibly special you are. Your smile lights up every room, your kindness touches every heart, and your spirit inspires everyone around you.\n\nMay this new year of your life bring you endless joy, boundless love, and all the dreams your heart desires. You deserve every bit of happiness the world has to offer.\n\nHere's to another year of adventures, laughter, and beautiful memories together!";
+  const DEFAULT_GALLERY = [
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop",
+  ];
+  const DEFAULT_CAPTIONS = [
+    "Beautiful Smile",
+    "Golden Hour",
+    "Pure Joy",
+    "Best Day Ever",
+    "Always Shining",
+    "Forever Young",
+  ];
+  const DEFAULT_WISHES = [
+    "May your life be as colorful and vibrant as a rainbow after the rain.",
+    "Wishing you success in everything you touch this year and always.",
+    "May you spread your wings and soar to new heights this birthday!",
+    "Like a sunflower, may you always turn towards the light and grow.",
+    "Here's to more laughter, more adventures, and more beautiful moments!",
+    "Luck, love, and happiness — may they follow you everywhere you go.",
+  ];
+
+  const name = (typeof data?.birthdayPerson === "string" && data.birthdayPerson.trim()) || "Sarah";
+  const heroPhoto = (typeof data?.heroPhoto === "string" && data.heroPhoto.trim()) || DEFAULT_HERO;
+  const specialMessage = (typeof data?.specialMessage === "string" && data.specialMessage.trim()) || DEFAULT_MESSAGE;
+  const signature = (typeof data?.senderSignature === "string" && data.senderSignature.trim()) || "With all my love ❤️";
+
+  const rawGallery = Array.isArray(data?.gallery)
+    ? (data.gallery as string[]).filter((p) => typeof p === "string" && p.trim().length > 0)
+    : [];
+  const gallery = rawGallery.length > 0 ? rawGallery : DEFAULT_GALLERY;
+
+  const rawCaptions = Array.isArray(data?.galleryCaptions) ? (data.galleryCaptions as string[]) : [];
+  const captions = rawCaptions.length > 0 ? rawCaptions : DEFAULT_CAPTIONS;
+
+  const rawWishes = Array.isArray(data?.wishes)
+    ? (data.wishes as string[]).filter((w) => typeof w === "string" && w.trim().length > 0)
+    : [];
+  const wishes = rawWishes.length > 0 ? rawWishes : DEFAULT_WISHES;
+
+  const gifs = Array.isArray(data?.celebrationGifs) ? (data.celebrationGifs as string[]) : [];
+  const musicUrl = data?.musicUpload as string;
+  const musicChoice = (data?.musicChoice as string) || "royalty_free_1";
 
   const totalSections = 5 + (gifs.length > 0 ? 1 : 0);
 

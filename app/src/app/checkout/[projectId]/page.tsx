@@ -107,14 +107,10 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
     };
 
     if (orderId) {
-      // 1. User returned from Cashfree checkout with order_id — poll status
       pollStatus(orderId);
     } else if (sessionFromUrl) {
-      // 2. User has a direct payment session token — launch Cashfree
       triggerCashfreeCheckout(sessionFromUrl);
     } else {
-      // 3. User landed on /checkout/[projectId] directly (e.g. from Dashboard or refresh)
-      // Check database status first
       setStatus("loading");
       fetch(`/api/payments/${projectId}/status`)
         .then((res) => res.json())
@@ -122,11 +118,9 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
           if (data.data?.status === "success") {
             setStatus("success");
           } else if (data.data?.status === "created" && data.data?.paymentSessionId) {
-            // Existing created session found — launch Cashfree
             setActiveSession(data.data.paymentSessionId);
             triggerCashfreeCheckout(data.data.paymentSessionId);
           } else {
-            // No active session — create a new order session automatically
             const orderRes = await fetch("/api/payments/create-order", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -159,23 +153,23 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
     <>
       {status === "loading" && (
         <div className="py-8">
-          <Loader2 size={40} className="animate-spin text-pink-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold mb-2">Preparing Checkout</h2>
-          <p className="text-sm text-white/50">Setting up secure Cashfree payment...</p>
+          <Loader2 size={40} className="animate-spin text-[#0f766e] mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-[#1e1b2e] mb-2">Preparing Checkout</h2>
+          <p className="text-xs sm:text-sm text-[#4a4458]">Setting up secure Cashfree payment...</p>
         </div>
       )}
 
       {status === "redirecting" && (
         <div className="py-8">
-          <ShieldCheck size={48} className="text-purple-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold mb-2">Redirecting to Cashfree Gateway</h2>
-          <p className="text-sm text-white/50 mb-6">Opening payment window for ₹99...</p>
-          <Loader2 size={24} className="animate-spin text-purple-400 mx-auto mb-6" />
+          <ShieldCheck size={48} className="text-[#0f766e] mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-[#1e1b2e] mb-2">Redirecting to Cashfree</h2>
+          <p className="text-xs sm:text-sm text-[#4a4458] mb-6">Opening payment window for ₹99...</p>
+          <Loader2 size={24} className="animate-spin text-[#d97706] mx-auto mb-6" />
 
           {cashfreeHostedUrl && (
             <a
               href={cashfreeHostedUrl}
-              className="inline-flex items-center gap-2 text-xs text-pink-400 hover:text-pink-300 font-medium underline underline-offset-4"
+              className="inline-flex items-center gap-1.5 text-xs text-[#0f766e] font-bold underline"
             >
               <span>Click here if payment page doesn&apos;t open automatically</span>
               <ExternalLink size={12} />
@@ -186,12 +180,12 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
 
       {status === "polling" && (
         <div className="py-8">
-          <div className="w-12 h-12 rounded-full border-2 border-pink-500/20 border-t-pink-500 animate-spin mx-auto mb-4" />
-          <h2 className="text-xl font-bold mb-2">Verifying Payment</h2>
-          <p className="text-sm text-white/50 mb-4">
-            We are waiting for Cashfree payment confirmation...
+          <div className="w-12 h-12 rounded-full border-3 border-[#bcf6f0] border-t-[#0f766e] animate-spin mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-[#1e1b2e] mb-2">Verifying Payment</h2>
+          <p className="text-xs sm:text-sm text-[#4a4458] mb-4">
+            We are confirming your payment with Cashfree...
           </p>
-          <span className="inline-block text-xs px-3 py-1 rounded-full bg-white/5 text-white/40">
+          <span className="inline-block text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4a4458]/80 font-medium">
             Please do not close this window
           </span>
         </div>
@@ -199,14 +193,14 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
 
       {status === "success" && (
         <div className="py-8">
-          <CheckCircle2 size={56} className="text-emerald-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Payment Confirmed! 🎉</h2>
-          <p className="text-sm text-white/60 mb-8">
-            Your birthday surprise site is active and ready to share.
+          <CheckCircle2 size={56} className="text-emerald-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-extrabold text-[#1e1b2e] mb-2">Payment Confirmed! 🎉</h2>
+          <p className="text-xs sm:text-sm text-[#4a4458] mb-8">
+            Your custom birthday website is active and ready to share!
           </p>
 
           <Link href="/dashboard">
-            <button className="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 font-semibold text-sm flex items-center justify-center gap-2 text-white font-medium cursor-pointer">
+            <button className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md cursor-pointer">
               <span>Go to Dashboard</span>
               <ArrowRight size={16} />
             </button>
@@ -216,27 +210,27 @@ function CheckoutContent({ projectId }: CheckoutContentProps) {
 
       {status === "failed" && (
         <div className="py-8">
-          <AlertCircle size={48} className="text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold mb-2">Payment Status Check</h2>
-          <p className="text-sm text-white/50 mb-6">{errorMessage || "Payment could not be confirmed."}</p>
+          <AlertCircle size={48} className="text-red-500 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-[#1e1b2e] mb-2">Payment Status Check</h2>
+          <p className="text-xs sm:text-sm text-[#4a4458] mb-6">{errorMessage || "Payment could not be confirmed."}</p>
 
           <div className="space-y-3">
             {cashfreeHostedUrl ? (
               <a href={cashfreeHostedUrl} className="block w-full">
-                <button className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-sm">
+                <button className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-sm shadow-md cursor-pointer">
                   Complete Payment on Cashfree
                 </button>
               </a>
             ) : (
               <button
                 onClick={() => window.location.reload()}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-sm"
+                className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-sm shadow-md cursor-pointer"
               >
                 Retry Payment
               </button>
             )}
             <Link href="/dashboard" className="block w-full">
-              <button className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-sm">
+              <button className="w-full py-3 rounded-2xl bg-gray-100 hover:bg-gray-200 text-[#1e1b2e] font-semibold text-sm cursor-pointer">
                 Go to Dashboard
               </button>
             </Link>
@@ -251,14 +245,14 @@ export default function CheckoutPage({ params }: { params: Promise<{ projectId: 
   const { projectId } = use(params);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#faf7f2] text-[#1e1b2e] flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full rounded-3xl bg-white/[0.03] border border-white/10 p-8 backdrop-blur-xl text-center relative overflow-hidden"
+        className="max-w-md w-full rounded-3xl bg-white border border-[#e6cb9c]/60 p-8 shadow-xl text-center relative overflow-hidden"
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-amber-500" />
-        <Suspense fallback={<div className="py-8 text-center text-white/40 text-sm">Loading checkout...</div>}>
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#d97706] via-[#c026d3] to-[#0f766e]" />
+        <Suspense fallback={<div className="py-8 text-center text-[#4a4458]/70 text-xs">Loading checkout...</div>}>
           <CheckoutContent projectId={projectId} />
         </Suspense>
       </motion.div>
