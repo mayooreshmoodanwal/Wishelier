@@ -28,48 +28,56 @@ export default function Pricing() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
+          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider text-emerald-400 mb-3">
+            <Sparkles size={13} />
+            <span>Special Promotional Celebration</span>
+          </div>
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Simple{" "}
-            <span className="bg-gradient-to-r from-amber-400 to-pink-400 bg-clip-text text-transparent">
-              Pricing
+            100% Free{" "}
+            <span className="bg-gradient-to-r from-emerald-400 via-amber-400 to-pink-400 bg-clip-text text-transparent">
+              Limited Time Offer
             </span>
           </h2>
-          <p className="text-white/40 text-lg mb-12">
-            One price. Everything included.
+          <p className="text-white/60 text-lg mb-12">
+            All premium templates & services are completely free. Zero payment required.
           </p>
         </motion.div>
 
         {/* Pricing Card */}
         <motion.div
-          className="relative rounded-3xl overflow-hidden"
+          className="relative rounded-3xl overflow-hidden shadow-2xl"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
         >
           {/* Glow border */}
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-pink-500/20 via-violet-500/20 to-amber-500/20 p-px">
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-emerald-500/30 via-pink-500/30 to-amber-500/30 p-px">
             <div className="w-full h-full rounded-3xl bg-[#0e0a14]" />
           </div>
 
           <div className="relative p-8 md:p-10">
-            {/* Launch offer badge */}
+            {/* Limited time offer badge */}
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-500/20 to-violet-500/20 border border-pink-500/20 text-xs tracking-wider uppercase mb-6"
-              animate={{ boxShadow: ["0 0 15px rgba(244,114,182,0.1)", "0 0 30px rgba(244,114,182,0.2)", "0 0 15px rgba(244,114,182,0.1)"] }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/40 text-xs tracking-wider uppercase mb-6 font-bold"
+              animate={{ boxShadow: ["0 0 15px rgba(52,211,153,0.15)", "0 0 35px rgba(52,211,153,0.35)", "0 0 15px rgba(52,211,153,0.15)"] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              <Sparkles size={12} className="text-pink-400" />
-              <span className="text-pink-300">Launch Offer</span>
+              <Sparkles size={13} className="text-emerald-400" />
+              <span className="text-emerald-300">🔥 Free For Limited Time</span>
             </motion.div>
 
             {/* Price */}
             <div className="mb-6">
               <div className="flex items-center justify-center gap-3 mb-1">
                 <span className="text-2xl text-white/30 line-through">₹399</span>
-                <span className="text-6xl font-bold text-white">₹99</span>
+                <span className="text-xl text-white/30 line-through">₹99</span>
+                <span className="text-6xl font-black bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+                  FREE
+                </span>
               </div>
-              <p className="text-sm text-white/30">one-time payment • no subscriptions</p>
+              <p className="text-sm font-semibold text-emerald-400/90 mt-1">₹0 • Limited Time Offer • No Payment Required</p>
+              <p className="text-xs text-white/40 mt-0.5">Instant activation • No credit card or UPI needed</p>
             </div>
 
             {/* Features */}
@@ -86,7 +94,7 @@ export default function Pricing() {
                   <div className="w-5 h-5 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
                     <Check size={12} className="text-emerald-400" />
                   </div>
-                  <span className="text-sm text-white/60">{feature}</span>
+                  <span className="text-sm text-white/70">{feature}</span>
                 </motion.div>
               ))}
             </div>
@@ -94,11 +102,11 @@ export default function Pricing() {
             {/* CTA */}
             <Link href="#templates">
               <motion.button
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white font-semibold text-lg flex items-center justify-center gap-2 shadow-lg shadow-pink-500/20"
-                whileHover={{ scale: 1.02, boxShadow: "0 20px 50px rgba(244,114,182,0.25)" }}
+                className="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white font-bold text-lg flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25 cursor-pointer"
+                whileHover={{ scale: 1.02, boxShadow: "0 20px 50px rgba(52,211,153,0.3)" }}
                 whileTap={{ scale: 0.98 }}
               >
-                Get Started <ArrowRight size={18} />
+                <span>Claim Free Birthday Website</span> <ArrowRight size={18} />
               </motion.button>
             </Link>
           </div>

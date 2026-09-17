@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder_key");
 
 // Verified domain sender address
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Wishelier <noreply@wishelier.in>";
@@ -144,11 +144,11 @@ export async function sendPaymentReceiptEmail(
       subject: `Payment confirmed — Wishelier`,
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px;">
-          <h1 style="color: #f472b6; font-size: 28px; margin-bottom: 8px;">Payment Confirmed ✅</h1>
-          <p style="color: #64748b; font-size: 16px; margin-bottom: 24px;">We're generating your birthday site now. You'll receive another email when it's ready!</p>
+          <h1 style="color: #10b981; font-size: 28px; margin-bottom: 8px;">Order Confirmed ✅</h1>
+          <p style="color: #64748b; font-size: 16px; margin-bottom: 24px;">Your birthday site is activated with our 100% Free Limited Time Offer!</p>
           <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
             <p style="color: #64748b; font-size: 14px; margin-bottom: 4px;">Template: <strong>${templateName}</strong></p>
-            <p style="color: #64748b; font-size: 14px; margin-bottom: 4px;">Amount: <strong>₹${amount}</strong></p>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 4px;">Amount: <strong>${parseFloat(amount || "0") === 0 ? "FREE (Offer)" : "₹" + amount}</strong></p>
             <p style="color: #64748b; font-size: 14px;">Order ID: <code>${orderId}</code></p>
           </div>
           <p style="color: #94a3b8; font-size: 13px;">Made with ❤️ by Wishelier</p>

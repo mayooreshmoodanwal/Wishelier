@@ -9,8 +9,8 @@ const CASHFREE_BASE_URL =
     ? "https://api.cashfree.com/pg"
     : "https://sandbox.cashfree.com/pg";
 
-const CASHFREE_APP_ID = process.env.CASHFREE_APP_ID!;
-const CASHFREE_APP_SECRET = process.env.CASHFREE_APP_SECRET!;
+const CASHFREE_APP_ID = process.env.CASHFREE_APP_ID || "placeholder_app_id";
+const CASHFREE_APP_SECRET = process.env.CASHFREE_APP_SECRET || "placeholder_app_secret";
 
 /**
  * Create a Cashfree payment order.
@@ -207,6 +207,11 @@ export async function getPaymentStatus(
     .limit(1);
 
   if (!project || project.userId !== userId) return null;
+
+  // If project is already live (e.g. via free limited-time offer), return success immediately
+  if (project.status === "live") {
+    return { status: "success", orderId: "free_offer" };
+  }
 
   // 2. Fetch payment record from DB
   const [paymentRecord] = await db

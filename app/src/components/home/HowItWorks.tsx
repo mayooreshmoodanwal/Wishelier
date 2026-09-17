@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Palette, Upload, CreditCard, Share2 } from "lucide-react";
+import { Palette, Upload, Gift, Share2 } from "lucide-react";
 
 const STEPS = [
   {
@@ -18,10 +18,10 @@ const STEPS = [
     color: "#a78bfa",
   },
   {
-    icon: CreditCard,
-    title: "Preview & Pay",
-    description: "See a live preview of your creation. Pay ₹99 (launch offer!) and we generate your unique site instantly.",
-    color: "#fbbf24",
+    icon: Gift,
+    title: "Preview & Publish Free",
+    description: "See a live preview of your creation. Claim our limited-time free offer (₹0) and publish instantly with zero payment required.",
+    color: "#10b981",
   },
   {
     icon: Share2,

@@ -66,7 +66,7 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
     slug: "starlit-celebration",
     name: "Starlit Celebration",
     category: "Premium Animated 3D",
-    price: "₹99",
+    price: "FREE",
     originalPrice: "₹399",
     theme: starlitTheme as TemplateTheme,
     renderer: ElegantSinglePageRenderer,
@@ -110,7 +110,7 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
     slug: "pink-romance",
     name: "Pink Romance",
     category: "Romantic & Playful",
-    price: "₹99",
+    price: "FREE",
     originalPrice: "₹399",
     theme: pinkTheme as TemplateTheme,
     renderer: RomanticMultiPageRenderer,
@@ -149,7 +149,7 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
     slug: "blush-elegance",
     name: "Blush Elegance",
     category: "Luxury Multi-Chapter",
-    price: "₹99",
+    price: "FREE",
     originalPrice: "₹399",
     theme: blushTheme as TemplateTheme,
     renderer: LuxeMultiPageRenderer,
@@ -199,11 +199,11 @@ const DEMO_TEMPLATES: Record<string, TemplateOption> = {
 const FAQS = [
   {
     q: "What is Wishelier and why is it the best birthday website builder?",
-    a: "Wishelier is the #1 handcrafted 3D birthday website builder and generator. Unlike paper cards or static greeting pages, Wishelier creates personalized, high-performance interactive websites featuring glowing particle animations, 3D candle blowing, custom background music, memory polaroid flip-cards, love letter envelopes, and personalized photo galleries for ₹99.",
+    a: "Wishelier is the #1 handcrafted 3D birthday website builder and generator. Unlike paper cards or static greeting pages, Wishelier creates personalized, high-performance interactive websites featuring glowing particle animations, 3D candle blowing, custom background music, memory polaroid flip-cards, love letter envelopes, and personalized photo galleries — completely 100% free as part of our limited-time celebration offer.",
   },
   {
     q: "How does the birthday website generator work?",
-    a: "Creating your personalized website takes under 2 minutes: 1) Pick a curated 3D animated template, 2) Customize with the birthday person's name, personal message, photos, reasons, and music, 3) Publish via instant UPI payment (₹99) to get a custom sharable link like wishelier.in/s/name.",
+    a: "Creating your personalized website takes under 2 minutes: 1) Pick a curated 3D animated template, 2) Customize with the birthday person's name, personal message, photos, reasons, and music, 3) Publish instantly for 100% free (no payment or credit card required) to get a custom sharable link like wishelier.in/s/name.",
   },
   {
     q: "Can I add custom background music, video, and photos?",
@@ -211,7 +211,7 @@ const FAQS = [
   },
   {
     q: "How much does a Wishelier birthday website cost?",
-    a: "Publishing a full handcrafted birthday website costs a one-time launch price of ₹99 (discounted from ₹399). There are zero recurring fees, and you get instant checkout with Google Pay, PhonePe, Paytm, UPI, or Cards.",
+    a: "Wishelier is currently 100% FREE as part of our limited-time celebration offer (normally ₹399 / ₹99). There are zero fees, zero hidden charges, and no payment required — you get instant 1-click publishing with lifetime edge hosting.",
   },
   {
     q: "How do I share the custom birthday link with my friend or partner?",
@@ -245,7 +245,7 @@ export default function HomePage() {
     logo: "https://wishelier.in/logo.png",
     image: "https://wishelier.in/logo.png",
     description:
-      "The #1 handcrafted 3D birthday website builder and generator. Build interactive personalized birthday websites with music, 3D candles, polaroid memories, and love letters for ₹99.",
+      "The #1 handcrafted 3D birthday website builder and generator. Build interactive personalized birthday websites with music, 3D candles, polaroid memories, and love letters 100% free for a limited time.",
     applicationCategory: "DesignApplication",
     operatingSystem: "All",
     aggregateRating: {
@@ -257,9 +257,10 @@ export default function HomePage() {
     },
     offers: {
       "@type": "Offer",
-      price: "99.00",
+      price: "0.00",
       priceCurrency: "INR",
       availability: "https://schema.org/InStock",
+      description: "Limited time promotion: 100% Free celebration offer",
     },
     author: {
       "@type": "Organization",
@@ -286,7 +287,7 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: "How to Build a Custom 3D Birthday Website in 2 Minutes",
-    description: "Create an interactive personalized birthday website with custom photos, music, and love letters for ₹99.",
+    description: "Create an interactive personalized birthday website with custom photos, music, and love letters 100% free for a limited time.",
     step: [
       {
         "@type": "HowToStep",
@@ -301,7 +302,7 @@ export default function HomePage() {
       {
         "@type": "HowToStep",
         name: "Publish & Share Custom Link",
-        text: "Publish instantly for ₹99 via UPI to receive your custom surprise URL (wishelier.in/s/name).",
+        text: "Publish instantly 100% free with zero payment required to receive your custom surprise URL (wishelier.in/s/name).",
       },
     ],
   };
@@ -410,9 +411,9 @@ export default function HomePage() {
 
           {/* Pricing Offer & Use Template CTA */}
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-            <div className="hidden xl:flex items-center gap-1.5 text-xs font-bold text-[#92400e] bg-[#e6cb9c]/30 border border-[#e6cb9c] px-3 py-1.5 rounded-full">
-              <Star size={12} className="fill-[#d97706] text-[#d97706]" />
-              <span>₹99 Launch Deal (was ₹399)</span>
+            <div className="hidden xl:flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-100/90 border border-emerald-300 px-3 py-1.5 rounded-full">
+              <Star size={12} className="fill-emerald-600 text-emerald-600" />
+              <span>🎉 Limited Time Offer: 100% FREE (was ₹399)</span>
             </div>
 
             <Link href={`/create/${selectedSlug}`}>
@@ -487,9 +488,9 @@ export default function HomePage() {
                 <div className="w-11 h-11 rounded-2xl bg-[#e6cb9c]/50 border border-[#e6cb9c] flex items-center justify-center text-[#92400e]">
                   <ShieldCheck size={22} />
                 </div>
-                <h3 className="font-bold text-lg text-[#1e1b2e]">Instant ₹99 UPI Publishing</h3>
+                <h3 className="font-bold text-lg text-[#1e1b2e]">Instant 100% Free Publishing</h3>
                 <p className="text-xs sm:text-sm text-[#4a4458] leading-relaxed">
-                  Publish instantly with one-click payment via Google Pay, PhonePe, Paytm, UPI, or Credit Cards with zero recurring subscription fees.
+                  Publish instantly with 1-click free activation as part of our limited time celebration offer. Zero payment or credit card required.
                 </p>
               </div>
             </div>
@@ -537,8 +538,8 @@ export default function HomePage() {
                       <td className="py-3.5 px-4 text-gray-400">Generic long link</td>
                     </tr>
                     <tr>
-                      <td className="py-3.5 px-4 font-semibold text-[#1e1b2e]">Affordable One-Time Price</td>
-                      <td className="py-3.5 px-4 bg-[#bcf6f0]/20 font-bold text-[#0f766e]">✅ ₹99 one-time</td>
+                      <td className="py-3.5 px-4 font-semibold text-[#1e1b2e]">Price</td>
+                      <td className="py-3.5 px-4 bg-[#bcf6f0]/20 font-extrabold text-[#0f766e]">✅ 100% FREE (Limited Time Offer)</td>
                       <td className="py-3.5 px-4 text-gray-600">₹200 - ₹500</td>
                       <td className="py-3.5 px-4 text-gray-600">₹499+/month</td>
                     </tr>
@@ -581,7 +582,7 @@ export default function HomePage() {
                   </div>
                   <h4 className="font-bold text-base text-[#1e1b2e]">Publish & Share Link</h4>
                   <p className="text-xs text-[#4a4458] leading-relaxed">
-                    Complete the ₹99 payment and share your custom link via WhatsApp or Instagram at midnight!
+                    Activate the limited-time free offer instantly and share your custom link via WhatsApp or Instagram at midnight!
                   </p>
                 </div>
               </div>

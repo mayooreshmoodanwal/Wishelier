@@ -280,7 +280,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="text-right">
                         <p className="font-extrabold text-[#1e1b2e] text-sm sm:text-base">
-                          ₹{tx.amount}
+                          {parseFloat(tx.amount) === 0 ? "FREE (Offer)" : `₹${tx.amount}`}
                         </p>
                         <span
                           className={`inline-block text-[10px] px-2.5 py-0.5 rounded-full capitalize font-bold ${

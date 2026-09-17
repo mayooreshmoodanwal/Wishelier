@@ -2,11 +2,11 @@ import { ImageKit } from "@imagekit/nodejs";
 import crypto from "crypto";
 
 const imagekit = new ImageKit({
-  privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY || "placeholder_private_key",
 });
 
-const IMAGEKIT_PUBLIC_KEY = process.env.IMAGEKIT_PUBLIC_KEY!;
-const IMAGEKIT_URL_ENDPOINT = process.env.IMAGEKIT_URL_ENDPOINT!;
+const IMAGEKIT_PUBLIC_KEY = process.env.IMAGEKIT_PUBLIC_KEY || "placeholder_public_key";
+const IMAGEKIT_URL_ENDPOINT = process.env.IMAGEKIT_URL_ENDPOINT || "https://ik.imagekit.io/placeholder";
 
 /**
  * Generate authentication parameters for client-side direct upload.

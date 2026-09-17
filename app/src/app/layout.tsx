@@ -38,13 +38,14 @@ export const metadata: Metadata = {
     template: "%s | Wishelier",
   },
   description:
-    "Wishelier is the #1 handcrafted 3D birthday website generator. Create personalized animated birthday websites with custom music, photo carousels, heartfelt love letters, flip reasons, and 3D candle blowing for just ₹99. Share your custom surprise link instantly.",
+    "Wishelier is the #1 handcrafted 3D birthday website generator. Create personalized animated birthday websites with custom music, photo carousels, heartfelt love letters, flip reasons, and 3D candle blowing 100% FREE for a limited time. Share your custom surprise link instantly.",
   keywords: [
     "best birthday website builder",
     "birthday website generator",
     "birthday website builder",
-    "make birthday website online",
-    "create birthday website",
+    "make birthday website online free",
+    "create birthday website free",
+    "free birthday website",
     "personalised birthday gifts",
     "handcrafted birthday website",
     "3D birthday website studio",
@@ -64,7 +65,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Wishelier — #1 Best Birthday Website Builder & Generator",
     description:
-      "Create personalized 3D animated birthday websites with custom music, photo carousels, memory flip-cards, love letters, and 3D interactive cakes. Share your custom link instantly for ₹99.",
+      "Create personalized 3D animated birthday websites with custom music, photo carousels, memory flip-cards, love letters, and 3D interactive cakes. 100% Free for a limited time celebration offer.",
     url: "https://wishelier.in",
     siteName: "Wishelier",
     type: "website",
@@ -82,7 +83,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Wishelier — #1 Best Birthday Website Builder & Generator",
     description:
-      "Create personalized 3D animated birthday websites with custom music, photo galleries, and personal notes. Share your surprise link for ₹99.",
+      "Create personalized 3D animated birthday websites with custom music, photo galleries, and personal notes. 100% Free limited time celebration offer.",
     images: ["https://wishelier.in/logo.png"],
   },
   icons: {

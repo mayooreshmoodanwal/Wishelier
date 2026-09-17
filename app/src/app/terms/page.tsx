@@ -52,7 +52,7 @@ export default function TermsPage() {
           <section className="space-y-2">
             <h2 className="text-base font-bold text-[#1e1b2e]">3. Pricing & Payments</h2>
             <p>
-              All purchases are processed in Indian Rupees (INR). Pricing is clearly disclosed before checkout (e.g. ₹99 per website).
+              Wishelier services are currently offered 100% free of charge under a limited-time promotional celebration offer. No payment or credit card details are collected during this promotional period.
             </p>
           </section>
 

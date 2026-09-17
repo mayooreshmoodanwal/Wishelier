@@ -104,9 +104,9 @@ export default function AboutPage() {
             <div className="w-11 h-11 rounded-2xl bg-[#e6cb9c]/50 border border-[#e6cb9c] flex items-center justify-center text-[#92400e]">
               <ShieldCheck size={24} />
             </div>
-            <h3 className="text-lg font-bold text-[#1e1b2e]">Affordable & Instant</h3>
+            <h3 className="text-lg font-bold text-[#1e1b2e]">100% Free Limited-Time Offer</h3>
             <p className="text-xs sm:text-sm text-[#4a4458] leading-relaxed">
-              Premium birthday websites published for just ₹99 with instant UPI payment via Google Pay, PhonePe, Paytm, or Cards.
+              Premium 3D birthday websites published completely free of charge with instant 1-click publishing as part of our celebration offer.
             </p>
           </div>
         </div>

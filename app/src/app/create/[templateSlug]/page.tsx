@@ -229,12 +229,12 @@ export default function CreatePage({ params }: CreatePageProps) {
 
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error?.message || "Payment setup failed");
+        setError(data.error?.message || "Publishing failed");
         return;
       }
 
-      const { paymentSessionId } = data.data;
-      router.push(`/checkout/${targetProjectId}?session=${paymentSessionId}`);
+      // Limited Time Offer: 100% free direct activation — no payment page needed!
+      router.push(`/checkout/${targetProjectId}?activated=true`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Network error. Please try again.");
     } finally {
@@ -282,6 +282,12 @@ export default function CreatePage({ params }: CreatePageProps) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Limited time free badge */}
+            <div className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100/90 border border-emerald-300 px-2.5 py-1 rounded-full">
+              <Sparkles size={11} className="text-emerald-600" />
+              <span>Offer: 100% Free</span>
+            </div>
+
             {/* Preview toggle (mobile) */}
             <button
               onClick={() => setShowPreview(!showPreview)}
@@ -303,16 +309,16 @@ export default function CreatePage({ params }: CreatePageProps) {
               <span>{saveSuccess ? "Saved ✓" : "Save"}</span>
             </motion.button>
 
-            {/* Checkout button */}
+            {/* Publish Free button */}
             <motion.button
               onClick={handleCheckout}
               disabled={saving}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white text-xs font-bold shadow-md shadow-amber-500/10 cursor-pointer disabled:opacity-40"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white text-xs font-bold shadow-md shadow-emerald-500/20 cursor-pointer disabled:opacity-40"
               whileHover={!saving ? { scale: 1.03 } : {}}
               whileTap={!saving ? { scale: 0.97 } : {}}
             >
-              {saving ? <Loader2 size={14} className="animate-spin" /> : <ShoppingCart size={14} />}
-              <span>Publish for ₹99</span>
+              {saving ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
+              <span>Publish Free 🎉</span>
             </motion.button>
           </div>
         </div>

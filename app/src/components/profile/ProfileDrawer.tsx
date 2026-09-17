@@ -268,7 +268,7 @@ export default function ProfileDrawer() {
                           </div>
                           <div className="text-right">
                             <div className="font-bold text-[#1e1b2e] text-sm">
-                              ₹{tx.amount}
+                              {parseFloat(tx.amount) === 0 ? "FREE (Offer)" : `₹${tx.amount}`}
                             </div>
                             <span
                               className={`inline-block text-[10px] px-2 py-0.5 rounded-full capitalize font-bold ${

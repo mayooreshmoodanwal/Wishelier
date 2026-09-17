@@ -2,242 +2,214 @@
 
 import React, { useEffect, useState, use, Suspense } from "react";
 import { motion } from "framer-motion";
-import { Loader2, CheckCircle2, ShieldCheck, ArrowRight, AlertCircle, ExternalLink } from "lucide-react";
+import {
+  Loader2,
+  CheckCircle2,
+  Sparkles,
+  ArrowRight,
+  Copy,
+  Check,
+  ExternalLink,
+  Gift,
+  Share2,
+} from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Cashfree: any;
-  }
-}
+import confetti from "canvas-confetti";
 
 interface CheckoutContentProps {
   projectId: string;
 }
 
 function CheckoutContent({ projectId }: CheckoutContentProps) {
-  const searchParams = useSearchParams();
-
-  const orderId = searchParams.get("order_id");
-  const sessionFromUrl = searchParams.get("session");
-
-  const [status, setStatus] = useState<"loading" | "redirecting" | "polling" | "success" | "failed">("loading");
-  const [activeSession, setActiveSession] = useState<string | null>(sessionFromUrl);
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const cashfreeEnv = process.env.NEXT_PUBLIC_CASHFREE_MODE || "sandbox";
-  const cashfreeHostedUrl = activeSession
-    ? `${cashfreeEnv === "production" ? "https://api.cashfree.com/pg/orders/pay" : "https://sandbox.cashfree.com/pg/orders/pay"}/${activeSession}`
-    : "";
-
-  // Load Cashfree Web SDK script dynamically
-  const loadCashfreeScript = (): Promise<boolean> => {
-    return new Promise((resolve) => {
-      if (typeof window !== "undefined" && window.Cashfree) {
-        resolve(true);
-        return;
-      }
-      const script = document.createElement("script");
-      script.src = "https://sdk.cashfree.com/js/v3/cashfree.js";
-      script.async = true;
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
+  const [loading, setLoading] = useState(true);
+  const [slug, setSlug] = useState<string>("");
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    let timeout: NodeJS.Timeout;
+    let isMounted = true;
 
-    // Helper to start polling payment status
-    const pollStatus = (targetOrderId?: string) => {
-      setStatus("polling");
-      const url = targetOrderId
-        ? `/api/payments/${projectId}/status?order_id=${encodeURIComponent(targetOrderId)}`
-        : `/api/payments/${projectId}/status`;
+    const activateAndLoad = async () => {
+      try {
+        setLoading(true);
 
-      interval = setInterval(async () => {
-        try {
-          const res = await fetch(url);
-          const data = await res.json();
-          if (res.ok && data.data?.status === "success") {
-            setStatus("success");
-            clearInterval(interval);
-          } else if (data.data?.status === "failed") {
-            setStatus("failed");
-            setErrorMessage("Payment was not completed");
-            clearInterval(interval);
-          }
-        } catch {
-          // Keep polling
+        // First activate the project for free
+        const activateRes = await fetch("/api/payments/create-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ projectId }),
+        });
+
+        const activateData = await activateRes.json();
+        if (activateData.data?.slug) {
+          if (isMounted) setSlug(activateData.data.slug);
         }
-      }, 2500);
 
-      timeout = setTimeout(() => {
-        clearInterval(interval);
-        if (status === "polling") {
-          setStatus("failed");
-          setErrorMessage("Payment status check timed out. Please check your dashboard.");
-        }
-      }, 30000);
-    };
-
-    // Helper to launch Cashfree SDK / Payment page
-    const triggerCashfreeCheckout = (paymentSession: string) => {
-      setStatus("redirecting");
-      loadCashfreeScript().then((loaded) => {
-        if (loaded && window.Cashfree) {
-          try {
-            const cashfree = window.Cashfree({ mode: cashfreeEnv });
-            cashfree.checkout({
-              paymentSessionId: paymentSession,
-              redirectTarget: "_self",
-            });
-            return;
-          } catch (err) {
-            console.error("Cashfree SDK error, falling back to hosted page:", err);
-          }
-        }
-        const fallbackUrl = `${cashfreeEnv === "production" ? "https://api.cashfree.com/pg/orders/pay" : "https://sandbox.cashfree.com/pg/orders/pay"}/${paymentSession}`;
-        window.location.href = fallbackUrl;
-      });
-    };
-
-    if (orderId) {
-      pollStatus(orderId);
-    } else if (sessionFromUrl) {
-      triggerCashfreeCheckout(sessionFromUrl);
-    } else {
-      setStatus("loading");
-      fetch(`/api/payments/${projectId}/status`)
-        .then((res) => res.json())
-        .then(async (data) => {
-          if (data.data?.status === "success") {
-            setStatus("success");
-          } else if (data.data?.status === "created" && data.data?.paymentSessionId) {
-            setActiveSession(data.data.paymentSessionId);
-            triggerCashfreeCheckout(data.data.paymentSessionId);
-          } else {
-            const orderRes = await fetch("/api/payments/create-order", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ projectId }),
-            });
-            const orderData = await orderRes.json();
-            if (orderRes.ok && orderData.data?.paymentSessionId) {
-              setActiveSession(orderData.data.paymentSessionId);
-              triggerCashfreeCheckout(orderData.data.paymentSessionId);
-            } else {
-              setStatus("failed");
-              setErrorMessage(orderData.error?.message || "Failed to initialize payment session.");
+        // Fetch latest project info for slug if not in activation response
+        if (!activateData.data?.slug) {
+          const projectRes = await fetch(`/api/projects/${projectId}`);
+          if (projectRes.ok) {
+            const projectData = await projectRes.json();
+            if (isMounted && projectData.data?.slug) {
+              setSlug(projectData.data.slug);
             }
           }
-        })
-        .catch((err) => {
-          console.error("Error loading project checkout status:", err);
-          setStatus("failed");
-          setErrorMessage("Network error initializing checkout.");
-        });
-    }
+        }
+
+        // Fire celebratory confetti!
+        if (typeof window !== "undefined") {
+          confetti({
+            particleCount: 80,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#10b981", "#d97706", "#c026d3", "#38bdf8"],
+          });
+        }
+      } catch (err) {
+        console.error("Activation error:", err);
+        if (isMounted) {
+          setError(err instanceof Error ? err.message : "Failed to load project details.");
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    activateAndLoad();
 
     return () => {
-      if (interval) clearInterval(interval);
-      if (timeout) clearTimeout(timeout);
+      isMounted = false;
     };
-  }, [orderId, sessionFromUrl, projectId, cashfreeEnv]);
+  }, [projectId]);
+
+  const liveUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/s/${slug || projectId}`
+    : `/s/${slug || projectId}`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(liveUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Fallback
+    }
+  };
+
+  const shareText = encodeURIComponent(
+    `🎉 I created an interactive 3D birthday surprise website for you! Open it here: ${liveUrl}`
+  );
+
+  if (loading) {
+    return (
+      <div className="py-12 text-center">
+        <Loader2 size={42} className="animate-spin text-emerald-600 mx-auto mb-4" />
+        <h2 className="text-xl font-bold text-[#1e1b2e] mb-2">Activating Your Website...</h2>
+        <p className="text-xs sm:text-sm text-[#4a4458]">
+          Applying 100% Free Limited Time Offer. No payment required!
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <>
-      {status === "loading" && (
-        <div className="py-8">
-          <Loader2 size={40} className="animate-spin text-[#0f766e] mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-[#1e1b2e] mb-2">Preparing Checkout</h2>
-          <p className="text-xs sm:text-sm text-[#4a4458]">Setting up secure Cashfree payment...</p>
+    <div className="py-4 space-y-6">
+      {/* Free Offer Badge */}
+      <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-xs font-bold text-emerald-800 uppercase tracking-wider">
+        <Sparkles size={13} className="text-emerald-600" />
+        <span>Limited Time Offer Claimed — 100% FREE</span>
+      </div>
+
+      {/* Main Confirmation */}
+      <div className="space-y-2">
+        <div className="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center mx-auto text-emerald-600 shadow-sm">
+          <CheckCircle2 size={36} />
         </div>
-      )}
+        <h1 className="text-2xl sm:text-3xl font-black text-[#1e1b2e]">
+          Your Birthday Website is Live! 🎉
+        </h1>
+        <p className="text-xs sm:text-sm text-[#4a4458] max-w-sm mx-auto">
+          All services and hosting are completely free of charge. Your custom interactive celebration is ready to share.
+        </p>
+      </div>
 
-      {status === "redirecting" && (
-        <div className="py-8">
-          <ShieldCheck size={48} className="text-[#0f766e] mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-[#1e1b2e] mb-2">Redirecting to Cashfree</h2>
-          <p className="text-xs sm:text-sm text-[#4a4458] mb-6">Opening payment window for ₹99...</p>
-          <Loader2 size={24} className="animate-spin text-[#d97706] mx-auto mb-6" />
-
-          {cashfreeHostedUrl && (
-            <a
-              href={cashfreeHostedUrl}
-              className="inline-flex items-center gap-1.5 text-xs text-[#0f766e] font-bold underline"
-            >
-              <span>Click here if payment page doesn&apos;t open automatically</span>
-              <ExternalLink size={12} />
-            </a>
-          )}
+      {/* Pricing Receipt Summary */}
+      <div className="p-4 rounded-2xl bg-[#faf7f2] border border-[#e6cb9c]/60 text-left text-xs space-y-2">
+        <div className="flex justify-between items-center text-[#4a4458]">
+          <span>Website Publishing:</span>
+          <span className="line-through text-gray-400">₹399.00</span>
         </div>
-      )}
-
-      {status === "polling" && (
-        <div className="py-8">
-          <div className="w-12 h-12 rounded-full border-3 border-[#bcf6f0] border-t-[#0f766e] animate-spin mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-[#1e1b2e] mb-2">Verifying Payment</h2>
-          <p className="text-xs sm:text-sm text-[#4a4458] mb-4">
-            We are confirming your payment with Cashfree...
-          </p>
-          <span className="inline-block text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4a4458]/80 font-medium">
-            Please do not close this window
+        <div className="flex justify-between items-center text-[#4a4458]">
+          <span>Launch Price:</span>
+          <span className="line-through text-gray-400">₹99.00</span>
+        </div>
+        <div className="flex justify-between items-center text-[#0f766e] font-bold text-sm pt-2 border-t border-[#e6cb9c]/40">
+          <span className="flex items-center gap-1">
+            <Gift size={15} /> Limited Time Promo:
+          </span>
+          <span className="text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded font-extrabold">
+            ₹0.00 (FREE)
           </span>
         </div>
-      )}
+      </div>
 
-      {status === "success" && (
-        <div className="py-8">
-          <CheckCircle2 size={56} className="text-emerald-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-extrabold text-[#1e1b2e] mb-2">Payment Confirmed! 🎉</h2>
-          <p className="text-xs sm:text-sm text-[#4a4458] mb-8">
-            Your custom birthday website is active and ready to share!
-          </p>
-
-          <Link href="/dashboard">
-            <button className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md cursor-pointer">
-              <span>Go to Dashboard</span>
-              <ArrowRight size={16} />
-            </button>
-          </Link>
+      {/* Share Link Box */}
+      <div className="p-4 rounded-2xl bg-white border border-[#e6cb9c] shadow-xs space-y-3 text-left">
+        <div className="flex items-center justify-between text-xs font-bold text-[#1e1b2e]">
+          <span className="flex items-center gap-1.5">
+            <Share2 size={14} className="text-[#d97706]" />
+            Your Custom Sharable Link
+          </span>
+          <span className="text-[10px] text-emerald-600 font-extrabold uppercase">Live & Ready</span>
         </div>
-      )}
-
-      {status === "failed" && (
-        <div className="py-8">
-          <AlertCircle size={48} className="text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-[#1e1b2e] mb-2">Payment Status Check</h2>
-          <p className="text-xs sm:text-sm text-[#4a4458] mb-6">{errorMessage || "Payment could not be confirmed."}</p>
-
-          <div className="space-y-3">
-            {cashfreeHostedUrl ? (
-              <a href={cashfreeHostedUrl} className="block w-full">
-                <button className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-sm shadow-md cursor-pointer">
-                  Complete Payment on Cashfree
-                </button>
-              </a>
-            ) : (
-              <button
-                onClick={() => window.location.reload()}
-                className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#d97706] to-[#c026d3] text-white font-bold text-sm shadow-md cursor-pointer"
-              >
-                Retry Payment
-              </button>
-            )}
-            <Link href="/dashboard" className="block w-full">
-              <button className="w-full py-3 rounded-2xl bg-gray-100 hover:bg-gray-200 text-[#1e1b2e] font-semibold text-sm cursor-pointer">
-                Go to Dashboard
-              </button>
-            </Link>
-          </div>
+        <div className="flex items-center gap-2 bg-[#faf7f2] p-2.5 rounded-xl border border-[#e6cb9c]/50 font-mono text-xs text-[#0f766e] break-all">
+          <span className="flex-1 truncate">{liveUrl}</span>
+          <button
+            onClick={handleCopy}
+            className="px-2.5 py-1.5 rounded-lg bg-white border border-[#e6cb9c] text-xs font-semibold text-[#1e1b2e] hover:bg-[#faf7f2] flex items-center gap-1 cursor-pointer shrink-0 transition-all"
+          >
+            {copied ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
+            <span>{copied ? "Copied!" : "Copy"}</span>
+          </button>
         </div>
+      </div>
+
+      {/* Call to Actions */}
+      <div className="space-y-2.5 pt-2">
+        <a
+          href={liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:opacity-95 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition-all cursor-pointer"
+        >
+          <span>View Live Birthday Website</span>
+          <ExternalLink size={16} />
+        </a>
+
+        <a
+          href={`https://api.whatsapp.com/send?text=${shareText}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full py-3 rounded-2xl bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/40 text-[#128C7E] font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+        >
+          <Share2 size={14} />
+          <span>Share on WhatsApp at Midnight</span>
+        </a>
+
+        <Link href="/dashboard" className="block w-full">
+          <button className="w-full py-3 rounded-2xl bg-gray-100 hover:bg-gray-200 text-[#1e1b2e] font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+            <span>Manage in Dashboard</span>
+            <ArrowRight size={14} />
+          </button>
+        </Link>
+      </div>
+
+      {error && (
+        <p className="text-xs text-red-600 bg-red-50 p-2 rounded-xl border border-red-200">
+          {error}
+        </p>
       )}
-    </>
+    </div>
   );
 }
 
@@ -249,10 +221,10 @@ export default function CheckoutPage({ params }: { params: Promise<{ projectId: 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full rounded-3xl bg-white border border-[#e6cb9c]/60 p-8 shadow-xl text-center relative overflow-hidden"
+        className="max-w-md w-full rounded-3xl bg-white border border-[#e6cb9c]/70 p-6 sm:p-8 shadow-xl text-center relative overflow-hidden"
       >
-        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#d97706] via-[#c026d3] to-[#0f766e]" />
-        <Suspense fallback={<div className="py-8 text-center text-[#4a4458]/70 text-xs">Loading checkout...</div>}>
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
+        <Suspense fallback={<div className="py-8 text-center text-[#4a4458]/70 text-xs">Activating website...</div>}>
           <CheckoutContent projectId={projectId} />
         </Suspense>
       </motion.div>

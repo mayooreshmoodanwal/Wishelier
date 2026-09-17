@@ -35,10 +35,14 @@ export default function RefundPage() {
         </div>
 
         <div className="space-y-6 text-sm text-[#4a4458] leading-relaxed border-t border-[#e6cb9c]/40 pt-6 bg-white p-8 rounded-3xl border shadow-xs">
+          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-semibold mb-4">
+            🎉 <strong>Limited Time Offer Notice:</strong> All Wishelier website creation and publishing services are currently 100% FREE. No payment is collected during this promotional period.
+          </div>
+
           <section className="space-y-2">
             <h2 className="text-base font-bold text-[#1e1b2e]">1. Money-Back Guarantee</h2>
             <p>
-              We want you to be 100% satisfied with your birthday surprise website. If you encounter technical difficulties, duplicate charges, or if your website fails to generate properly, you are eligible for a full refund within 7 days of purchase.
+              We want you to be 100% satisfied with your birthday surprise website. When paid tiers apply, if you encounter technical difficulties, duplicate charges, or if your website fails to generate properly, you are eligible for a full refund within 7 days of purchase.
             </p>
           </section>
 

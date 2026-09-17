@@ -7,20 +7,15 @@ import {
   checkRateLimit,
 } from "@/lib/api-helpers";
 import { createOrderSchema } from "@/lib/validators";
-import {
-  createPaymentOrder,
-  verifyWebhookSignature,
-  processWebhookEvent,
-  getPaymentStatus,
-} from "@/lib/payments/cashfree";
-import { getProject } from "@/lib/services/project.service";
-import { getTemplateById } from "@/lib/services/template.service";
+import { db } from "@/lib/db/client";
+import { payments } from "@/lib/db/schema";
+import { getProject, updateProjectStatus } from "@/lib/services/project.service";
 
 /**
- * POST /api/payments/create-order — Create a Cashfree payment order.
+ * POST /api/payments/create-order — Activate project for free (Limited-Time Offer, No Payment Required).
  */
 export async function POST(request: NextRequest) {
-  const rateLimited = checkRateLimit(request, 5, 60000);
+  const rateLimited = checkRateLimit(request, 10, 60000);
   if (rateLimited) return rateLimited;
 
   const auth = await requireAuth(request);
@@ -35,30 +30,46 @@ export async function POST(request: NextRequest) {
     return apiError("NOT_FOUND", "Project not found", 404);
   }
 
-  if (project.status !== "draft") {
-    return apiError("INVALID_STATUS", "Project must be in draft status to pay", 400);
+  // All services are 100% FREE as a limited time offer
+  const orderId = `free_${Date.now()}_${project.id.slice(0, 8)}`;
+
+  try {
+    // Record free promotion payment in DB
+    await db
+      .insert(payments)
+      .values({
+        projectId: project.id,
+        userId: auth.user.sub,
+        provider: "free_offer",
+        providerOrderId: orderId,
+        amount: "0.00",
+        currency: "INR",
+        status: "success",
+        verifiedAt: new Date(),
+      })
+      .onConflictDoNothing();
+
+    // Mark project as live immediately
+    await updateProjectStatus(project.id, "live");
+
+    return apiSuccess({
+      isFree: true,
+      status: "success",
+      orderId,
+      projectId: project.id,
+      slug: project.slug,
+      message: "Limited time offer claimed! Your birthday website is now live.",
+    });
+  } catch (error) {
+    console.error("Free order activation error:", error);
+    // Even if payment insert had conflict, ensure project is live
+    await updateProjectStatus(project.id, "live");
+    return apiSuccess({
+      isFree: true,
+      status: "success",
+      orderId,
+      projectId: project.id,
+      slug: project.slug,
+    });
   }
-
-  // Get template price
-  const template = await getTemplateById(project.templateId);
-  if (!template) {
-    return apiError("NOT_FOUND", "Template not found", 404);
-  }
-
-  const result = await createPaymentOrder(
-    project.id,
-    auth.user.sub,
-    template.priceAmount,
-    auth.user.email,
-    (project.data as Record<string, unknown>)?.birthdayPerson as string || "Birthday Person"
-  );
-
-  if (!result.success) {
-    return apiError("PAYMENT_FAILED", result.error!, 500);
-  }
-
-  return apiSuccess({
-    paymentSessionId: result.paymentSessionId,
-    orderId: result.orderId,
-  });
 }

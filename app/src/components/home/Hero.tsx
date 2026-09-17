@@ -62,14 +62,14 @@ export default function Hero() {
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         {/* Badge */}
         <motion.div
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs tracking-wider uppercase mb-8"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs tracking-wider uppercase mb-8 font-bold"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Sparkles size={12} className="text-amber-400" />
-          <span className="text-white/60">Launch Offer — ₹99 only</span>
-          <Star size={12} className="text-amber-400" />
+          <Sparkles size={12} className="text-emerald-400" />
+          <span className="text-emerald-300">🎉 Limited Time Offer — 100% FREE For Everyone</span>
+          <Star size={12} className="fill-amber-400 text-amber-400" />
         </motion.div>
 
         {/* Heading */}
