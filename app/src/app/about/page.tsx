@@ -25,11 +25,26 @@ const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 
 const FOUNDERS = [
   {
+    name: "Udit Agarwal",
+    title: "Co-Founder & Lead Developer",
+    photo: "/founders/udit.png",
+    linkedin: "https://www.linkedin.com/in/udit-agarwal260/",
+    bio: "Passionate about full-stack engineering and building seamless, delightful digital experiences for celebrations.",
+  },
+  {
     name: "Ayush Kumar Singh",
-    title: "Founder & Lead Architect",
+    title: "Co-Founder & System Architect",
+    // title: "Founder",
     photo: "/founders/ayush.png",
     linkedin: "https://www.linkedin.com/in/ayush-kumar-singh-781aa6337/",
-    bio: "Specializing in high-performance interactive web applications, real-time 3D canvas animation, and scalable cloud infrastructure for celebration memories.",
+    bio: "Specializing in high-performance web applications, interactive canvas rendering, and scalable backend infrastructure.",
+  },
+   {
+    name: "Divyansh Agarwal",
+    title: "Co-Founder & Product Lead",
+    photo: "/founders/divyansh.png",
+    linkedin: "https://www.linkedin.com/in/divyansh-agarwal2905/",
+    bio: "Focused on user experience design, creative animations, and crafting emotional surprise moments.",
   },
 ];
 
@@ -117,19 +132,19 @@ export default function AboutPage() {
             <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#ebcae8]/50 text-[#86198f] uppercase tracking-wider">
               Leadership
             </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-[#1e1b2e]">Meet the Creator</h2>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-[#1e1b2e]">Meet our Founders</h2>
             <p className="text-xs sm:text-sm text-[#4a4458]/80 max-w-lg mx-auto">
-              The engineer and designer behind Wishelier building India&apos;s leading birthday surprise platform.
+              The creative minds behind Wishelier building India&apos;s leading birthday surprise platform.
             </p>
           </div>
 
-          <div className="max-w-md mx-auto">
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {FOUNDERS.map((founder) => (
               <div
                 key={founder.name}
                 className="p-8 rounded-3xl bg-white border border-[#e6cb9c]/60 shadow-md hover:shadow-xl transition-all flex flex-col items-center text-center space-y-4 group relative overflow-hidden"
               >
-                <div className="relative w-36 h-36 rounded-full overflow-hidden border-3 border-[#e6cb9c] shadow-lg group-hover:scale-105 transition-transform">
+                <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-pink-500/30 group-hover:border-pink-400 transition-all shadow-xl shadow-pink-500/10">
                   <Image
                     src={founder.photo}
                     alt={founder.name}
